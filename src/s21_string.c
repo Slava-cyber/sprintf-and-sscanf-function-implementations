@@ -1,5 +1,5 @@
-#include "../groupProject/s21_string.h"
-
+#include "s21_string.h"
+#define NULL ((char *)0)
 
 void * s21_memcpy(void *dest, const void *src, s21_size_t n) {
     
@@ -13,6 +13,12 @@ void * s21_memcpy(void *dest, const void *src, s21_size_t n) {
     
     return dest;
 }
+
+
+//int sum(int a, int b) {
+//
+//    return a + b;
+//}
 
 
 s21_size_t s21_strlen(const char *str) {
@@ -58,15 +64,15 @@ int s_21strcspn(const char * str1,const char * str2) {
     s21_size_t lentght1 = s21_strlen(str1);
     s21_size_t lentght2 = s21_strlen(str2);
     
-    int supp;
-    int i;
+    int supp = 0;
+    s21_size_t i;
     int count;
     
     for( i = 0;i < lentght1;i++) {
         if(supp) {
             break;
         }
-        for(int j =0;j < lentght2;j++) {
+        for(s21_size_t j =0;j < lentght2;j++) {
             if(str1[i] == str2[j]) {
                 count = i;
                 supp ++;
