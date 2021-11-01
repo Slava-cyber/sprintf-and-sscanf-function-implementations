@@ -59,14 +59,14 @@ s21_size_t s_21Strspn(const char* str1, const char* str2) {
 }
 
 
-int s_21strcspn(const char * str1,const char * str2) {
+s21_size_t s_21Strcspn(const char * str1,const char * str2) {
     
     s21_size_t lentght1 = s21_strlen(str1);
     s21_size_t lentght2 = s21_strlen(str2);
     
     int supp = 0;
     s21_size_t i;
-    int count;
+    s21_size_t count;
     
     for( i = 0;i < lentght1;i++) {
         if(supp) {
