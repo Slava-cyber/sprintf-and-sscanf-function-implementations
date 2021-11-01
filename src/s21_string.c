@@ -1,6 +1,7 @@
 #include "s21_string.h"
 #define NULL ((char *)0)
 
+//MARK: - MEMCPY
 void * s21_memcpy(void *dest, const void *src, s21_size_t n) {
     
     char *p = (char*)dest;
@@ -14,21 +15,15 @@ void * s21_memcpy(void *dest, const void *src, s21_size_t n) {
     return dest;
 }
 
-
-//int sum(int a, int b) {
-//
-//    return a + b;
-//}
-
-
+//MARK: - STRLEN
 s21_size_t s21_strlen(const char *str) {
     s21_size_t len = 0;
     for(; str[len]; len++);
     return len;
 }
 
-
-char * s_21Strchr(const char * str,int c) {
+//MARK: - STRCHR
+char * s21_strchr(const char * str,int c) {
     
     char const * buf = NULL;
     while (*str) {
@@ -46,8 +41,8 @@ char * s_21Strchr(const char * str,int c) {
 }
 
 
-
-s21_size_t s_21Strspn(const char* str1, const char* str2) {
+//MARK: - STRSPN
+s21_size_t s21_strspn(const char* str1, const char* str2) {
     s21_size_t n;
     const char* p;
     for(n = 0; *str1; str1++, n++) {
@@ -58,8 +53,20 @@ s21_size_t s_21Strspn(const char* str1, const char* str2) {
     return n;
 }
 
+//MARK: - STRCAT
+char *s21_strcat(char *dest, const char *src) {
+    s21_size_t l = s21_strlen(dest);
+    int x = 0;
+    for (int i = 0 ; src[i] != '\0' ; i++) {
+        dest[l + i] = src[i];
+        x++;
+    }
+    dest[l + x] = '\0';
+    return dest;
+}
 
-s21_size_t s_21Strcspn(const char * str1,const char * str2) {
+//MARK: - STRCSPN
+s21_size_t s_21strcspn(const char * str1,const char * str2) {
     
     s21_size_t lentght1 = s21_strlen(str1);
     s21_size_t lentght2 = s21_strlen(str2);
