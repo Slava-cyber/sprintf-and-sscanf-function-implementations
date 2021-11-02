@@ -1,4 +1,5 @@
 #include "s21_string.h"
+#include "errno.h"
 #define NULL ((char *)0)
 
 //MARK: - memcpy
@@ -39,7 +40,6 @@ char * s21_strchr(const char * str,int c) {
     return (char *) buf;
     
 }
-
 
 //MARK: - strspn
 s21_size_t s21_strspn(const char* str1, const char* str2) {
@@ -297,15 +297,16 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
 
 //MARK: - strcpy
 
-char *s21_strcpy(char *dest, const char *src) {
-    s21_size_t l = s21_strlen(src);
-    for (s21_size_t i = 0 ; i <= l && dest[i] != '\0'; i++) {
-        dest[i] = src[i];
-        if (src[i] == '\0') {
-            dest[i] = '\0';
-        }
+char *s21_strcpy(char *str1, const char *str2)
+{
+    int i = 0;
+    while (*(str2 + i) != '\0')
+    {
+        *(str1 + i) = *(str2 + i);
+        i++;
     }
-    return dest;
+    *(str1 + i) = '\0';
+    return str1;
 }
 
 //MARK: - strpbrk
@@ -322,4 +323,43 @@ char *s21_strpbrk(const char *str1, const char *str2) {
         }
     }
     return result;
+}
+
+//MARK: - strerror
+
+char *s21_strerror(int errnum) {
+    static char res[100];
+    int i = 15;
+    if (errnum < 0 || errnum > 106) {
+        int del;
+        char ost[10]= "";
+        char str[40] = "Unknown error: ";
+        s21_memcpy(res, str, i);
+        if (errnum < 0) {
+            del = errnum * (-1);
+            s21_memcpy(res + 15, "-", 1);
+            i++;
+        } else {
+            del = errnum;
+        }
+        int n = 0;
+        while (del / 10 != 0) {
+            ost[n] = del % 10 + 48;
+            del = del / 10;
+            n++;
+        }
+        ost[n] = del + 48;
+        for (int j = n; j >= 0; j--) {
+            s21_memcpy(res + i, ost + j, 1);
+            i++;
+        }
+        res[i] = '\0';
+    } else {
+        for(s21_size_t i = 0; i < 101; i++)
+        {
+            res[i] = '\0';
+        }
+        s21_memcpy(res, error[errnum], s21_strlen(error[errnum]));
+    }
+    return res;
 }
