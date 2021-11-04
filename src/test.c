@@ -28,11 +28,28 @@ END_TEST
 
 START_TEST (STRLENTest4)
 {
-//    char *str = NULL;
-//    ck_assert_msg(s21_strlen(str) == strlen(str), "Failed: Str == NULL");
+//    //char *str = NULL;
+//    ck_assert_msg(s21_strlen(NULL) == strlen(NULL), "Failed: Str == NULL");
 }
 END_TEST
-
+START_TEST (STRLENTest5)
+{
+    char str[] = "lorem\\tipsum\\tdolor\\nsit\\namet\\n";
+    ck_assert_msg(s21_strlen(str) == strlen(str), "Failed on 32");
+}
+END_TEST
+START_TEST (STRLENTest6)
+{
+    char str[] = "\n\n\f\r\t";
+    ck_assert_msg(s21_strlen(str) == strlen(str), "Failed on 5");
+}
+END_TEST
+START_TEST (STRLENTest7)
+{
+    char str[] = "     ";
+    ck_assert_msg(s21_strlen(str) == strlen(str), "Failed on 5");
+}
+END_TEST
 
 //MARK: - STRCHR
 
@@ -48,7 +65,7 @@ END_TEST
 START_TEST (STRCHRTest2)
 {
     char str[] = "Hello world";
-    int ch = 'e';
+    int ch = 'o';
     ck_assert_str_eq(s21_strchr(str, ch),strchr(str,ch));
 }
 END_TEST
@@ -56,9 +73,9 @@ END_TEST
 
 START_TEST (STRCHRTest3)
 {
-//    char str[] = "Hello world";
-//    int ch = 'c';
-//    ck_assert_str_eq(s21_strchr(str, ch),strchr(str,ch));
+    char str[] = "Hello world";
+    int ch = 'c';
+    ck_assert_ptr_eq(s21_strchr(str, ch),strchr(str,ch));
 }
 END_TEST
 
@@ -70,6 +87,21 @@ START_TEST (STRCHRTest4)
 }
 END_TEST
 
+START_TEST (STRCHRTest5)
+{
+    char str[] = "Hello world";
+    int ch = '\0';
+    ck_assert_str_eq(s21_strchr(str, ch),strchr(str,ch));
+}
+END_TEST
+
+START_TEST (STRCHRTest6)
+{
+    char str[] = "";
+    int ch = '\0';
+    ck_assert_str_eq(s21_strchr(str, ch),strchr(str,ch));
+}
+END_TEST
 
 //MARK:- STRSPN
 
@@ -190,6 +222,20 @@ START_TEST (STRCSPNTest5)
 }
 END_TEST
 
+START_TEST (STRCSPNTest6)
+{
+    char *src = "";
+    char *str = "hi";
+    ck_assert_msg(s21_strcspn(src, str) == strcspn(src,str), "Failed on 0");
+}
+END_TEST
+START_TEST (STRCSPNTest7)
+{
+    char *src = "\0";
+    char *str = "\0";
+    ck_assert_msg(s21_strcspn(src, str) == strcspn(src,str), "Failed on 0");
+}
+END_TEST
 //MARK:- MEMCPY
 
 START_TEST (MEMCPYTest1)
@@ -210,6 +256,31 @@ START_TEST (MEMCPYTest2)
 }
 END_TEST
 
+START_TEST (MEMCPYTest3)
+{
+    char *src = "HELLO";
+    char dest[5];
+    char dest2[5];
+    ck_assert_mem_eq(s21_memcpy(dest,src,5),memcpy(dest2,src,5),0);
+}
+END_TEST
+
+START_TEST (MEMCPYTest4)
+{
+    char *src = "zy\0xw";
+    char dest[5];
+    char dest2[5];
+    ck_assert_mem_eq(s21_memcpy(dest,src,5),memcpy(dest2,src,5),0);
+}
+END_TEST
+START_TEST (MEMCPYTest5)
+{
+    char *src = "zy\0xw";
+    char dest[5];
+    char dest2[5];
+    ck_assert_mem_eq(s21_memcpy(dest,src,5),memcpy(dest2,src,5),0);
+}
+END_TEST
 //MARK:- STRCAT
 START_TEST (STRCATTest1)
 {
@@ -245,7 +316,13 @@ START_TEST (STRCATTest4)
 }
 END_TEST
 
-
+START_TEST (STRCATTest5)
+{
+    char app[1024]="\0";
+    char dst[1024]="\n\0";
+    ck_assert_str_eq( s21_strcat(dst,app),strcat(dst,app));
+}
+END_TEST
 
 //MARK: MEMCMP
 START_TEST(MEMCMPTest1)
@@ -262,8 +339,6 @@ START_TEST(MEMCMPTest2)
     char str2[] = "Help";
     int n = 4;
     ck_assert_int_eq(s21_memcmp(str1,str2,n), memcmp(str1,str2,n));
-    //    ck_assert_int_eq(s21_memcmp(str4,str3,n), 4);
-    //    printf("[PASS] Test: str1 = Help; str2 = Hello; Result: 4\n\n");
 }
 END_TEST
 START_TEST(MEMCMPTest3)
@@ -397,11 +472,6 @@ START_TEST(STRNCPYTest3)
     char str2[] = " HELLO";
     int n = 5;
     ck_assert_str_eq(s21_strncpy(str1,str2,n), strncpy(str1,str2,n));
-    //    char s3[15] = "HI, ";
-    //    char s4[] = "HELL\0O";
-    //    size = 5;
-    //    ck_assert_str_eq(s21_strncpy(s3,s4,size), "HELL");
-    //    printf("[PASS] Test: str1 = HI, ; str2 = HELL\\0O; size = 5; Result: HELL\n\n");
 }
 END_TEST
 START_TEST(STRNCPYTest4)
@@ -467,6 +537,29 @@ START_TEST (MEMMOVETest1) {
 }
 END_TEST
 
+START_TEST (MEMMOVETest2) {
+    char dest1[10] = "fd";
+    char dest2[10] = "fd";
+    char src[5] = "hello";
+    ck_assert_mem_eq(s21_memmove(dest1, src, 0), memmove(dest2, src, 0), 0);
+}
+END_TEST
+
+START_TEST (MEMMOVETest3) {
+    char dest1[10] = "fd";
+    char dest2[10] = "fd";
+    char src[5] = "hello";
+    ck_assert_mem_eq(s21_memmove(dest1, src, 10), memmove(dest2, src, 10), 0);
+}
+END_TEST
+START_TEST (MEMMOVETest4) {
+    char dest1[10] = "";
+    char dest2[10] = "";
+    char src[5] = "so\0";
+    ck_assert_mem_eq(s21_memmove(dest1, src, 10), memmove(dest2, src, 10), 0);
+}
+END_TEST
+
 // MARK:STRSTR
 START_TEST (STRSTRTest1) {
     char str1[10] = "hello";
@@ -485,6 +578,20 @@ END_TEST
 START_TEST (STRSTRTest3) {
     char str1[10] = "hello";
     char str2[10] = "qw";
+    ck_assert_msg(s21_strstr(str1, str2) == strstr(str1, str2), "failed");
+}
+END_TEST
+
+START_TEST (STRSTRTest4) {
+    char str1[10] = "hello";
+    char str2[10] = "hellp";
+    ck_assert_msg(s21_strstr(str1, str2) == strstr(str1, str2), "failed");
+}
+END_TEST
+
+START_TEST (STRSTRTest5) {
+    char str1[1024] = "hello sweet hello";
+    char str2[10] = "hello";
     ck_assert_msg(s21_strstr(str1, str2) == strstr(str1, str2), "failed");
 }
 END_TEST
@@ -537,7 +644,7 @@ END_TEST
 
 START_TEST (MEMCHRTest1) {
     char str1[10] = "Hello";
-    
+
     ck_assert_mem_eq(s21_memchr(str1,'H', 5), memchr(str1, 'H', 5), 5);
 }
 END_TEST
@@ -545,7 +652,6 @@ END_TEST
 
 START_TEST (MEMCHRTest2) {
     char str1[10] = "Hello";
-    
     ck_assert_msg(  s21_memchr(str1,'h', 5) == NULL, "Failed: Str == NULL");
 }
 END_TEST
@@ -553,22 +659,27 @@ END_TEST
 
 START_TEST (MEMCHRTest3) {
     char str1[10] = "Hellosdsfq";
-    
     ck_assert_msg(  s21_memchr(str1,'h', 5) == NULL, "Failed: Str == NULL");
 }
 END_TEST
 
-
 START_TEST (MEMCHRTest4) {
-//    char *str1= NULL;
-//    
-//    ck_assert_msg(  s21_memchr(str1,'h', 5) == NULL, "Failed: Str == NULL");
+    char str1[10] = "Hellosdsfq";
+    ck_assert_mem_eq(s21_memchr(str1,'l', 5), memchr(str1, 'l', 5), 3);
 }
 END_TEST
 
+START_TEST (MEMCHRTest5) {
+    char str1[10] = "Hellosdsfq";
+    ck_assert_mem_eq(s21_memchr(str1,'l', 0), memchr(str1, 'l', 0), 0);
+}
+END_TEST
 
-
-
+START_TEST (MEMCHRTest6) {
+    // char *str1= NULL;
+    // ck_assert_msg(  s21_memchr(str1,'h', 5) == NULL, "Failed: Str == NULL");
+}
+END_TEST
 
 //MARK: - STRCPY
 
@@ -584,7 +695,7 @@ END_TEST
 
 
 START_TEST (STRCPYTest2) {
-    
+
     char str[] = "";
     char str1[15];
     char str2[15];
@@ -595,7 +706,7 @@ START_TEST (STRCPYTest2) {
 END_TEST
 
 START_TEST (STRCPYTest3) {
-    
+
     char str[] = "";
     char str1[15] = "test";
     char str2[15] = "test";
@@ -606,7 +717,7 @@ START_TEST (STRCPYTest3) {
 END_TEST
 
 START_TEST (STRCPYTest4) {
-    
+
     char str[] = "Test";
     char str1[1024];
     char str2[1024];
@@ -619,7 +730,7 @@ END_TEST
 //MARK: - STRPBRK
 
 START_TEST (STRPBRKTest1) {
-    
+
     char *str = "this is a test";
     char *str1 = "this is a test";
     str1 = strpbrk(str1,"this");
@@ -630,7 +741,7 @@ END_TEST
 
 
 START_TEST (STRPBRKTest2) {
-    
+
     char *str = "this is a test";
     char *str1 = "this is a test";
     str1 = strpbrk(str1," ");
@@ -641,7 +752,7 @@ END_TEST
 
 
 START_TEST (STRPBRKTest3) {
-    
+
     //    char *str = "this is a test";
     //    char *str1 = "this is a test";
     //    str1 = strpbrk(str1,"");
@@ -650,65 +761,86 @@ START_TEST (STRPBRKTest3) {
 }
 END_TEST
 
+START_TEST (STRPBRKTest4) {
+
+    char *str = "this is a test, this is ...";
+    char *str1 = "this is a test, this is ...";
+    str1 = strpbrk(str1,"this");
+    str = s21_strpbrk(str,"this");
+    ck_assert_str_eq(str, str1);
+}
+END_TEST
+
+START_TEST (STRPBRKTest5) {
+
+    char *str = "this is a test, this is ...";
+    char *str1 = "this is a test, this is ...";
+    ck_assert_ptr_eq(s21_strpbrk(str,"prom"), strpbrk(str1,"prom"));
+}
+END_TEST
+
 //MARK: - STRNCMP
 
 START_TEST (STRNCMPTest1)
 {
-    
     char *str1 = "1234567890";
     char *str2 = "1234567890";
-    
     ck_assert_msg(s21_strncmp(str1, str2, 5) == strncmp(str1, str2, 5), "Failed on 1");
-    
-    
 }
 END_TEST
 
 START_TEST (STRNCMPTest2)
 {
-    
     char *str1 = "1234567890";
     char *str2 = "1224567890";
-    
     ck_assert_msg(s21_strncmp(str1, str2, 5) == strncmp(str1, str2, 5), "Failed on 2");
-    
-    
 }
 END_TEST
 
 START_TEST (STRNCMPTest3)
 {
-    
     char *str1 = "1224567890";
     char *str2 = "1234567890";
-    
     ck_assert_msg(s21_strncmp(str1, str2, 5) == strncmp(str1, str2, 5), "Failed on 3");
-    
-    
 }
 END_TEST
 
 START_TEST (STRNCMPTest4)
 {
-    
     char *str1 = "";
     char *str2 = "";
-    
     ck_assert_msg(s21_strncmp(str1, str2, 5) == strncmp(str1, str2, 5), "Failed on 4");
-    
-    
 }
 END_TEST
 
 START_TEST (STRNCMPTest5)
 {
-    
     char *str1 = "1224567890";
     char *str2 = "";
-    
-    ck_assert_msg(s21_strncmp(str1, str2, 5) == strncmp(str1, str2, 5), "Failed on 3");
-    
-    
+    ck_assert_msg(s21_strncmp(str1, str2, 5) == strncmp(str1, str2, 5), "Failed on 5");
+}
+END_TEST
+
+START_TEST (STRNCMPTest6)
+{
+    char *str1 = "122";
+    char *str2 = "345";
+    ck_assert_msg(s21_strncmp(str1, str2, 5) == strncmp(str1, str2, 5), "Failed on 6");
+}
+END_TEST
+
+START_TEST (STRNCMPTest7)
+{
+    char *str1 = "test\200";
+    char *str2 = "test\0";
+    ck_assert_msg(s21_strncmp(str1, str2, 6) == strncmp(str1, str2, 6), "Failed on 7");
+}
+END_TEST
+START_TEST (STRNCMPTest8)
+{
+    char *str1 = "1224567890";
+    char *str2 = "02";
+    ck_assert_msg(s21_strncmp(str1, str2, 0) == strncmp(str1, str2, 0), "Failed on 8");
 }
 END_TEST
 
@@ -716,81 +848,85 @@ END_TEST
 
 START_TEST (MEMSETTest1)
 {
-    
     char str1[15] = "1234567890";
     char str2[15] = "1234567890";
     int c = '1';
     int n = 10;
     s21_memset(str1, c, n);
     memset(str2, c, n);
-    
     ck_assert_mem_eq(str1, str2, 10);
-    
-    
 }
 END_TEST
 
 START_TEST (MEMSETTest2)
 {
-    
     char str1[15] = "1234567890";
     char str2[15] = "5432167890";
     int c = '1';
     int n = 10;
     s21_memset(str1, c, n);
     memset(str2, c, n);
-    
     ck_assert_mem_eq(str1, str2, 10);
-    
-    
 }
 END_TEST
 
 START_TEST (MEMSETTest3)
 {
-    
     char str1[15] = "1234567890";
     char str2[15] = "5432167890";
     int c = 'q';
     int n = 10;
     s21_memset(str1, c, n);
     memset(str2, c, n);
-    
     ck_assert_mem_eq(str1, str2, 10);
-    
-    
 }
 END_TEST
 
 START_TEST (MEMSETTest4)
 {
-    
     char str1[15] = "1234567890";
     char str2[15] = "5432167890";
     int c = '1';
     int n = 5;
     s21_memset(str1, c, n);
     memset(str2, c, n);
-    
     ck_assert_mem_eq(str1, str2, 5);
-    
-    
 }
 END_TEST
 
 START_TEST (MEMSETTest5)
 {
-    
     char str1[15] = "qweqweqweqwe";
     char str2[15] = "ewqewqewqewq";
     int c = '1';
     int n = 10;
     s21_memset(str1, c, n);
     memset(str2, c, n);
-    
     ck_assert_mem_eq(str1, str2, 10);
-    
-    
+}
+END_TEST
+
+START_TEST (MEMSETTest6)
+{
+    char str1[15] = "qweqweqweqwe";
+    char str2[15] = "qweqweqweqwe";
+    int c = '\0';
+    int n = 5;
+    s21_memset(str1, c, n);
+    memset(str2, c, n);
+    ck_assert_mem_eq(str1, str2, 10);
+}
+END_TEST
+
+START_TEST (MEMSETTest7)
+{
+    char str1[15] = "qweqweqweqwe";
+    char str2[15] = "qweqweqweqwe";
+    int c = '\n';
+    int n = 5;
+    s21_memset(str1, c, n);
+    memset(str2, c, n);
+    ck_assert_mem_eq(str1, str2, 10);
 }
 END_TEST
 
@@ -800,9 +936,9 @@ START_TEST (STRTOKTest1)
 {
     char str[30] = "test1/test2/test3/test4";
     char delim = '/';
-    
+
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 1");
-    
+
 }
 END_TEST
 
@@ -810,9 +946,9 @@ START_TEST (STRTOKTest2)
 {
     char str[30] = "test1/test2/test3/test4";
     char delim = ',';
-    
+
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 2");
-    
+
 }
 END_TEST
 
@@ -820,9 +956,9 @@ START_TEST (STRTOKTest3)
 {
     char str[30] = "test1/test2/test3/test4";
     char delim = 'e';
-    
+
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 3");
-    
+
 }
 END_TEST
 
@@ -830,9 +966,7 @@ START_TEST (STRTOKTest4)
 {
     char str[30] = "AadacAdxa";
     char delim = 'a';
-    
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 4");
-    
 }
 END_TEST
 
@@ -840,9 +974,15 @@ START_TEST (STRTOKTest5)
 {
     char str[30] = "ased dse c sze wsew";
     char delim = 'e';
-    
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 5");
-    
+}
+END_TEST
+
+START_TEST (STRTOKTest6)
+{
+    char str[30] = "test1,test2/test3.test4";
+    char delim[] = ",/.";
+    ck_assert_msg(s21_strtok(str, delim) == strtok(str, delim), "Failed on 6");
 }
 END_TEST
 
@@ -869,16 +1009,14 @@ START_TEST (STRERRORTest3) {
 }
 END_TEST
 
-
-
 int main()
 {
     // Suites
     Suite *s1 = suite_create("Core");
-    
+
     // Runner
     SRunner *runner = srunner_create(s1);
-    
+
     int number_failed;
     TCase *StrLenTest = tcase_create("STRLEN");
     TCase *StrChrTest = tcase_create("STRCHR");
@@ -900,20 +1038,26 @@ int main()
     TCase *MemSetTest = tcase_create("MEMSET");
     TCase *StrTokTest = tcase_create("STRTOK");
     TCase *strerrortest = tcase_create("STRERROR");
-    
-    
+
+
     suite_add_tcase(s1, StrLenTest);
     tcase_add_test(StrLenTest, STRLENTest1);
     tcase_add_test(StrLenTest, STRLENTest2);
     tcase_add_test(StrLenTest, STRLENTest3);
     tcase_add_test(StrLenTest, STRLENTest4);
-    
+    tcase_add_test(StrLenTest, STRLENTest5);
+    tcase_add_test(StrLenTest, STRLENTest6);
+    tcase_add_test(StrLenTest, STRLENTest7);
+
     suite_add_tcase(s1, StrChrTest);
     tcase_add_test(StrChrTest, STRCHRTest1);
     tcase_add_test(StrChrTest, STRCHRTest2);
     tcase_add_test(StrChrTest, STRCHRTest3);
     tcase_add_test(StrChrTest, STRCHRTest4);
-    
+    tcase_add_test(StrChrTest, STRCHRTest5);
+    tcase_add_test(StrChrTest, STRCHRTest6);
+
+
     suite_add_tcase(s1, StrSpnTest);
     tcase_add_test(StrSpnTest,STRSPNTest1);
     tcase_add_test(StrSpnTest,STRSPNTest2);
@@ -924,24 +1068,30 @@ int main()
     tcase_add_test(StrSpnTest,STRSPNTest7);
     tcase_add_test(StrSpnTest,STRSPNTest8);
     tcase_add_test(StrSpnTest,STRSPNTest9);
-    
+
     suite_add_tcase(s1, StrсSpnTest);
     tcase_add_test(StrсSpnTest,STRCSPNTest1);
     tcase_add_test(StrсSpnTest,STRCSPNTest2);
     tcase_add_test(StrсSpnTest,STRCSPNTest3);
     tcase_add_test(StrсSpnTest,STRCSPNTest4);
     tcase_add_test(StrсSpnTest,STRCSPNTest5);
-    
+    tcase_add_test(StrсSpnTest,STRCSPNTest6);
+    tcase_add_test(StrсSpnTest,STRCSPNTest7);
+
     suite_add_tcase(s1, MemCpyTest);
     tcase_add_test(MemCpyTest,MEMCPYTest1);
     tcase_add_test(MemCpyTest,MEMCPYTest2);
-    
+    tcase_add_test(MemCpyTest,MEMCPYTest3);
+    tcase_add_test(MemCpyTest,MEMCPYTest4);
+    tcase_add_test(MemCpyTest,MEMCPYTest5);
+
     suite_add_tcase(s1, StrCatTest);
     tcase_add_test(StrCatTest,STRCATTest1);
     tcase_add_test(StrCatTest,STRCATTest2);
     tcase_add_test(StrCatTest,STRCATTest3);
     tcase_add_test(StrCatTest,STRCATTest4);
-    
+    tcase_add_test(StrCatTest,STRCATTest5);
+
     suite_add_tcase(s1, MemcmpTest);
     tcase_add_test(MemcmpTest, MEMCMPTest1);
     tcase_add_test(MemcmpTest, MEMCMPTest2);
@@ -953,36 +1103,41 @@ int main()
     tcase_add_test(MemcmpTest, MEMCMPTest8);
     tcase_add_test(MemcmpTest, MEMCMPTest9);
     tcase_add_test(MemcmpTest, MEMCMPTest10);
-    
+
     suite_add_tcase(s1, StrncatTest);
     tcase_add_test(StrncatTest, STRNCATTest1);
     tcase_add_test(StrncatTest, STRNCATTest2);
     tcase_add_test(StrncatTest, STRNCATTest3);
     tcase_add_test(StrncatTest, STRNCATTest4);
     tcase_add_test(StrncatTest, STRNCATTest5);
-    
+
     suite_add_tcase(s1, StrncpyTest);
     tcase_add_test(StrncpyTest, STRNCPYTest1);
     tcase_add_test(StrncpyTest, STRNCPYTest2);
     tcase_add_test(StrncpyTest, STRNCPYTest3);
     tcase_add_test(StrncpyTest, STRNCPYTest4);
     tcase_add_test(StrncpyTest, STRNCPYTest5);
-    
+
     suite_add_tcase(s1, StrrchrTest);
     tcase_add_test(StrrchrTest, STRRCHRTest1);
     tcase_add_test(StrrchrTest, STRRCHRTest2);
     tcase_add_test(StrrchrTest, STRRCHRTest3);
     tcase_add_test(StrrchrTest, STRRCHRTest4);
     tcase_add_test(StrrchrTest, STRRCHRTest5);
-    
+
     suite_add_tcase(s1, memmovetest);
     tcase_add_test(memmovetest, MEMMOVETest1);
-    
+    tcase_add_test(memmovetest, MEMMOVETest2);
+    tcase_add_test(memmovetest, MEMMOVETest3);
+    tcase_add_test(memmovetest, MEMMOVETest4);
+
     suite_add_tcase(s1, strstrtest);
     tcase_add_test(strstrtest, STRSTRTest1);
     tcase_add_test(strstrtest, STRSTRTest2);
     tcase_add_test(strstrtest, STRSTRTest3);
-    
+    tcase_add_test(strstrtest, STRSTRTest4);
+    tcase_add_test(strstrtest, STRSTRTest5);
+
     suite_add_tcase(s1, strcmptest);
     tcase_add_test(strcmptest, STRCMPTest1);
     tcase_add_test(strcmptest, STRCMPTest2);
@@ -990,54 +1145,66 @@ int main()
     tcase_add_test(strcmptest, STRCMPTest4);
     tcase_add_test(strcmptest, STRCMPTest5);
     tcase_add_test(strcmptest, STRCMPTest6);
-    
+
     suite_add_tcase(s1, memchrtest);
     tcase_add_test(memchrtest, MEMCHRTest1);
     tcase_add_test(memchrtest, MEMCHRTest2);
     tcase_add_test(memchrtest, MEMCHRTest3);
     tcase_add_test(memchrtest, MEMCHRTest4);
-    
+    tcase_add_test(memchrtest, MEMCHRTest5);
+    tcase_add_test(memchrtest, MEMCHRTest6);
+
     suite_add_tcase(s1, strcpytest);
     tcase_add_test(strcpytest, STRCPYTest1);
     tcase_add_test(strcpytest, STRCPYTest2);
     tcase_add_test(strcpytest, STRCPYTest3);
     tcase_add_test(strcpytest, STRCPYTest4);
-    
+
     suite_add_tcase(s1, strpbrktest);
     tcase_add_test(strpbrktest, STRPBRKTest1);
     tcase_add_test(strpbrktest, STRPBRKTest2);
     tcase_add_test(strpbrktest, STRPBRKTest3);
-    
+    tcase_add_test(strpbrktest, STRPBRKTest4);
+    tcase_add_test(strpbrktest, STRPBRKTest5);
+
     suite_add_tcase(s1, StrnCmpTest);
     tcase_add_test(StrnCmpTest, STRNCMPTest1);
     tcase_add_test(StrnCmpTest, STRNCMPTest2);
     tcase_add_test(StrnCmpTest, STRNCMPTest3);
     tcase_add_test(StrnCmpTest, STRNCMPTest4);
     tcase_add_test(StrnCmpTest, STRNCMPTest5);
-    
+    tcase_add_test(StrnCmpTest, STRNCMPTest6);
+    tcase_add_test(StrnCmpTest, STRNCMPTest7);
+    tcase_add_test(StrnCmpTest, STRNCMPTest8);
+
     suite_add_tcase(s1, MemSetTest);
-    tcase_add_test(StrnCmpTest, MEMSETTest1);
-    tcase_add_test(StrnCmpTest, MEMSETTest2);
-    tcase_add_test(StrnCmpTest, MEMSETTest3);
-    tcase_add_test(StrnCmpTest, MEMSETTest4);
-    tcase_add_test(StrnCmpTest, MEMSETTest5);
-    
+    tcase_add_test(MemSetTest, MEMSETTest1);
+    tcase_add_test(MemSetTest, MEMSETTest2);
+    tcase_add_test(MemSetTest, MEMSETTest3);
+    tcase_add_test(MemSetTest, MEMSETTest4);
+    tcase_add_test(MemSetTest, MEMSETTest5);
+    tcase_add_test(MemSetTest, MEMSETTest6);
+    tcase_add_test(MemSetTest, MEMSETTest7);
+
     suite_add_tcase(s1, StrTokTest);
     tcase_add_test(StrTokTest, STRTOKTest1);
     tcase_add_test(StrTokTest, STRTOKTest2);
     tcase_add_test(StrTokTest, STRTOKTest3);
     tcase_add_test(StrTokTest, STRTOKTest4);
     tcase_add_test(StrTokTest, STRTOKTest5);
-    
+    tcase_add_test(StrTokTest, STRTOKTest6);
+
     suite_add_tcase(s1, strerrortest);
     tcase_add_test(strerrortest, STRERRORTest1);
     tcase_add_test(strerrortest, STRERRORTest2);
     tcase_add_test(strerrortest, STRERRORTest3);
-    
-    
+
+
     srunner_run_all(runner, CK_NORMAL );
     number_failed = srunner_ntests_failed(runner);
     srunner_free(runner);
-    
     return number_failed == 0 ? 0 : 1;
 }
+
+
+
