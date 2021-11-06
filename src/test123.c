@@ -1,18 +1,17 @@
-#include"s_printf.h"
-#include<stdio.h>
 
+#include<stdio.h>
+//double pi = 3.141592653589793;
 
 
 
 int main() {
-    int num  = 1;
+    unsigned num  = 234;
     char *data;
-    int count =  _sprintf(data,"%c %c",'1','2');
-    printf("%c %c",'1','2');
-    for(int i = 0;i < 1;i++) {
-        printf("%c",data[i]);
-    }
+    char *src = "dasdasd";
+    int count = sprintf(data,"%o", num);
+
+    printf("%s",data);
     
-//    printf("%d",5);
     return 0;
 }
+
