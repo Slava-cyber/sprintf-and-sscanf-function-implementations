@@ -27,7 +27,7 @@ int form_number(char *str, int *len);
 int spec(char c);
 int leng(char c);
 
-char *convert(unsigned int num, int base);
+int convert(unsigned num ,int divider,char *data,char spec);
 
 int parser(char *str, char *format, ...);
 
@@ -41,22 +41,19 @@ int X_func(parsing pars, va_list args, int *len_buf, char *str);
 int calling_function(parsing pars, va_list args, int *len_buf, char *str_add);
 int o_func(parsing pars, va_list args, int *len_buf, char *str);
 
+
 int main() {
     char *str = NULL;
     str = (char*)malloc(200 * sizeof(char));
-    parser(str,"%o", 234);
-    
+    parser(str,"Hello %.4d",123);
     printf("\nout:%s", str);
-    
     free(str);
     return 0;
 }
 
 int f_func(parsing pars, va_list args, int *len_buf, char *str) {
     printf("here\n");
-    //int whole, fraction;
     double number = va_arg(args, double);
-   
     
     char c;
     if (number < 0) {
@@ -80,7 +77,7 @@ int f_func(parsing pars, va_list args, int *len_buf, char *str) {
     while (buf1) {
         buff[i] = buf1 % 10;
         buf1 = buf1 / 10;
-
+        
         i++;
     }
     
@@ -100,7 +97,6 @@ int f_func(parsing pars, va_list args, int *len_buf, char *str) {
         i = i + pars.precision + 1;
     }
     str[i] = '\0';
- 
     
     
     if (pars.plus || pars.space) {
@@ -122,12 +118,10 @@ int f_func(parsing pars, va_list args, int *len_buf, char *str) {
         }
     }
     
-
     if (pars.width > len) {
         if (!pars.minus) {
-  
-            memmove(str + pars.width - len, str, len);
             
+            memmove(str + pars.width - len, str, len);
             
             if (pars.zero) {
                 for (int j = 0; j < pars.width - pars.precision; j++)
@@ -141,7 +135,7 @@ int f_func(parsing pars, va_list args, int *len_buf, char *str) {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = ' ';
                 
-             
+                
                 
                 if (pars.plus) {
                     str[pars.width - pars.precision - 1] = c;
@@ -160,13 +154,14 @@ int f_func(parsing pars, va_list args, int *len_buf, char *str) {
     return 1;
 }
 
+
 int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
     
     if (pars.point) {
         pars.zero = 0;
     }
     int number = va_arg(args, int);
-  
+    
     char c;
     if (number < 0) {
         number = number * (-1);
@@ -191,9 +186,6 @@ int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
     }
     str[i] = '\0';
     
- 
-    
-    // precision solve
     if (pars.precision > i) {
         memmove(str + pars.precision - i, str, i);
         for (int j = 0; j < pars.precision - i; j++) {
@@ -203,9 +195,6 @@ int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
         pars.precision = i;
     }
     
-  
-    
-    // consider plus
     int len;
     if (pars.plus || pars.space) {
         len = pars.precision + 1;
@@ -213,9 +202,6 @@ int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
         len = pars.precision;
     }
     
-    
-    
-    // str after with precision
     if (pars.plus) {
         memmove(str + 1, str, pars.precision);
         str[0] = c;
@@ -229,8 +215,7 @@ int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
             str[pars.precision] = '\0';
         }
     }
-
-    // if width > len
+    
     if (pars.width > len) {
         if (!pars.minus) {
             memmove(str + pars.width - len, str, len);
@@ -266,7 +251,6 @@ int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
     return 1;
 }
 
-
 int parser(char *str, char *format, ...) {
     va_list args;
     parsing pars;
@@ -277,8 +261,7 @@ int parser(char *str, char *format, ...) {
     va_start(args, format);
     
     while (*format) {
-        //printf("%c", *format);
-        // if '%' start the block
+       
         if (*format == '%') {
             // the initialization of the struct
             pars.plus = 0;
@@ -467,24 +450,6 @@ int leng(char c) {
     return result;
 }
 
-char *convert(unsigned int num, int base) { 
-    static char Representation[]= "0123456789ABCDEF";
-    static char buffer[50];
-    char *ptr;
-    
-    ptr = &buffer[49];
-    *ptr = '\0';
-    
-    do
-    {
-        *--ptr = Representation[num%base];
-        num /= base;
-    }while(num != 0);
-    
-    return(ptr);
-}
-
-
 int calling_function(parsing pars, va_list args, int *len_buf, char *str_add) {
     
     switch(pars.type) {
@@ -507,7 +472,7 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add) {
             s_func(pars,args,len_buf,str_add);
             break;
         case 'x':
-          x_func(pars,args,len_buf,str_add);
+            x_func(pars,args,len_buf,str_add);
             break;
         case 'X':
             X_func(pars,args,len_buf,str_add);
@@ -534,12 +499,13 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add) {
     return 1;
 }
 
+//MARK: S_func
 int s_func(parsing pars, va_list args, int *len_buf, char *str) {
-    
+    int size = 0;
     char *src;
     src = va_arg(args,char *);
+    char *tmp = malloc(sizeof(char*));
     if(pars.precision || pars.point) {
-        
         char *dest = malloc(sizeof(char*));
         
         if(pars.precision < 0) {
@@ -554,29 +520,29 @@ int s_func(parsing pars, va_list args, int *len_buf, char *str) {
         } else {
             src = " ";
         }
-        
+        free(dest);
         if(pars.width) {
-            
-            int size = pars.width - s21_strlen(src);
-            
+            if(pars.width > s21_strlen(src)) {
+                size = pars.width - s21_strlen(src);
+            }
             if(pars.minus) {
-                
                 for(int i = 0; i < s21_strlen(src);i++) {
                     str[i] = src[i];
                 }
                 for(int j = s21_strlen(src);j < pars.width;j++) {
                     str[j] = ' ';
-                    
                 }
             } else {
                 for(int i = 0; i < s21_strlen(src);i++) {
-                    str[i] = src[i];
+                    tmp[i] = src[i];
                 }
-                for(int i = 0; i < size;i++) {
-                    str[i + size] = str[i];
-                }
-                for(int i = 0;i< size;i++) {
+                for(int i = 0; i < size ;i++) {
                     str[i] = ' ';
+                }
+                int index = 0;
+                for(int i = size;i< size + s21_strlen(tmp);i++) {
+                    str[i] =  tmp[index];
+                    index++;
                 }
             }
         } else {
@@ -586,24 +552,28 @@ int s_func(parsing pars, va_list args, int *len_buf, char *str) {
         }
     } else {
         if(pars.width) {
-            int size = pars.width - s21_strlen(src);
+            if(pars.width > s21_strlen(src)) {
+                size = pars.width - s21_strlen(src);
+            }
             if(pars.minus) {
                 for(int i = 0; i < s21_strlen(src);i++) {
                     str[i] = src[i];
+                    
                 }
                 for(int j = s21_strlen(src);j < pars.width;j++) {
                     str[j] = ' ';
                 }
             } else {
                 for(int i = 0; i < s21_strlen(src);i++) {
-                    str[i] = src[i];
+                    tmp[i] = src[i];
                 }
-                
-                for(int i = 0; i < size;i++) {
-                    str[i + size] = str[i];
-                }
-                for(int i = 0;i< size;i++) {
+                for(int i = 0; i < size ;i++) {
                     str[i] = ' ';
+                }
+                int index = 0;
+                for(int i = size;i < size + s21_strlen(tmp);i++) {
+                    str[i] =  tmp[index];
+                    index++;
                 }
             }
         } else {
@@ -613,8 +583,14 @@ int s_func(parsing pars, va_list args, int *len_buf, char *str) {
         }
     }
     
+    
+    free(tmp);
     if (pars.width) {
-        *len_buf = pars.width;
+        if(pars.width > s21_strlen(str)) {
+            *len_buf = pars.width ;
+        } else {
+            *len_buf = s21_strlen(str);
+        }
     }
     else {
         *len_buf = s21_strlen(str);
@@ -657,19 +633,16 @@ int c_or_percent_func(parsing pars, va_list args, int *len_buf, char *str) {
 
 
 int p_func(parsing pars, va_list args, int *len_buf, char *str) {
-//
-//    void * pointer =  va_arg(args,void *);
-
+    
     return 1;
 }
-
 
 char convertTox(int value) {
     char ch;
     
     switch (value) {
         case 1:
-           ch = '1';
+            ch = '1';
             break;
         case 2:
             ch = '2';
@@ -725,7 +698,7 @@ char convertToX(int value) {
     
     switch (value) {
         case 1:
-           ch = '1';
+            ch = '1';
             break;
         case 2:
             ch = '2';
@@ -783,7 +756,7 @@ char convertToO(int value) {
             ch = 0;
             break;
         case 1:
-           ch = '1';
+            ch = '1';
             break;
         case 2:
             ch = '2';
@@ -815,113 +788,82 @@ char convertToO(int value) {
     return ch;
 }
 
-
+int convert(unsigned num ,int divider,char *data,char spec) {
+    
+    int res = num;
+    int rem = num;
+    char ch;
+    int index = 0;
+    do {
+        rem = num%divider;
+        num = num /divider;
+        if(spec == 'x'){
+            ch = convertTox(rem);
+        }
+        if  (spec == 'X') {
+            ch = convertToX(rem);
+        }
+        if (spec == 'o') {
+            ch = convertToO(rem);
+        }
+        data[index] = ch;
+        index ++;
+        
+    } while (num >= divider);
+    if(spec == 'x'){
+        ch = convertTox(num);
+    }
+    if (spec == 'X') {
+        ch = convertToX(num);
+    }
+    if (spec == 'o') {
+        ch = convertToO(num);
+    }
+    data[index] = ch;
+    
+    return index;
+}
 
 int x_func(parsing pars, va_list args, int *len_buf, char *str) {
     unsigned num = va_arg(args,unsigned);
     
-    int res = num;
-    int rem = num;
-    int index = 0;
-    char ch;
     char *data = malloc(sizeof(char *));
-   
+    int index = convert(num,16,data,'x');
     
-    
-      
-    do {
-        rem = num%16;
-        num = num /16;
-        ch = convertTox(rem);
-        data[index] = ch;
-        index ++;
-
-    } while (num >= 16);
-    ch = convertTox(num);
-    data[index] = ch;
-   
-
     for(int i = index;i >= 0;i--) {
-        printf("%c",data[i]);
-        str[i] = data[i];
-    }
-        
-    return 0;
+        str[index - i] = data[i]; }
+
+    char * buf = malloc(sizeof(char *));
+    *len_buf = index + 1;
+    free(data);
+    return *len_buf;
 }
 
 
 int X_func(parsing pars, va_list args, int *len_buf, char *str) {
-    
     unsigned num = va_arg(args,unsigned);
-    
-    int res = num;
-    int rem = num;
-    int index = 0;
-    char ch;
     char *data = malloc(sizeof(char *));
-      
-    do {
-        rem = num%16;
-        num = num /16;
-        ch = convertTox(rem);
-        data[index] = ch;
-        index ++;
-
-    } while (num >= 16);
-    ch = convertTox(num);
-    data[index] = ch;
-   
-    
-    
-
+    int index = convert(num,16,data,'X');
     for(int i = index;i >= 0;i--) {
-        printf("%c",data[i]);
-        str[i] = data[i];
-    }
-
-    printf("\n");
+        printf("%c",data[i]);}
+    *len_buf = index + 1;
     
-    for(int i = 0;i <= index;i++) {
-        printf("%c",data[i]);
-    }
-    return 0;
+    return *len_buf;
 }
 
 
 int o_func(parsing pars, va_list args, int *len_buf, char *str) {
-    
     unsigned num = va_arg(args,unsigned);
-    
-    int res = num;
-    int rem = num;
-    int index = 0;
-    char ch;
     char *data = malloc(sizeof(char *));
-      
-    do {
-        rem = num%8;
-        num = num /8;
-        ch = convertToO(rem);
-        data[index] = ch;
-        index ++;
-
-    } while (num >= 8);
-    ch = convertToO(num);
-    data[index] = ch;
-   
-    
+    int index = convert(num,8,data,'o');
     for(int i = index;i >= 0;i--) {
         printf("%c",data[i]);
-        str[i] = data[i];
-    }
-
-    printf("\n");
+        str[i] = data[i]; }
+    *len_buf = index + 1;
     
-//    for(int i = 0;i <= index;i++) {
-//        printf("%c",data[i]);
-//    }
-    return 0;
+    return *len_buf;
 }
+
 
 
 
