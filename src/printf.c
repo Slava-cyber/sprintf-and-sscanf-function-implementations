@@ -249,8 +249,6 @@ int s_func(parsing pars, va_list args, int *len_buf, char *str) {
             }
         }
     }
-    
-    
     free(tmp);
     if (pars.width) {
         if(pars.width > s21_strlen(str)) {
@@ -510,11 +508,6 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = ' ';
                     
-
-//                if (pars.gird) {
-//                    str[pars.width - pars.precision - 1] = 'x';
-//                    str[pars.width - pars.precision - 2] = '0';
-//                }
             }
         } else {
             for (int j = len; j < pars.width; j++) {
@@ -933,10 +926,9 @@ int parser(char *str, char *format, ...) {
     va_start(args, format);
     
     while (*format) {
-        //printf("%c", *format);
-        // if '%' start the block
+   
         if (*format == '%') {
-            // the initialization of the struct
+            
             pars.plus = 0;
             pars.gird = 0;
             pars.minus = 0;
@@ -1056,20 +1048,11 @@ int parser(char *str, char *format, ...) {
                     flag = 0;
                     continue;
                 }
-
             }
-            // finish filling struct
-              //  printf("mina%d\n", pars.minus);
-    //printf("wida%d\n", pars.width);
-    //printf("typer:%c\n", pars.type );
-            // analyzing data and form str
+            
             calling_function(pars, args, &len_add, str_add, length);
             strcat(str, str_add);
-            //printf("len2:%d", len_add);
-            //printf("\nstrfinnn:%s\n", str_add);
-
-            //char_add(&str, str_add, length);
-            //printf("adsdsa");
+           
             length += len_add;
         //if we don't meet % just print symbols  until we can    
         } else {
@@ -1122,7 +1105,7 @@ int spec(char c) {
 
 int leng(char c) {
     int result = 0;
-    if (c == 'L' || c == 'I' || c == 'h') {
+    if (c == 'L' || c == 'l' || c == 'h') {
         result = 1;
     }
     return result;
