@@ -6,23 +6,23 @@
 
 
 int main() {
-//    unsigned num  = 1434;
-//    char src[] = "Hello";
-//    char *data = malloc(sizeof(char *));
 //
-////    printf("%x\n",123);
-//    int count = sprintf(data,"%o",342); // Flags = {'#','-','0','' }
-////    printf("%#lx\n",&num);                     // Weight
-//                                             // decision ,If decision > symbolLengh, empty field be equal '0'
-                                              // if decision == 0,print all text
-                              
+         
+    
     char *data = malloc(sizeof(char *));
     char *data1 = malloc(sizeof(char *));
     int  num;
+    int  num1;
+    int  num3;
+    int  num4;
     unsigned long p;
-    int count = sscanf(" 123","%d",&num);
+    int count = sscanf("111 222 333 444","%*d%1d%1d%d",&num,&num1,&num3);
    
+    
     printf("%d\n",num);
+    printf("%d\n",num1);
+    printf("%d\n",num3);
+   
   
     
 

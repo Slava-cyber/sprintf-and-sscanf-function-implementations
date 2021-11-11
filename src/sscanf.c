@@ -3,9 +3,22 @@
 
 
 int main() {
-    int num;
-    int count = parser(" 228","%d",&num);
-    printf("%d",num);
+    int num = 1, num1 = 2, num2 = 3;
+    int n = 1, n1, n2;
+    double n3= 2.4;
+    char s[100] =  "111 222 333";
+    char s1[100] = "%1d%1d%d";
+    int count = parser(s,s1,&num, &num1, &num2);
+    sscanf(s,s1, &n, &n1, &n2);
+    printf("num:%d\n",num);
+    printf("num1:%d\n",num1);
+    printf("num2:%d\n",num2);
+    
+    printf("n:%d\n",n);
+    printf("n1:%d\n",n1);
+    printf("n2:%d\n",n2);
+    //printf("n2:%f\n",n3);
+    printf(" count = %d\n",count);
     return 0;
 }
 
@@ -52,16 +65,16 @@ int spec(char c) {
 }
 
 
-int calling_function(char *str,parsing pars, va_list args, int *len_buf,int point) {
+int calling_function(char *str,parsing pars, va_list args, int *len_buf, int point) {
     switch (pars.type) {
         case 'd':
-            d_func(str,pars,args,len_buf,&point);
+            point = d_func(str,pars,args,len_buf, point);
             break;
     
             
     }
     
-    return 1;
+    return point;
 }
 
 
@@ -69,7 +82,7 @@ int parser(char *src,char *format, ...) {
     va_list args;
     int pointer = 0;
     parsing pars;
-    int rElements = 0;
+  
     int length_buf = 0;
     va_start(args,format);
     
@@ -115,49 +128,67 @@ int parser(char *src,char *format, ...) {
                 
                 
             }
-            calling_function(src,pars,args,&length_buf,pointer);
-            rElements += length_buf;
+            pointer = calling_function(src,pars,args,&length_buf, pointer);
+      
             
         }
     }
     
     
     va_end(args);
-    return rElements;
+    return length_buf;
 }
 
 
-int d_func(char *str,parsing pars, va_list args, int *len_buf,int *point) {
+int d_func(char *str,parsing pars, va_list args, int *len_buf, int point) {
     int * num = va_arg(args,int *);
     int number;
-    int lenght = 0;
-    char *numbers = malloc(sizeof(char *));
+    int length = 0;
+    char *numbers = malloc((s21_strlen(str) + 1) * sizeof(char *));
     int index = 0;
-
+    int i = point;
+    int j = 0;
+    int flag = 1;
+    int flag_number = 1;
     
-    for(int i = 0;i < s21_strlen(str) + 1;i++) {
-        
-        
-        if(str[*point] == ' ' || str[*point] == '\0') {
+
+    while (flag) {
+        printf("i :%d\n", i);
+        if (str[i] == ' ' && flag == 1) {
+            i++;
+            continue;
+        }
+
+        if(str[i] == '\0') {
             break;
         }
-        
-        if(def_number(str[*point])) {
-            numbers[*point] = str[*point];
+
+        if (!def_number(str[i]) && str[i] != ' ') {
+            flag_number = 2;
+        }
+                        
+            printf("fn: %d\n", flag_number);
+            printf("flag: %d\n", flag);
+
+
+        if(def_number(str[i]) && flag_number == 1) {
+            numbers[j] = str[i];
+            //form_number(numbers,&length);
+            //i = i + length + 1; 
+            j++;
+            flag = 2;
         }
         
-       
-        
-        
-        *point = i;
-        
-        
+        if(str[i] == ' ' && flag == 2)
+            break;
+        i++;
     }
-    
-    number = form_number(numbers,&lenght);
+    point = i;
+    *len_buf +=1;
+    number = form_number(numbers,&length);
     *num = number;
-    printf("\n%d\n",*point);
+   // printf("\n%d\n",point);
 //    printf("%d",number);
 //
-    return 1;
+    return i;
 }

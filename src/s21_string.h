@@ -1,7 +1,6 @@
 #ifndef S21_STRING_H_
 #define S21_STRING_H_
 
-//#define NULL ((char *)0)
 typedef unsigned s21_size_t;
 
 
@@ -10,13 +9,16 @@ int s21_memcmp(const void *s1, const void *s2, s21_size_t n);
 char *s21_strncat(char *dest, const char *src, s21_size_t n);
 char *s21_strncpy(char *dest, const char *src, s21_size_t n);
 char *s21_strrchr(const char *str, int c);
+void *s21_to_lower(const char *str);
 
 
 //MARK: - rleonard
 char *s21_strcat(char *dest, const char *src);
-void * s21_memchr(const void* buf,int val,s21_size_t num);
+void * s21_memchr(const void* buf,int val, s21_size_t num);
 char *s21_strcpy(char *str1, const char *str2);
 char *s21_strpbrk(const char *str1, const char *str2);
+void *s21_insert(const char* src, const char* str, s21_size_t start_index);
+void *s21_to_upper(const char* str);
 
 
 //MARK: - lashlyn
