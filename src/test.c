@@ -1,5 +1,6 @@
 #include <check.h>
 #include <string.h>
+#include<stdio.h>
 #include "s21_string.h"
 
 
@@ -626,7 +627,7 @@ END_TEST
 
 START_TEST (MEMCHRTest1) {
     char str1[10] = "Hello";
-
+    
     ck_assert_mem_eq(s21_memchr(str1,'H', 5), memchr(str1, 'H', 5), 5);
 }
 END_TEST
@@ -672,7 +673,7 @@ END_TEST
 
 
 START_TEST (STRCPYTest2) {
-
+    
     char str[] = "";
     char str1[15];
     char str2[15];
@@ -683,7 +684,7 @@ START_TEST (STRCPYTest2) {
 END_TEST
 
 START_TEST (STRCPYTest3) {
-
+    
     char str[] = "";
     char str1[15] = "test";
     char str2[15] = "test";
@@ -694,7 +695,7 @@ START_TEST (STRCPYTest3) {
 END_TEST
 
 START_TEST (STRCPYTest4) {
-
+    
     char str[] = "Test";
     char str1[1024];
     char str2[1024];
@@ -707,7 +708,7 @@ END_TEST
 //MARK: - STRPBRK 4
 
 START_TEST (STRPBRKTest1) {
-
+    
     char *str = "this is a test";
     char *str1 = "this is a test";
     str1 = strpbrk(str1,"this");
@@ -718,7 +719,7 @@ END_TEST
 
 
 START_TEST (STRPBRKTest2) {
-
+    
     char *str = "this is a test";
     char *str1 = "this is a test";
     str1 = strpbrk(str1," ");
@@ -728,7 +729,7 @@ START_TEST (STRPBRKTest2) {
 END_TEST
 
 START_TEST (STRPBRKTest3) {
-
+    
     char *str = "this is a test, this is ...";
     char *str1 = "this is a test, this is ...";
     str1 = strpbrk(str1,"this");
@@ -738,7 +739,7 @@ START_TEST (STRPBRKTest3) {
 END_TEST
 
 START_TEST (STRPBRKTest4) {
-
+    
     char *str = "this is a test, this is ...";
     char *str1 = "this is a test, this is ...";
     ck_assert_ptr_eq(s21_strpbrk(str,"prom"), strpbrk(str1,"prom"));
@@ -902,9 +903,9 @@ START_TEST (STRTOKTest1)
 {
     char str[30] = "test1/test2/test3/test4";
     char delim = '/';
-
+    
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 1");
-
+    
 }
 END_TEST
 
@@ -912,9 +913,9 @@ START_TEST (STRTOKTest2)
 {
     char str[30] = "test1/test2/test3/test4";
     char delim = ',';
-
+    
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 2");
-
+    
 }
 END_TEST
 
@@ -922,9 +923,9 @@ START_TEST (STRTOKTest3)
 {
     char str[30] = "test1/test2/test3/test4";
     char delim = 'e';
-
+    
     ck_assert_msg(s21_strtok(str, &delim) == strtok(str, &delim), "Failed on 3");
-
+    
 }
 END_TEST
 
@@ -1113,14 +1114,40 @@ START_TEST (TOLOWERTest7) {
 END_TEST
 
 
+//MARK: - SPrintf tests by Lashlyn
+
+START_TEST (SPRINTFTestLaslhyn1) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", 1, 1);
+    sprintf(data1,"|%0*.*%|\n", 1, 1);
+
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn2) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", 12, 0);
+    sprintf(data1,"|%0*.*%|\n", 12, 0);
+
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+
+
 int main()
 {
     // Suites
     Suite *s1 = suite_create("Core");
-
+    
     // Runner
     SRunner *runner = srunner_create(s1);
-
+    
     int number_failed;
     TCase *StrLenTest = tcase_create("STRLEN");
     TCase *StrChrTest = tcase_create("STRCHR");
@@ -1145,8 +1172,9 @@ int main()
     TCase *to_uppertest = tcase_create("TOUPPER");
     TCase *inserttest = tcase_create("INSERT");
     TCase *to_lowertest = tcase_create("TOLOWER");
-
-
+    TCase *sprintftest = tcase_create("SPRINTF2");
+    
+    
     suite_add_tcase(s1, StrLenTest);
     tcase_add_test(StrLenTest, STRLENTest1);
     tcase_add_test(StrLenTest, STRLENTest2);
@@ -1154,7 +1182,7 @@ int main()
     tcase_add_test(StrLenTest, STRLENTest4);
     tcase_add_test(StrLenTest, STRLENTest5);
     tcase_add_test(StrLenTest, STRLENTest6);
-
+    
     suite_add_tcase(s1, StrChrTest);
     tcase_add_test(StrChrTest, STRCHRTest1);
     tcase_add_test(StrChrTest, STRCHRTest2);
@@ -1162,8 +1190,8 @@ int main()
     tcase_add_test(StrChrTest, STRCHRTest4);
     tcase_add_test(StrChrTest, STRCHRTest5);
     tcase_add_test(StrChrTest, STRCHRTest6);
-
-
+    
+    
     suite_add_tcase(s1, StrSpnTest);
     tcase_add_test(StrSpnTest,STRSPNTest1);
     tcase_add_test(StrSpnTest,STRSPNTest2);
@@ -1173,7 +1201,7 @@ int main()
     tcase_add_test(StrSpnTest,STRSPNTest6);
     tcase_add_test(StrSpnTest,STRSPNTest7);
     tcase_add_test(StrSpnTest,STRSPNTest8);
-
+    
     suite_add_tcase(s1, StrсSpnTest);
     tcase_add_test(StrсSpnTest,STRCSPNTest1);
     tcase_add_test(StrсSpnTest,STRCSPNTest2);
@@ -1181,21 +1209,21 @@ int main()
     tcase_add_test(StrсSpnTest,STRCSPNTest4);
     tcase_add_test(StrсSpnTest,STRCSPNTest5);
     tcase_add_test(StrсSpnTest,STRCSPNTest6);
-
+    
     suite_add_tcase(s1, MemCpyTest);
     tcase_add_test(MemCpyTest,MEMCPYTest1);
     tcase_add_test(MemCpyTest,MEMCPYTest2);
     tcase_add_test(MemCpyTest,MEMCPYTest3);
     tcase_add_test(MemCpyTest,MEMCPYTest4);
     tcase_add_test(MemCpyTest,MEMCPYTest5);
-
+    
     suite_add_tcase(s1, StrCatTest);
     tcase_add_test(StrCatTest,STRCATTest1);
     tcase_add_test(StrCatTest,STRCATTest2);
     tcase_add_test(StrCatTest,STRCATTest3);
     tcase_add_test(StrCatTest,STRCATTest4);
     tcase_add_test(StrCatTest,STRCATTest5);
-
+    
     suite_add_tcase(s1, MemcmpTest);
     tcase_add_test(MemcmpTest, MEMCMPTest1);
     tcase_add_test(MemcmpTest, MEMCMPTest2);
@@ -1207,41 +1235,41 @@ int main()
     tcase_add_test(MemcmpTest, MEMCMPTest8);
     tcase_add_test(MemcmpTest, MEMCMPTest9);
     tcase_add_test(MemcmpTest, MEMCMPTest10);
-
+    
     suite_add_tcase(s1, StrncatTest);
     tcase_add_test(StrncatTest, STRNCATTest1);
     tcase_add_test(StrncatTest, STRNCATTest2);
     tcase_add_test(StrncatTest, STRNCATTest3);
     tcase_add_test(StrncatTest, STRNCATTest4);
     tcase_add_test(StrncatTest, STRNCATTest5);
-
+    
     suite_add_tcase(s1, StrncpyTest);
     tcase_add_test(StrncpyTest, STRNCPYTest1);
     tcase_add_test(StrncpyTest, STRNCPYTest2);
     tcase_add_test(StrncpyTest, STRNCPYTest3);
     tcase_add_test(StrncpyTest, STRNCPYTest4);
     tcase_add_test(StrncpyTest, STRNCPYTest5);
-
+    
     suite_add_tcase(s1, StrrchrTest);
     tcase_add_test(StrrchrTest, STRRCHRTest1);
     tcase_add_test(StrrchrTest, STRRCHRTest2);
     tcase_add_test(StrrchrTest, STRRCHRTest3);
     tcase_add_test(StrrchrTest, STRRCHRTest4);
     tcase_add_test(StrrchrTest, STRRCHRTest5);
-
+    
     suite_add_tcase(s1, memmovetest);
     tcase_add_test(memmovetest, MEMMOVETest1);
     tcase_add_test(memmovetest, MEMMOVETest2);
     tcase_add_test(memmovetest, MEMMOVETest3);
     tcase_add_test(memmovetest, MEMMOVETest4);
-
+    
     suite_add_tcase(s1, strstrtest);
     tcase_add_test(strstrtest, STRSTRTest1);
     tcase_add_test(strstrtest, STRSTRTest2);
     tcase_add_test(strstrtest, STRSTRTest3);
     tcase_add_test(strstrtest, STRSTRTest4);
     tcase_add_test(strstrtest, STRSTRTest5);
-
+    
     suite_add_tcase(s1, strcmptest);
     tcase_add_test(strcmptest, STRCMPTest1);
     tcase_add_test(strcmptest, STRCMPTest2);
@@ -1249,26 +1277,26 @@ int main()
     tcase_add_test(strcmptest, STRCMPTest4);
     tcase_add_test(strcmptest, STRCMPTest5);
     tcase_add_test(strcmptest, STRCMPTest6);
-
+    
     suite_add_tcase(s1, memchrtest);
     tcase_add_test(memchrtest, MEMCHRTest1);
     tcase_add_test(memchrtest, MEMCHRTest2);
     tcase_add_test(memchrtest, MEMCHRTest3);
     tcase_add_test(memchrtest, MEMCHRTest4);
     tcase_add_test(memchrtest, MEMCHRTest5);
-
+    
     suite_add_tcase(s1, strcpytest);
     tcase_add_test(strcpytest, STRCPYTest1);
     tcase_add_test(strcpytest, STRCPYTest2);
     tcase_add_test(strcpytest, STRCPYTest3);
     tcase_add_test(strcpytest, STRCPYTest4);
-
+    
     suite_add_tcase(s1, strpbrktest);
     tcase_add_test(strpbrktest, STRPBRKTest1);
     tcase_add_test(strpbrktest, STRPBRKTest2);
     tcase_add_test(strpbrktest, STRPBRKTest3);
     tcase_add_test(strpbrktest, STRPBRKTest4);
-
+    
     suite_add_tcase(s1, StrnCmpTest);
     tcase_add_test(StrnCmpTest, STRNCMPTest1);
     tcase_add_test(StrnCmpTest, STRNCMPTest2);
@@ -1278,7 +1306,7 @@ int main()
     tcase_add_test(StrnCmpTest, STRNCMPTest6);
     tcase_add_test(StrnCmpTest, STRNCMPTest7);
     tcase_add_test(StrnCmpTest, STRNCMPTest8);
-
+    
     suite_add_tcase(s1, MemSetTest);
     tcase_add_test(MemSetTest, MEMSETTest1);
     tcase_add_test(MemSetTest, MEMSETTest2);
@@ -1287,7 +1315,7 @@ int main()
     tcase_add_test(MemSetTest, MEMSETTest5);
     tcase_add_test(MemSetTest, MEMSETTest6);
     tcase_add_test(MemSetTest, MEMSETTest7);
-
+    
     suite_add_tcase(s1, StrTokTest);
     tcase_add_test(StrTokTest, STRTOKTest1);
     tcase_add_test(StrTokTest, STRTOKTest2);
@@ -1295,7 +1323,7 @@ int main()
     tcase_add_test(StrTokTest, STRTOKTest4);
     tcase_add_test(StrTokTest, STRTOKTest5);
     tcase_add_test(StrTokTest, STRTOKTest6);
-
+    
     suite_add_tcase(s1, strerrortest);
     tcase_add_test(strerrortest, STRERRORTest1);
     tcase_add_test(strerrortest, STRERRORTest2);
@@ -1309,7 +1337,7 @@ int main()
     tcase_add_test(to_uppertest, TOUPPERTest5);
     tcase_add_test(to_uppertest, TOUPPERTest6);
     tcase_add_test(to_uppertest, TOUPPERTest7);
-
+    
     suite_add_tcase(s1, inserttest);
     tcase_add_test(inserttest, INSERTTest1);
     tcase_add_test(inserttest, INSERTTest2);
@@ -1327,8 +1355,13 @@ int main()
     tcase_add_test(to_lowertest, TOLOWERTest5);
     tcase_add_test(to_lowertest, TOLOWERTest6);
     tcase_add_test(to_lowertest, TOLOWERTest7);
+    
 
-
+    suite_add_tcase(s1, sprintftest);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn1);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn2);
+    
+    
     srunner_run_all(runner, CK_NORMAL );
     number_failed = srunner_ntests_failed(runner);
     srunner_free(runner);
