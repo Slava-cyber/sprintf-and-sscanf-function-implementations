@@ -1132,10 +1132,225 @@ START_TEST (SPRINTFTestLaslhyn2) {
     char data1[100];
     s21_sprintf(data,"|%0*.*%|\n", 12, 0);
     sprintf(data1,"|%0*.*%|\n", 12, 0);
-
     ck_assert_str_eq(data,data1);
 }
 END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn3) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", 0, 10);
+    sprintf(data1,"|%0*.*%|\n", 0, 10);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn4) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", 0, 0);
+    sprintf(data1,"|%0*.*%|\n", 0, 0);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn5) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%*.*%|\n", -12, -15);
+    sprintf(data1,"|%*.*%|\n", -12, -15);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn6) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%*.*%|\n", -12, -15);
+    sprintf(data1,"|%*.*%|\n", -12, -15);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn7) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%*.*%|\n", 12, -15);
+    sprintf(data1,"|%*.*%|\n", 12, -15);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn8) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%*.%|\n", -12);
+    sprintf(data1,"|%*.%|\n", -12);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn9) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0.*%|\n", -12);
+    sprintf(data1,"|%0.*%|\n", -12);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn10) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*%|\n", -12);
+    sprintf(data1,"|%0*%|\n", -12);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn11) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", -12, -5);
+    sprintf(data1,"|%0*.*%|\n", -12, -5);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn12) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", -12, -15);
+    sprintf(data1,"|%0*.*%|\n", -12, -15);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn13) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", -12, -1);
+    sprintf(data1,"|%0*.*%|\n", -12, -1);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn14) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", -1, -5);
+    sprintf(data1,"|%0*.*%|\n", -1, -5);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn15) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", -1, -1);
+    sprintf(data1,"|%0*.*%|\n", -1, -1);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn16) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", -12, 0);
+    sprintf(data1,"|%0*.*%|\n", -12, 0);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn17) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", 0, -10);
+    sprintf(data1,"|%0*.*%|\n", 0, -10);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn18) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%0*.*%|\n", 0, 0);
+    sprintf(data1,"|%0*.*%|\n", 0, 0);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn19) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data,"|%-05%|\n");
+    sprintf(data1,"|%-05%|\n");
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn20) {
+    char data[100];
+    char data1[100];
+   int a1 = sprintf(data,"|%20% this is good|\n");
+   int b1 = s21_sprintf(data1,"|%20% this is good|\n");
+    ck_assert_int_eq(a1,b1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn21) {
+    char data[100];
+    char data1[100];
+   int a1 = sprintf(data,"|%020% this is good|\n");
+   int b1 = s21_sprintf(data1,"|%020% this is good|\n");
+    ck_assert_int_eq(a1,b1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn22) {
+    char data[100];
+    char data1[100];
+  sprintf(data,"|%32s|\n", "111");
+    s21_sprintf(data1,"|%10s|\n", "111");
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1360,6 +1575,26 @@ int main()
     suite_add_tcase(s1, sprintftest);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn1);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn2);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn3);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn4);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn5);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn6);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn7);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn8);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn9);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn10);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn11);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn12);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn13);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn14);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn15);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn16);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn17);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn18);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn19);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn20);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn21);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn22);
     
     
     srunner_run_all(runner, CK_NORMAL );
