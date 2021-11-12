@@ -135,27 +135,98 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
 }
 
 int s_func(parsing pars, va_list args, int *len_buf, char *str) {
+    
+    int size = 0;
     char *src;
     src = va_arg(args,char *);
-    s21_strcat(str, src);
-    if (pars.precision >= (int)s21_strlen(str))
-        pars.precision = (int) s21_strlen(str);
-    str[pars.precision] = '\0';
-    
-    if (pars.width > pars.precision) {
-        if (!pars.minus) {
-            s21_memmove(str + pars.width - pars.precision, str, pars.precision);
-            //if (pars.zero) {
-            for (int i = 0; i < pars.width - pars.precision; i++)
-                str[i] = '0';
+    char *tmp = malloc(sizeof(char*));
+    if(pars.precision || pars.point) {
+        char *dest = malloc(sizeof(char*));
+        
+        if(pars.precision < 0) {
+            dest = src;
         } else {
-            for (int i = pars.precision; i < pars.width; i++)
-                str[i] = ' ';
+            for(int i = 0;i < pars.precision;i++) {
+                dest[i] = src[i];
+            }
         }
-        str[pars.width] = '\0';
-        *len_buf = pars.width;
+        if(pars.precision != 0 ) {
+            src = dest;
+        } else {
+            src = " ";
+        }
+        free(dest);
+        if(pars.width) {
+            if(pars.width > s21_strlen(src)) {
+                size = pars.width - s21_strlen(src);
+            }
+            if(pars.minus) {
+                for(int i = 0; i < s21_strlen(src);i++) {
+                    str[i] = src[i];
+                }
+                for(int j = s21_strlen(src);j < pars.width;j++) {
+                    str[j] = ' ';
+                }
+            } else {
+                for(int i = 0; i < s21_strlen(src);i++) {
+                    tmp[i] = src[i];
+                }
+                for(int i = 0; i < size ;i++) {
+                    str[i] = ' ';
+                }
+                int index = 0;
+                for(int i = size;i< size + s21_strlen(tmp);i++) {
+                    str[i] =  tmp[index];
+                    index++;
+                }
+            }
+        } else {
+            for(int i = 0; i < s21_strlen(src);i++) {
+                str[i] = src[i];
+            }
+        }
     } else {
-        *len_buf = pars.precision;
+        if(pars.width) {
+            if(pars.width > s21_strlen(src)) {
+                size = pars.width - s21_strlen(src);
+            }
+            if(pars.minus) {
+                for(int i = 0; i < s21_strlen(src);i++) {
+                    str[i] = src[i];
+                    
+                }
+                for(int j = s21_strlen(src);j < pars.width;j++) {
+                    str[j] = ' ';
+                }
+            } else {
+                for(int i = 0; i < s21_strlen(src);i++) {
+                    tmp[i] = src[i];
+                }
+                for(int i = 0; i < size ;i++) {
+                    str[i] = ' ';
+                }
+                int index = 0;
+                for(int i = size;i < size + s21_strlen(tmp);i++) {
+                    str[i] =  tmp[index];
+                    index++;
+                }
+            }
+        } else {
+            for(int i = 0; i < s21_strlen(src);i++) {
+                str[i] = src[i];
+            }
+        }
+    }
+    free(tmp);
+    if (pars.width) {
+        if(pars.width > s21_strlen(str)) {
+            *len_buf = pars.width ;
+        } else {
+            *len_buf = s21_strlen(str);
+        }
+    }
+    else {
+        *len_buf = s21_strlen(str);
     }
     return 1;
 }
