@@ -1,5 +1,6 @@
 #include "s21_string.h"
 #include <stdlib.h>
+#include <ctype.h>
 #define s21_NULL ((void *)0)
 #if defined(__APPLE__)
     #define N 106
@@ -665,3 +666,54 @@ void *s21_to_lower(const char *str) {
     return lower_str;
 }
 
+
+//MARK: - Trim
+int isthere(char c, const char *trim_chars) {
+    int res = 0;
+    if (trim_chars != s21_NULL) {
+            int len = s21_strlen(trim_chars);
+    for (int i = 0; i <=len; i++) {
+        if (trim_chars[i] == c) {
+            res = 1;
+        }
+    }
+    } else {
+       res = isspace(c);
+    }
+    return res;
+}
+
+void *s21_trim(const char *src, const char *trim_chars)  {
+    char *result = s21_NULL;
+    int i = 0, start_n = -1, temp = 0;
+    if (src != s21_NULL) {
+       int len = s21_strlen(src);
+       int last_n = len;
+       while (i <= len) {
+           if (isthere(src[i], trim_chars) == 1) {
+                start_n = i;
+                i++;
+            } else {
+                i = len+1;
+            }
+       }
+       i = len-1;
+       while (i >= 0) {
+           if (isthere(src[i], trim_chars) == 1) {
+               last_n = i;
+               i--;
+           } else {
+               i = -1;
+           }
+       }
+       i = 0;
+       result = (char *)calloc(1, sizeof(char));
+       for (int j = start_n+1; j < last_n; j++) {
+           result = (char *)realloc(result, (temp+2)*sizeof(char));
+           result[temp] = src[j];
+           temp++;
+       }
+       result[last_n] = '\0';
+       }
+    return result;
+}

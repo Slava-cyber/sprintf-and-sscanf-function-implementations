@@ -92,6 +92,10 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
     reverse[index + 1] = '\0';
     src[0] = '0';
     src[1] = 'x';
+    if((void *)num == NULL) {
+        src[2] = '0';
+        src[3] = '\0';
+    }
     s21_strcat(src,reverse);
     
     
@@ -135,27 +139,98 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
 }
 
 int s_func(parsing pars, va_list args, int *len_buf, char *str) {
+    
+    int size = 0;
     char *src;
     src = va_arg(args,char *);
-    s21_strcat(str, src);
-    if (pars.precision >= (int)s21_strlen(str))
-        pars.precision = (int) s21_strlen(str);
-    str[pars.precision] = '\0';
-    
-    if (pars.width > pars.precision) {
-        if (!pars.minus) {
-            s21_memmove(str + pars.width - pars.precision, str, pars.precision);
-            //if (pars.zero) {
-            for (int i = 0; i < pars.width - pars.precision; i++)
-                str[i] = '0';
+    char *tmp = malloc(sizeof(char*));
+    if(pars.precision || pars.point) {
+        char *dest = malloc(sizeof(char*));
+        
+        if(pars.precision < 0) {
+            dest = src;
         } else {
-            for (int i = pars.precision; i < pars.width; i++)
-                str[i] = ' ';
+            for(int i = 0;i < pars.precision;i++) {
+                dest[i] = src[i];
+            }
         }
-        str[pars.width] = '\0';
-        *len_buf = pars.width;
+        if(pars.precision != 0 ) {
+            src = dest;
+        } else {
+            src = " ";
+        }
+        free(dest);
+        if(pars.width) {
+            if(pars.width > (int)s21_strlen(src)) {
+                size = pars.width - s21_strlen(src);
+            }
+            if(pars.minus) {
+                for(int i = 0; i < (int)s21_strlen(src);i++) {
+                    str[i] = src[i];
+                }
+                for(int j = s21_strlen(src);j < pars.width;j++) {
+                    str[j] = ' ';
+                }
+            } else {
+                for(int i = 0; i < (int)s21_strlen(src);i++) {
+                    tmp[i] = src[i];
+                }
+                for(int i = 0; i < size ;i++) {
+                    str[i] = ' ';
+                }
+                int index = 0;
+                for(int i = size;i< size + (int)s21_strlen(tmp);i++) {
+                    str[i] =  tmp[index];
+                    index++;
+                }
+            }
+        } else {
+            for(int i = 0; i < (int)s21_strlen(src);i++) {
+                str[i] = src[i];
+            }
+        }
     } else {
-        *len_buf = pars.precision;
+        if(pars.width) {
+            if(pars.width > (int)s21_strlen(src)) {
+                size = pars.width - s21_strlen(src);
+            }
+            if(pars.minus) {
+                for(int i = 0; i < (int)s21_strlen(src);i++) {
+                    str[i] = src[i];
+                    
+                }
+                for(int j = s21_strlen(src);j < pars.width;j++) {
+                    str[j] = ' ';
+                }
+            } else {
+                for(int i = 0; i < (int)s21_strlen(src);i++) {
+                    tmp[i] = src[i];
+                }
+                for(int i = 0; i < size ;i++) {
+                    str[i] = ' ';
+                }
+                int index = 0;
+                for(int i = size;i < size + (int)s21_strlen(tmp);i++) {
+                    str[i] =  tmp[index];
+                    index++;
+                }
+            }
+        } else {
+            for(int i = 0; i < (int)s21_strlen(src);i++) {
+                str[i] = src[i];
+            }
+        }
+    }
+    free(tmp);
+    if (pars.width) {
+        if(pars.width > (int)s21_strlen(str)) {
+            *len_buf = pars.width ;
+        } else {
+            *len_buf = s21_strlen(str);
+        }
+    }
+    else {
+        *len_buf = s21_strlen(str);
     }
     return 1;
 }
@@ -1206,6 +1281,10 @@ int s21_sprintf(char *str, char *format, ...) {
     int length = 0;
     va_start(args, format);
     
+    for(int q = 0;q < (int)s21_strlen(str);q++) {
+        str[q] = '\0';
+    }
+    
     while (*format) {
         //printf("%c", *format);
         // if '%' start the block
@@ -1334,7 +1413,7 @@ int s21_sprintf(char *str, char *format, ...) {
             
             // analyzing data and form str
             calling_function(pars, args, &len_add, str_add, length);
-            s21_strcat(str, str_add);
+            s21_memmove(str + length, str_add, len_add);
             
             length += len_add;
             //if we don't meet % just print symbols  until we can
@@ -1481,6 +1560,7 @@ int c_or_percent_func(parsing pars, va_list args, int *len_buf, char *str) {
         str[pars.width - 1] = c;
         str[pars.width] = '\0';
     }
+
     if (pars.width) {
         *len_buf = pars.width;
     }

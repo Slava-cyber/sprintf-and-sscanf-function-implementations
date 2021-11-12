@@ -15,7 +15,7 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n);
 char *s21_strncpy(char *dest, const char *src, s21_size_t n);
 char *s21_strrchr(const char *str, int c);
 void *s21_to_lower(const char *str);
-
+void *s21_trim(const char *src, const char *trim_chars);
 
 //MARK: - rleonard
 char *s21_strcat(char *dest, const char *src);
