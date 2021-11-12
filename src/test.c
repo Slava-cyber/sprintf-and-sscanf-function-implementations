@@ -1113,6 +1113,88 @@ START_TEST (TOLOWERTest7) {
 }
 END_TEST
 
+//MARK: - trim
+
+START_TEST (TRIMTest1) {
+    char *str = "WoW\0, I love it!";
+    char str2[] = {'W'};
+    ck_assert_str_eq((char *)s21_trim(str, str2), "o");
+}
+END_TEST
+
+START_TEST (TRIMTest2) {
+    char *str = "WoW, I love it!";
+    char str2[] = {'W'};
+    ck_assert_str_eq((char *)s21_trim(str, str2), "oW, I love it!");
+}
+END_TEST
+
+START_TEST (TRIMTest3) {
+    char *str = "WoW, I love it!";
+    char str2[] = {'W', 'o', '!'};
+    ck_assert_str_eq((char *)s21_trim(str, str2), ", I love it");
+}
+END_TEST
+
+START_TEST (TRIMTest4) {
+    char *str = "WoW, I love it!";
+    char str2[] = {'P'};
+    ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love it!");
+}
+END_TEST
+START_TEST (TRIMTest5) {
+    char *str = "abc";
+    char str2[] = {'a', 'b', 'c'};
+    ck_assert_str_eq((char *)s21_trim(str, str2), "");
+}
+END_TEST
+START_TEST (TRIMTest6) {
+    char *str = "WoW, I love it!";
+    char *str2 = NULL;
+    ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love it!");
+}
+END_TEST
+
+START_TEST (TRIMTest7) {
+    char *str = "       WoW, I love     it!             ";
+    char *str2 = NULL;
+    ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love     it!");
+}
+END_TEST
+
+START_TEST (TRIMTest8) {
+    char *str = "";
+    char *str2 = NULL;
+    ck_assert_str_eq((char *)s21_trim(str, str2), "");
+}
+END_TEST
+START_TEST (TRIMTest9) {
+    char *str = "          ";
+    char *str2 = NULL;
+    ck_assert_str_eq((char *)s21_trim(str, str2), "");
+}
+END_TEST
+
+START_TEST (TRIMTest10) {
+    char *str = NULL;
+    char *str2 = NULL;
+    ck_assert_ptr_eq((char *)s21_trim(str, str2), NULL);
+}
+END_TEST
+
+START_TEST (TRIMTest11) {
+    char *str ="            1";
+    char *str2 = NULL;
+    ck_assert_str_eq((char *)s21_trim(str, str2), "1");
+}
+END_TEST
+
+START_TEST (TRIMTest12) {
+    char *str ="\t       \t";
+    char *str2 = NULL;
+    ck_assert_str_eq((char *)s21_trim(str, str2), "");
+}
+END_TEST
 
 //MARK: - SPrintf tests by Lashlyn
 
@@ -1388,6 +1470,7 @@ int main()
     TCase *inserttest = tcase_create("INSERT");
     TCase *to_lowertest = tcase_create("TOLOWER");
     TCase *sprintftest = tcase_create("SPRINTF2");
+    TCase *trimtest = tcase_create("TRIM");
     
     
     suite_add_tcase(s1, StrLenTest);
@@ -1571,6 +1654,19 @@ int main()
     tcase_add_test(to_lowertest, TOLOWERTest6);
     tcase_add_test(to_lowertest, TOLOWERTest7);
     
+    suite_add_tcase(s1, trimtest);
+    tcase_add_test(trimtest, TRIMTest1);
+    tcase_add_test(trimtest, TRIMTest2);
+    tcase_add_test(trimtest, TRIMTest3);
+    tcase_add_test(trimtest, TRIMTest4);
+    tcase_add_test(trimtest, TRIMTest5);
+    tcase_add_test(trimtest, TRIMTest6);
+    tcase_add_test(trimtest, TRIMTest7);
+    tcase_add_test(trimtest, TRIMTest8);
+    tcase_add_test(trimtest, TRIMTest9);
+    tcase_add_test(trimtest, TRIMTest10);
+    tcase_add_test(trimtest, TRIMTest11);
+    tcase_add_test(trimtest, TRIMTest12);
 
     suite_add_tcase(s1, sprintftest);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn1);
