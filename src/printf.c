@@ -92,6 +92,9 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
     reverse[index + 1] = '\0';
     src[0] = '0';
     src[1] = 'x';
+    if((void *)num == NULL) {
+        src[2] = '0';
+    }
     s21_strcat(src,reverse);
     
     

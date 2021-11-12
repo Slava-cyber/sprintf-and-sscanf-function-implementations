@@ -3,7 +3,7 @@
 
 int main() {
     char data[1024];
-    s21_sprintf(data,"%10s","Hello");
+    s21_sprintf(data,"%p",NULL);
     printf("%s",data);
     
     return 0;
