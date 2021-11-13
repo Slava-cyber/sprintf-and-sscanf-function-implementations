@@ -79,7 +79,7 @@ int n_func(va_list args, int length);
 
 char convertTox(int value);
 char convertToX(int value);
-int convert(long unsigned num , long unsigned divider,char *data, char spec);
+int convert(parsing pars, long unsigned num , long unsigned divider,char *data, char spec);
 int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str);
 int e_or_E_func(parsing pars, int *len_buf, char *str, double number);
 int g_or_G_func(parsing pars, int *len_buf, char *str, double number);
