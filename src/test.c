@@ -8471,7 +8471,7 @@ int main()
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn324);
     
     
-    
+
     suite_add_tcase(s1, sprintftest1);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho1);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho2);
