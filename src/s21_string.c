@@ -670,11 +670,7 @@ void *s21_to_lower(const char *str) {
 //MARK: - Trim
 int isthere(char c, const char *trim_chars) {
     int res = 0;
-<<<<<<< HEAD
-    if (trim_chars != s21_NULL) {
-=======
     if ((trim_chars != s21_NULL) && (s21_strlen(trim_chars) > 0)) {
->>>>>>> lashlyn_develop
             int len = s21_strlen(trim_chars);
     for (int i = 0; i <=len; i++) {
         if (trim_chars[i] == c) {
@@ -711,15 +707,6 @@ void *s21_trim(const char *src, const char *trim_chars)  {
            }
        }
        i = 0;
-<<<<<<< HEAD
-       result = (char *)calloc(1, sizeof(char));
-       for (int j = start_n+1; j < last_n; j++) {
-           result = (char *)realloc(result, (temp+2)*sizeof(char));
-           result[temp] = src[j];
-           temp++;
-       }
-       result[last_n] = '\0';
-=======
        result = (char *)calloc(1, sizeof(char*));
        for (int j = start_n+1; j < last_n; j++) {
            result = (char *)realloc(result, (temp+2)*sizeof(char*));
@@ -727,7 +714,6 @@ void *s21_trim(const char *src, const char *trim_chars)  {
            temp++;
        }
        result[temp] = '\0';
->>>>>>> lashlyn_develop
        }
     return result;
 }

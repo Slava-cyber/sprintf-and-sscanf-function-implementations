@@ -23,17 +23,11 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
     if (pars.point) {
         pars.zero = 0;
     }
-<<<<<<< HEAD:src/s21_sprintf.c
-
-    if (pars.precision < 0)
-        pars.precision = 10;
-=======
     
     
     
     if (pars.precision < 0)
         pars.precision = i;
->>>>>>> lashlyn_develop:src/printf.c
 
     // consider gird
     if (pars.gird && number != 0) {
@@ -155,10 +149,7 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
 }
 
 
-<<<<<<< HEAD:src/s21_sprintf.c
-=======
 
->>>>>>> lashlyn_develop:src/printf.c
 int s_func(parsing pars, va_list args, int *len_buf, char *str) {
     char *src;
     src = va_arg(args,char *);
@@ -779,10 +770,6 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     // form number 16-system
     char *data = malloc(sizeof(char *));
     int index = convert(pars, number, 16, data, pars.type);
-<<<<<<< HEAD:src/s21_sprintf.c
-
-=======
->>>>>>> lashlyn_develop:src/printf.c
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];
     
@@ -793,11 +780,8 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
         pars.zero = 0;
     }
 
-<<<<<<< HEAD:src/s21_sprintf.c
-=======
     if (number == 0)
         pars.gird = 0;
->>>>>>> lashlyn_develop:src/printf.c
     if (pars.precision < 0)
         pars.precision = i;
 
@@ -834,18 +818,9 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
         str[pars.precision] = '\0';
     }
 
-<<<<<<< HEAD:src/s21_sprintf.c
-
-
     // if width > len
     if (pars.width > len) {
         if (!pars.minus) {
-   
-=======
-    // if width > len
-    if (pars.width > len) {
-        if (!pars.minus) {
->>>>>>> lashlyn_develop:src/printf.c
             s21_memmove(str + pars.width - len, str, len);
             
             if (pars.zero) {
@@ -860,10 +835,6 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
             } else {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = ' ';
-<<<<<<< HEAD:src/s21_sprintf.c
-                    
-=======
->>>>>>> lashlyn_develop:src/printf.c
 
                 if (pars.gird) {
                     str[pars.width - pars.precision - 1] = 'x';
@@ -890,10 +861,7 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
 
 
 
-<<<<<<< HEAD:src/s21_sprintf.c
-=======
 
->>>>>>> lashlyn_develop:src/printf.c
 int n_func(va_list args, int length) {
     int *number = va_arg(args, int*);
     *number = length;
@@ -927,11 +895,7 @@ int u_func(parsing pars, va_list args, int *len_buf, char *str) {
             i++;
         }
     } else {
-<<<<<<< HEAD:src/s21_sprintf.c
-        if (pars.precision < 0) {
-=======
         if (pars.precision != 0 || pars.point == 0) {
->>>>>>> lashlyn_develop:src/printf.c
             buff[i] = 0;
             i++;
         }
@@ -1164,124 +1128,6 @@ int f_func(parsing pars, int *len_buf, char *str, double number) {
 int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
 
     
-<<<<<<< HEAD:src/s21_sprintf.c
-    if (pars.point && pars.precision >= 0)
-        pars.zero = 0;
-
-    long int number = va_arg(args, long int);
-
-        
-    if (pars.leng == 0) {
-        number = (int)number;
-    } else if (pars.leng == 'h') {
-        number = (short int)number;
-    }
-
-    char c;
-    if (number < 0) {
-        number = number * (-1);
-        c = '-';
-        pars.plus = 1;
-        pars.space = 0;
-    } else {
-        c = '+';
-    }
-
-    // size of number
-    int buf = number;
-    int i = 0;
-    int buff[100];
-    if (buf) {
-        while (buf) {
-            buff[i] = buf % 10;
-            buf = buf / 10;
-            i++;
-        }
-    } else {
-        if (pars.precision < 0) {
-            buff[i] = 0;
-            i++;
-        }
-    }
-
-    for (int j = 0; j < i; j++) {
-        str[j] = buff[i - j - 1] + 48;
-    }
-    str[i] = '\0';
-
-
-
-    // precision solve
-    if (pars.precision > i) {
-        s21_memmove(str + pars.precision - i, str, i);
-        for (int j = 0; j < pars.precision - i; j++) {
-            str[j] = '0';
-        }
-    } else {
-        pars.precision = i;
-    }
-
-
-    // consider plus
-    int len;
-    if (pars.plus || pars.space) {
-        len = pars.precision + 1;
-    } else {
-        len = pars.precision;
-    }
-
-
-    // str after with precision
-    if (pars.plus) {
-        s21_memmove(str + 1, str, pars.precision);
-        str[0] = c;
-        str[pars.precision + 1] = '\0';
-    } else {
-        if (pars.space) {
-            s21_memmove(str + 1, str, pars.precision);
-            str[0] = ' ';
-            str[pars.precision + 1] = '\0';
-        } else {
-            str[pars.precision] = '\0';
-        }
-    }
-
-    // if width > len
-    if (pars.width > len) {
-        if (!pars.minus) {
-
-            s21_memmove(str + pars.width - len, str, len);
-
-            
-            if (pars.zero) {
-                for (int j = 0; j < pars.width - pars.precision; j++)
-                    str[j] = '0';
-                if (pars.plus) {
-                    str[0] = c;//+
-                } else if (pars.space) {
-                    str[0] = ' ';//+
-                }
-            } else {
-                for (int j = 0; j < pars.width - pars.precision; j++)
-                    str[j] = ' ';
-
-                if (pars.plus) {
-                    str[pars.width - pars.precision - 1] = c;
-                }
-            }
-        } else {
-            for (int j = len; j < pars.width; j++) {
-                str[j] = ' ';
-            }
-            str[pars.width] = '\0';
-        }
-        *len_buf = pars.width;
-    } else {
-        *len_buf = len;
-    }
-
-    return 1;
-=======
        if (pars.point && pars.precision >= 0)
            pars.zero = 0;
 
@@ -1398,7 +1244,6 @@ int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
        }
 
        return 1;
->>>>>>> lashlyn_develop:src/printf.c
 }
 
 
@@ -1704,4 +1549,3 @@ int c_or_percent_func(parsing pars, va_list args, int *len_buf, char *str) {
     }
     return 1;
 }
-

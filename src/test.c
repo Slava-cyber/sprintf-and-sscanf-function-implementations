@@ -2,7 +2,7 @@
 #include <string.h>
 #include<stdio.h>
 #include "s21_string.h"
-#include<stdlib.h>
+
 
 //MARK: - STRLEN 6
 
@@ -1116,731 +1116,11 @@ END_TEST
 //MARK: - trim
 
 START_TEST (TRIMTest1) {
-<<<<<<< HEAD
-    char str[100] = "WoW\0, I love it!";
-=======
     char *str = "Wo\0, I love it!";
->>>>>>> lashlyn_develop
     char str2[] = {'W'};
     ck_assert_str_eq((char *)s21_trim(str, str2), "o");
 }
 END_TEST
-<<<<<<< HEAD
-
-START_TEST (TRIMTest2) {
-    char str[100] = "WoW, I love it!";
-    char str2[] = {'W'};
-    ck_assert_str_eq((char *)s21_trim(str, str2), "oW, I love it!");
-}
-END_TEST
-
-START_TEST (TRIMTest3) {
-    char *str = "WoW, I love it!";
-    char str2[] = {'W', 'o', '!'};
-    ck_assert_str_eq((char *)s21_trim(str, str2), ", I love it");
-}
-END_TEST
-
-START_TEST (TRIMTest4) {
-    char *str = "WoW, I love it!";
-    char str2[] = {'P'};
-    ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love it!");
-}
-END_TEST
-START_TEST (TRIMTest5) {
-    char *str = "abc";
-    char str2[] = {'a', 'b', 'c'};
-    ck_assert_str_eq((char *)s21_trim(str, str2), "");
-}
-END_TEST
-START_TEST (TRIMTest6) {
-    char *str = "WoW, I love it!";
-    char *str2 = NULL;
-    ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love it!");
-}
-END_TEST
-
-START_TEST (TRIMTest7) {
-    char *str = "       WoW, I love     it!             ";
-    char *str2 = NULL;
-    ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love     it!");
-}
-END_TEST
-
-START_TEST (TRIMTest8) {
-    char *str = "";
-    char *str2 = NULL;
-    ck_assert_str_eq((char *)s21_trim(str, str2), "");
-}
-END_TEST
-START_TEST (TRIMTest9) {
-    char *str = "          ";
-    char *str2 = NULL;
-    ck_assert_str_eq((char *)s21_trim(str, str2), "");
-}
-END_TEST
-
-START_TEST (TRIMTest10) {
-    char *str = NULL;
-    char *str2 = NULL;
-    ck_assert_ptr_eq((char *)s21_trim(str, str2), NULL);
-}
-END_TEST
-
-START_TEST (TRIMTest11) {
-    char *str ="            1";
-    char *str2 = NULL;
-    ck_assert_str_eq((char *)s21_trim(str, str2), "1");
-}
-END_TEST
-
-START_TEST (TRIMTest12) {
-    char *str ="\t       \t";
-    char *str2 = NULL;
-    ck_assert_str_eq((char *)s21_trim(str, str2), "");
-}
-END_TEST
-
-
-
-
-//MARK: - SPrintf tests by dogletho
-
-START_TEST (SPRINTFTestdogletho1) {
-    char *str = NULL, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    int a = 10, b = 20, c;
-    c = a + b;
-    sprintf(str, "Sum of %d and %d is %d", a, b, c);
-    s21_sprintf(str1, "Sum of %d and %d is %d", a, b, c);
-    ck_assert_str_eq(str,str1);
-    sprintf(str, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
-    s21_sprintf(str1, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
-    ck_assert_str_eq(str,str1);
-    sprintf(str, "Sum of %d and %d is %d", a, b, c);
-    s21_sprintf(str1, "Sum of %d and %d is %d", a, b, c);
-}
-END_TEST
-
-// --------------General check-------------
-START_TEST (SPRINTFTestdogletho2) {
-    char *str = NULL, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
-    s21_sprintf(str1, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho3)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "and now heximal: |%8x|, |%X|\n", 5554645, -123);
-    s21_sprintf(str1, "and now heximal: |%8x|, |%X|\n", 5554645, -123);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho4)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "%p", NULL);
-    s21_sprintf(str1, "%p", NULL);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho5)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    char *ptr = NULL;
-    sprintf(str, "%p", ptr);
-    s21_sprintf(str1, "%p", ptr);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-// --------------Check for i-------------
-
-START_TEST (SPRINTFTestdogletho6)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%i|\n",   10);
-    s21_sprintf(str1, "|%i|\n",   10);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho7)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", 8, 5, 15);
-    s21_sprintf(str1, "|%*.*i|\n", 8, 5, 15);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho8)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", 8, 5, 152352352);
-    s21_sprintf(str1, "|%*.*i|\n", 8, 5, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho9)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*i|\n", 18, 152352352 );
-    s21_sprintf(str1, "|%0*i|\n", 18, 152352352 );
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho10)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", 18, 10, 152352352 );
-    s21_sprintf(str1, "|%*.*i|\n", 18, 10, 152352352 );
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho11)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*i|\n", 18, 10, 152352352 );
-    s21_sprintf(str1, "|%-*.*i|\n", 18, 10, 152352352 );
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho12)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|", 18, 15, -152352352);
-    s21_sprintf(str1,"|%*.*i|", 18, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho13)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*i|\n", 3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*i|\n", 3, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho14)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*.*i|\n", 18, 4, 152352352 );
-    s21_sprintf(str1, "|%0*.*i|\n", 18, 4, 152352352 );
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-// --------------Check for negative width and accuracy: i-------------
-
-START_TEST (SPRINTFTestdogletho15)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*i|\n", -10, -5, 10);
-    s21_sprintf(str1, "|%-*.*i|\n", -10, -5, 10);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho16)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", -8, -5, 15 );
-    s21_sprintf(str1, "|%*.*i|\n", -8, -5, 15 );
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho17)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", -8, -5, 152352352 );
-    s21_sprintf(str1, "|%*.*i|\n", -8, -5, 152352352 );
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho18)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*i|\n", -18, 152352352);
-    s21_sprintf(str1, "|%0*i|\n", -18, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho19)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", -18, -10, 152352352);
-    s21_sprintf(str1, "|%*.*i|\n", -18, -10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho20)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*i|\n", -18, -10, 152352352);
-    s21_sprintf(str1, "|%-*.*i|\n", -18, -10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho21)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", -18, -15, -152352352);
-    s21_sprintf(str1, "|%*.*i|\n", -18, -15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho22)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", -18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*i|\n", -18, 10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho23)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*i|\n", 18, -15, -152352352);
-    s21_sprintf(str1, "|%*.*i|\n", 18, -15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho24)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*i|\n", -3, -15, -152352352);
-    s21_sprintf(str1, "|%-*.*i|\n", -3, -15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho25)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*.*i|\n", -18, -4, 152352352);
-    s21_sprintf(str1, "|%0*.*i|\n", -18, -4, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-// --------------Check for d-------------
-
-START_TEST (SPRINTFTestdogletho26)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", 10, 5, 10);
-    s21_sprintf(str1, "|%-*.*d|\n", 10, 5, 10);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho27)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", 8, 5, 15);
-    s21_sprintf(str1, "|%*.*d|\n", 8, 5, 15);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho28)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", 8, 5, 152352352);
-    s21_sprintf(str1, "|%*.*d|\n", 8, 5, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho29)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*d|\n", 18, 152352352);
-    s21_sprintf(str1, "|%0*d|\n", 18, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho30)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*d|\n", 18, 10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho31)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%-*.*d|\n", 18, 10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho32)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", 18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*d|\n", 18, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho33)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", 3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*d|\n", 3, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho34)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", 15, 3, -152352352);
-    s21_sprintf(str1, "|%-*.*d|\n", 15, 3, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho35)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*.*d|\n", 18, 4, 152352352);
-    s21_sprintf(str1, "|%0*.*d|\n", 18, 4, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-// --------------Tests with negative width and accuracy for d-------------
-
-START_TEST (SPRINTFTestdogletho36)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", -10, -5, 10);
-    s21_sprintf(str1, "|%-*.*d|\n", -10, -5, 10);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho37)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", -8, 5, 15);
-    s21_sprintf(str1, "|%*.*d|\n", -8, 5, 15);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho38)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", 8, -5, 152352352);
-    s21_sprintf(str1, "|%*.*d|\n", 8, -5, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho39)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*d|\n", -18, 152352352);
-    s21_sprintf(str1, "|%0*d|\n", -18, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho40)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", -18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*d|\n", -18, 10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho41)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", 18, -10, 152352352);
-    s21_sprintf(str1, "|%-*.*d|\n", 18, -10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho42)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", -18, -15, -152352352);
-    s21_sprintf(str1, "|%*.*d|\n", -18, -15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho43)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", 18, -10, 152352352);
-    s21_sprintf(str1,"|%*.*d|\n", 18, -10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho44)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*d|\n", -18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*d|\n", -18, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho45)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", 3, -15, -152352352);
-    s21_sprintf(str1, "|%-*.*d|\n", 3, -15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho46)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", -15, 3, -152352352);
-    s21_sprintf(str1, "|%-*.*d|\n", -15, 3, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho47)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*.*d|\n", -18, -4, 152352352);
-    s21_sprintf(str1, "|%0*.*d|\n", -18, -4, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho48)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*.*d|\n", -18, 10, 152352352);
-    s21_sprintf(str1, "|%0*.*d|\n", -18, 10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho49)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*.*d|\n", 18, -15, -152352352);
-    s21_sprintf(str1, "|%0*.*d|\n", 18, -15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho50)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*d|\n", -3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*d|\n", -3, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho51)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%0*.*d|\n", 18, -4, 152352352);
-    s21_sprintf(str1, "|%0*.*d|\n", 18, -4, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-// --------------Other tests for d-------------
-
-START_TEST (SPRINTFTestdogletho52)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%.d|\n", 0);
-    s21_sprintf(str1, "|%.d|\n", 0);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho53)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%5.d|\n", 0);
-    s21_sprintf(str1, "|%5.d|\n", 0);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho54)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%5.0d|\n", 0);
-    s21_sprintf(str1, "|%5.0d|\n", 0);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho55)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-5.d|\n", 0);
-    s21_sprintf(str1, "|%-5.d|\n", 0);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho56)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%.0d|\n", 0);
-    s21_sprintf(str1, "|%.0d|\n", 0);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-
-// --------------Check for u-------------
-
-START_TEST (SPRINTFTestdogletho57)
-{
-    char *str, *str1 = NULL;
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*u|\n", 10, 5, 10);
-    s21_sprintf(str1, "|%-*.*u|\n", 10, 5, 10);
-=======
 
 START_TEST (TRIMTest2) {
     char *str = "WoW, I love it!";
@@ -5409,335 +4689,182 @@ START_TEST (SPRINTFTestdogletho2) {
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
     s21_sprintf(str1, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho58)
-=======
 START_TEST (SPRINTFTestdogletho3)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", 8, 5, 15);
-    s21_sprintf(str1, "|%*.*u|\n", 8, 5, 15);
-=======
     sprintf(str, "and now heximal: |%8x|, |%X|\n", 5554645, -123);
     s21_sprintf(str1, "and now heximal: |%8x|, |%X|\n", 5554645, -123);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho59)
-=======
 START_TEST (SPRINTFTestdogletho4)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", 8, 5, 152352352);
-    s21_sprintf(str1, "|%*.*u|\n", 8, 5, 152352352);
-=======
     sprintf(str, "%p", NULL);
     s21_sprintf(str1, "%p", NULL);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho60)
-=======
 START_TEST (SPRINTFTestdogletho5)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*u|\n", 18, 152352352);
-    s21_sprintf(str1, "|%0*u|\n", 18, 152352352);
-=======
     char *ptr = NULL;
     sprintf(str, "%p", ptr);
     s21_sprintf(str1, "%p", ptr);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho61)
-=======
 // --------------Check for i-------------
 
 START_TEST (SPRINTFTestdogletho6)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*u|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%i|\n",   10);
     s21_sprintf(str1, "|%i|\n",   10);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho62)
-=======
 START_TEST (SPRINTFTestdogletho7)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*u|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%-*.*u|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%*.*i|\n", 8, 5, 15);
     s21_sprintf(str1, "|%*.*i|\n", 8, 5, 15);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho63)
-=======
 START_TEST (SPRINTFTestdogletho8)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", 18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*u|\n", 18, 15, -152352352);
-=======
     sprintf(str, "|%*.*i|\n", 8, 5, 152352352);
     s21_sprintf(str1, "|%*.*i|\n", 8, 5, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho64)
-=======
 START_TEST (SPRINTFTestdogletho9)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*u|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%0*i|\n", 18, 152352352 );
     s21_sprintf(str1, "|%0*i|\n", 18, 152352352 );
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho65)
-=======
 START_TEST (SPRINTFTestdogletho10)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", 18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*u|\n", 18, 15, -152352352);
-=======
     sprintf(str, "|%*.*i|\n", 18, 10, 152352352 );
     s21_sprintf(str1, "|%*.*i|\n", 18, 10, 152352352 );
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho66)
-=======
 START_TEST (SPRINTFTestdogletho11)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*u|\n", 3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*u|\n", 3, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho67)
-=======
     sprintf(str, "|%-*.*i|\n", 18, 10, 152352352 );
     s21_sprintf(str1, "|%-*.*i|\n", 18, 10, 152352352 );
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho12)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*u|\n", 18, 4, 152352352);
-    s21_sprintf(str1, "|%0*.*u|\n", 18, 4, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho68)
-=======
     sprintf(str, "|%*.*i|", 18, 15, -152352352);
     s21_sprintf(str1,"|%*.*i|", 18, 15, -152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho13)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%020.18u|\n", -345);
-    s21_sprintf(str1, "|%020.18u|\n", -345);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho69)
-=======
     sprintf(str, "|%-*.*i|\n", 3, 15, -152352352);
     s21_sprintf(str1, "|%-*.*i|\n", 3, 15, -152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho14)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-20.18u|\n", -345);
-    s21_sprintf(str1, "|%-20.18u|\n", -345);
-=======
     sprintf(str, "|%0*.*i|\n", 18, 4, 152352352 );
     s21_sprintf(str1, "|%0*.*i|\n", 18, 4, 152352352 );
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho70)
-=======
 // --------------Check for negative width and accuracy: i-------------
 
 START_TEST (SPRINTFTestdogletho15)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-20.*u|\n", -18, -345);
-    s21_sprintf(str1, "|%-20.*u|\n", -18, -345);
-=======
     sprintf(str, "|%-*.*i|\n", -10, -5, 10);
     s21_sprintf(str1, "|%-*.*i|\n", -10, -5, 10);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-// --------------Check with negative width and accuracy for u-------------
-
-START_TEST (SPRINTFTestdogletho71)
-=======
 START_TEST (SPRINTFTestdogletho16)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", -18, -10, 152352352);
-    s21_sprintf(str1, "|%*.*u|\n", -18, -10, 152352352);
-=======
     sprintf(str, "|%*.*i|\n", -8, -5, 15 );
     s21_sprintf(str1, "|%*.*i|\n", -8, -5, 15 );
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho72)
-=======
 START_TEST (SPRINTFTestdogletho17)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*u|\n", 18, -10, 152352352);
-    s21_sprintf(str1, "|%-*.*u|\n", 18, -10, 152352352);
-=======
     sprintf(str, "|%*.*i|\n", -8, -5, 152352352 );
     s21_sprintf(str1, "|%*.*i|\n", -8, -5, 152352352 );
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho73)
-=======
 START_TEST (SPRINTFTestdogletho18)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", -18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*u|\n", -18, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho74)
-=======
     sprintf(str, "|%0*i|\n", -18, 152352352);
     s21_sprintf(str1, "|%0*i|\n", -18, 152352352);
     ck_assert_str_eq(str,str1);
@@ -5745,567 +4872,305 @@ START_TEST (SPRINTFTestdogletho74)
 END_TEST
 
 START_TEST (SPRINTFTestdogletho19)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*u|\n", -18, 10, 152352352);
-    s21_sprintf(str1, "|%0*.*u|\n", -18, 10, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho75)
-=======
     sprintf(str, "|%*.*i|\n", -18, -10, 152352352);
     s21_sprintf(str1, "|%*.*i|\n", -18, -10, 152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho20)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*u|\n", 18, -15, -152352352);
-    s21_sprintf(str1, "|%0*.*u|\n", 18, -15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho76)
-=======
     sprintf(str, "|%-*.*i|\n", -18, -10, 152352352);
     s21_sprintf(str1, "|%-*.*i|\n", -18, -10, 152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho21)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*u|\n", -3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*u|\n", -3, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho77)
-=======
     sprintf(str, "|%*.*i|\n", -18, -15, -152352352);
     s21_sprintf(str1, "|%*.*i|\n", -18, -15, -152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho22)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*u|\n", 18, -4, 152352352);
-    s21_sprintf(str1, "|%0*.*u|\n", 18, -4, 152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho78)
-=======
     sprintf(str, "|%*.*i|\n", -18, 10, 152352352);
     s21_sprintf(str1, "|%*.*i|\n", -18, 10, 152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho23)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", -18, -10, 0);
-    s21_sprintf(str1, "|%*.*u|\n", -18, -10, 0);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho79)
-=======
     sprintf(str, "|%*.*i|\n", 18, -15, -152352352);
     s21_sprintf(str1, "|%*.*i|\n", 18, -15, -152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho24)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*u|\n", 18, -10, 0);
-    s21_sprintf(str1, "|%-*.*u|\n", 18, -10, 0);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho80)
-=======
     sprintf(str, "|%-*.*i|\n", -3, -15, -152352352);
     s21_sprintf(str1, "|%-*.*i|\n", -3, -15, -152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho25)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*u|\n", -18, 15, -0);
-    s21_sprintf(str1, "|%*.*u|\n", -18, 15, -0);
-=======
     sprintf(str, "|%0*.*i|\n", -18, -4, 152352352);
     s21_sprintf(str1, "|%0*.*i|\n", -18, -4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho81)
-=======
 // --------------Check for d-------------
 
 START_TEST (SPRINTFTestdogletho26)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*u|\n", -18, 10, 0);
-    s21_sprintf(str1, "|%0*.*u|\n", -18, 10, 0);
-=======
     sprintf(str, "|%-*.*d|\n", 10, 5, 10);
     s21_sprintf(str1, "|%-*.*d|\n", 10, 5, 10);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho82)
-=======
 START_TEST (SPRINTFTestdogletho27)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*u|\n", 18, -15, -0);
-    s21_sprintf(str1, "|%0*.*u|\n", 18, -15, -0);
-=======
     sprintf(str, "|%*.*d|\n", 8, 5, 15);
     s21_sprintf(str1, "|%*.*d|\n", 8, 5, 15);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho83)
-=======
 START_TEST (SPRINTFTestdogletho28)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*u|\n", -3, 15, -0);
-    s21_sprintf(str1, "|%-*.*u|\n", -3, 15, -0);
-=======
     sprintf(str, "|%*.*d|\n", 8, 5, 152352352);
     s21_sprintf(str1, "|%*.*d|\n", 8, 5, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho84)
-=======
 START_TEST (SPRINTFTestdogletho29)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*u|\n", 18, -4, 0);
-    s21_sprintf(str1, "|%0*.*u|\n", 18, -4, 0);
-=======
     sprintf(str, "|%0*d|\n", 18, 152352352);
     s21_sprintf(str1, "|%0*d|\n", 18, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-// --------------Check for x-------------
-
-START_TEST (SPRINTFTestdogletho85)
-=======
 START_TEST (SPRINTFTestdogletho30)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 10, 5, 10);
-    s21_sprintf(str1, "|%-*.*x|\n", 10, 5, 10);
-=======
     sprintf(str, "|%*.*d|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%*.*d|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho86)
-=======
 START_TEST (SPRINTFTestdogletho31)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 5, 15);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 5, 15);
-=======
     sprintf(str, "|%-*.*d|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%-*.*d|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho87)
-=======
 START_TEST (SPRINTFTestdogletho32)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 5, 152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 5, 152352352);
-=======
     sprintf(str, "|%*.*d|\n", 18, 15, -152352352);
     s21_sprintf(str1, "|%*.*d|\n", 18, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho88)
-=======
 START_TEST (SPRINTFTestdogletho33)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*x|\n", 18, 152352352);
-    s21_sprintf(str1, "|%0*x|\n", 18, 152352352);
-=======
     sprintf(str, "|%-*.*d|\n", 3, 15, -152352352);
     s21_sprintf(str1, "|%-*.*d|\n", 3, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho89)
-=======
 START_TEST (SPRINTFTestdogletho34)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 10, 0, 0);
-    s21_sprintf(str1, "|%-*.*x|\n", 10, 0, 0);
-=======
     sprintf(str, "|%-*.*d|\n", 15, 3, -152352352);
     s21_sprintf(str1, "|%-*.*d|\n", 15, 3, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho90)
-=======
 START_TEST (SPRINTFTestdogletho35)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 0, 0);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 0, 0);
-=======
     sprintf(str, "|%0*.*d|\n", 18, 4, 152352352);
     s21_sprintf(str1, "|%0*.*d|\n", 18, 4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho91)
-=======
 // --------------Tests with negative width and accuracy for d-------------
 
 START_TEST (SPRINTFTestdogletho36)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 5, 0);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 5, 0);
-=======
     sprintf(str, "|%-*.*d|\n", -10, -5, 10);
     s21_sprintf(str1, "|%-*.*d|\n", -10, -5, 10);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho92)
-=======
 START_TEST (SPRINTFTestdogletho37)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*x|\n", 18, 0);
-    s21_sprintf(str1, "|%0*x|\n", 18, 0);
-=======
     sprintf(str, "|%*.*d|\n", -8, 5, 15);
     s21_sprintf(str1, "|%*.*d|\n", -8, 5, 15);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho93)
-=======
 START_TEST (SPRINTFTestdogletho38)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%*.*d|\n", 8, -5, 152352352);
     s21_sprintf(str1, "|%*.*d|\n", 8, -5, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho94)
-=======
 START_TEST (SPRINTFTestdogletho39)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%-*.*x|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%0*d|\n", -18, 152352352);
     s21_sprintf(str1, "|%0*d|\n", -18, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho95)
-=======
 START_TEST (SPRINTFTestdogletho40)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 18, 15, -152352352);
-=======
     sprintf(str, "|%*.*d|\n", -18, 10, 152352352);
     s21_sprintf(str1, "|%*.*d|\n", -18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho96)
-=======
 START_TEST (SPRINTFTestdogletho41)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%-*.*d|\n", 18, -10, 152352352);
     s21_sprintf(str1, "|%-*.*d|\n", 18, -10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho97)
-=======
 START_TEST (SPRINTFTestdogletho42)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*x|\n", 3, 15, -152352352);
-=======
     sprintf(str, "|%*.*d|\n", -18, -15, -152352352);
     s21_sprintf(str1, "|%*.*d|\n", -18, -15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho98)
-=======
 START_TEST (SPRINTFTestdogletho43)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", 18, 4, 152352352);
-    s21_sprintf(str1, "|%0*.*x|\n", 18, 4, 152352352);
-=======
     sprintf(str, "|%*.*d|\n", 18, -10, 152352352);
     s21_sprintf(str1,"|%*.*d|\n", 18, -10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-// --------------Check with negative width and accuracy for x-------------
-
-START_TEST (SPRINTFTestdogletho99)
-=======
 START_TEST (SPRINTFTestdogletho44)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", -18, -10, 152352352);
-    s21_sprintf(str1, "|%*.*x|\n", -18, -10, 152352352);
-=======
     sprintf(str, "|%*.*d|\n", -18, 15, -152352352);
     s21_sprintf(str1, "|%*.*d|\n", -18, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho100)
-=======
 START_TEST (SPRINTFTestdogletho45)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 18, -10, 152352352);
-    s21_sprintf(str1, "|%-*.*x|\n", 18, -10, 152352352);
-=======
     sprintf(str, "|%-*.*d|\n", 3, -15, -152352352);
     s21_sprintf(str1, "|%-*.*d|\n", 3, -15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho101)
-=======
 START_TEST (SPRINTFTestdogletho46)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", -18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*x|\n", -18, 15, -152352352);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-START_TEST (SPRINTFTestdogletho102)
-=======
     sprintf(str, "|%-*.*d|\n", -15, 3, -152352352);
     s21_sprintf(str1, "|%-*.*d|\n", -15, 3, -152352352);
     ck_assert_str_eq(str,str1);
@@ -6313,611 +5178,335 @@ START_TEST (SPRINTFTestdogletho102)
 END_TEST
 
 START_TEST (SPRINTFTestdogletho47)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", -18, 10, 152352352);
-    s21_sprintf(str1, "|%0*.*x|\n", -18, 10, 152352352);
-=======
     sprintf(str, "|%0*.*d|\n", -18, -4, 152352352);
     s21_sprintf(str1, "|%0*.*d|\n", -18, -4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho103)
-=======
 START_TEST (SPRINTFTestdogletho48)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", 18, -15, -152352352);
-    s21_sprintf(str1, "|%0*.*x|\n", 18, -15, -152352352);
-=======
     sprintf(str, "|%0*.*d|\n", -18, 10, 152352352);
     s21_sprintf(str1, "|%0*.*d|\n", -18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho104)
-=======
 START_TEST (SPRINTFTestdogletho49)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", -3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*x|\n", -3, 15, -152352352);
-=======
     sprintf(str, "|%0*.*d|\n", 18, -15, -152352352);
     s21_sprintf(str1, "|%0*.*d|\n", 18, -15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho105)
-=======
 START_TEST (SPRINTFTestdogletho50)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", 18, -4, 152352352);
-    s21_sprintf(str1, "|%0*.*x|\n", 18, -4, 152352352);
-=======
     sprintf(str, "|%-*.*d|\n", -3, 15, -152352352);
     s21_sprintf(str1, "|%-*.*d|\n", -3, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho106)
-=======
 START_TEST (SPRINTFTestdogletho51)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", -18, -10, 0);
-    s21_sprintf(str1, "|%*.*x|\n", -18, -10, 0);
-=======
     sprintf(str, "|%0*.*d|\n", 18, -4, 152352352);
     s21_sprintf(str1, "|%0*.*d|\n", 18, -4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho107)
-=======
 // --------------Other tests for d-------------
 
 START_TEST (SPRINTFTestdogletho52)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 18, -10, 0);
-    s21_sprintf(str1, "|%-*.*x|\n", 18, -10, 0);
-=======
     sprintf(str, "|%.d|\n", 0);
     s21_sprintf(str1, "|%.d|\n", 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho108)
-=======
 START_TEST (SPRINTFTestdogletho53)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", -18, 15, -0);
-    s21_sprintf(str1, "|%*.*x|\n", -18, 15, -0);
-=======
     sprintf(str, "|%5.d|\n", 0);
     s21_sprintf(str1, "|%5.d|\n", 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho109)
-=======
 START_TEST (SPRINTFTestdogletho54)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", -18, 10, 0);
-    s21_sprintf(str1, "|%0*.*x|\n", -18, 10, 0);
-=======
     sprintf(str, "|%5.0d|\n", 0);
     s21_sprintf(str1, "|%5.0d|\n", 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho110)
-=======
 START_TEST (SPRINTFTestdogletho55)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", 18, -15, -0);
-    s21_sprintf(str1, "|%0*.*x|\n", 18, -15, -0);
-=======
     sprintf(str, "|%-5.d|\n", 0);
     s21_sprintf(str1, "|%-5.d|\n", 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho111)
-=======
 START_TEST (SPRINTFTestdogletho56)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", -3, 15, -0);
-    s21_sprintf(str1, "|%-*.*x|\n", -3, 15, -0);
-=======
     sprintf(str, "|%.0d|\n", 0);
     s21_sprintf(str1, "|%.0d|\n", 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho112)
-=======
 
 // --------------Check for u-------------
 
 START_TEST (SPRINTFTestdogletho57)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", 18, -4, 0);
-    s21_sprintf(str1, "|%0*.*x|\n", 18, -4, 0);
-=======
     sprintf(str, "|%-*.*u|\n", 10, 5, 10);
     s21_sprintf(str1, "|%-*.*u|\n", 10, 5, 10);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-// --------------Check for X-------------
-
-START_TEST (SPRINTFTestdogletho113)
-=======
 START_TEST (SPRINTFTestdogletho58)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 10, 5, 10);
-    s21_sprintf(str1, "|%-*.*x|\n", 10, 5, 10);
-=======
     sprintf(str, "|%*.*u|\n", 8, 5, 15);
     s21_sprintf(str1, "|%*.*u|\n", 8, 5, 15);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho114)
-=======
 START_TEST (SPRINTFTestdogletho59)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 5, 15);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 5, 15);
-=======
     sprintf(str, "|%*.*u|\n", 8, 5, 152352352);
     s21_sprintf(str1, "|%*.*u|\n", 8, 5, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho115)
-=======
 START_TEST (SPRINTFTestdogletho60)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 5, 152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 5, 152352352);
-=======
     sprintf(str, "|%0*u|\n", 18, 152352352);
     s21_sprintf(str1, "|%0*u|\n", 18, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho116)
-=======
 START_TEST (SPRINTFTestdogletho61)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*x|\n", 18, 152352352);
-    s21_sprintf(str1, "|%0*x|\n", 18, 152352352);
-=======
     sprintf(str, "|%*.*u|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%*.*u|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho117)
-=======
 START_TEST (SPRINTFTestdogletho62)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 10, 0, 0);
-    s21_sprintf(str1, "|%-*.*x|\n", 10, 0, 0);
-=======
     sprintf(str, "|%-*.*u|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%-*.*u|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho118)
-=======
 START_TEST (SPRINTFTestdogletho63)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 0, 0);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 0, 0);
-=======
     sprintf(str, "|%*.*u|\n", 18, 15, -152352352);
     s21_sprintf(str1, "|%*.*u|\n", 18, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho119)
-=======
 START_TEST (SPRINTFTestdogletho64)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 8, 5, 0);
-    s21_sprintf(str1, "|%*.*x|\n", 8, 5, 0);
-=======
     sprintf(str, "|%*.*u|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%*.*u|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho120)
-=======
 START_TEST (SPRINTFTestdogletho65)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*x|\n", 18, 0);
-    s21_sprintf(str1, "|%0*x|\n", 18, 0);
-=======
     sprintf(str, "|%*.*u|\n", 18, 15, -152352352);
     s21_sprintf(str1, "|%*.*u|\n", 18, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho121)
-=======
 START_TEST (SPRINTFTestdogletho66)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%-*.*u|\n", 3, 15, -152352352);
     s21_sprintf(str1, "|%-*.*u|\n", 3, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho122)
-=======
 START_TEST (SPRINTFTestdogletho67)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%-*.*x|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%0*.*u|\n", 18, 4, 152352352);
     s21_sprintf(str1, "|%0*.*u|\n", 18, 4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho123)
-=======
 START_TEST (SPRINTFTestdogletho68)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 18, 15, -152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 18, 15, -152352352);
-=======
     sprintf(str, "|%020.18u|\n", -345);
     s21_sprintf(str1, "|%020.18u|\n", -345);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho124)
-=======
 START_TEST (SPRINTFTestdogletho69)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*x|\n", 18, 10, 152352352);
-    s21_sprintf(str1, "|%*.*x|\n", 18, 10, 152352352);
-=======
     sprintf(str, "|%-20.18u|\n", -345);
     s21_sprintf(str1, "|%-20.18u|\n", -345);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho125)
-=======
 START_TEST (SPRINTFTestdogletho70)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*x|\n", 3, 15, -152352352);
-    s21_sprintf(str1, "|%-*.*x|\n", 3, 15, -152352352);
-=======
     sprintf(str, "|%-20.*u|\n", -18, -345);
     s21_sprintf(str1, "|%-20.*u|\n", -18, -345);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho126)
-=======
 // --------------Check with negative width and accuracy for u-------------
 
 START_TEST (SPRINTFTestdogletho71)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%0*.*x|\n", 18, 4, 152352352);
-    s21_sprintf(str1, "|%0*.*x|\n", 18, 4, 152352352);
-=======
     sprintf(str, "|%*.*u|\n", -18, -10, 152352352);
     s21_sprintf(str1, "|%*.*u|\n", -18, -10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-// --------------Check for s-------------
-
-START_TEST (SPRINTFTestdogletho127)
-=======
 START_TEST (SPRINTFTestdogletho72)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%8s|\n", "abra");
-    s21_sprintf(str1, "|%8s|\n", "abra");
-=======
     sprintf(str, "|%-*.*u|\n", 18, -10, 152352352);
     s21_sprintf(str1, "|%-*.*u|\n", 18, -10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho128)
-=======
 START_TEST (SPRINTFTestdogletho73)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-8s|\n", "abrafdefgbr");
-    s21_sprintf(str1, "|%-8s|\n", "abrafdefgbr");
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho129)
-=======
     sprintf(str, "|%*.*u|\n", -18, 15, -152352352);
     s21_sprintf(str1, "|%*.*u|\n", -18, 15, -152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho74)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%8s|\n", "abra");
-    s21_sprintf(str1, "|%8s|\n", "abra");
-=======
     sprintf(str, "|%0*.*u|\n", -18, 10, 152352352);
     s21_sprintf(str1, "|%0*.*u|\n", -18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho130)
-=======
 START_TEST (SPRINTFTestdogletho75)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%8s|\n", "abrafdefgbr");
-    s21_sprintf(str1, "|%8s|\n", "abrafdefgbr");
-=======
     sprintf(str, "|%0*.*u|\n", 18, -15, -152352352);
     s21_sprintf(str1, "|%0*.*u|\n", 18, -15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-
-START_TEST (SPRINTFTestdogletho131)
-=======
 START_TEST (SPRINTFTestdogletho76)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%8s|\n", "abra");
-    s21_sprintf(str1, "|%8s|\n", "abra");
-    ck_assert_str_eq(str,str1);
-}
-
-START_TEST (SPRINTFTestdogletho132)
-=======
     sprintf(str, "|%-*.*u|\n", -3, 15, -152352352);
     s21_sprintf(str1, "|%-*.*u|\n", -3, 15, -152352352);
     ck_assert_str_eq(str,str1);
@@ -6925,234 +5514,128 @@ START_TEST (SPRINTFTestdogletho132)
 END_TEST
 
 START_TEST (SPRINTFTestdogletho77)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*s|\n", 20, 5, "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%*.*s|\n", 20, 5, "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%0*.*u|\n", 18, -4, 152352352);
     s21_sprintf(str1, "|%0*.*u|\n", 18, -4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho133)
-=======
 START_TEST (SPRINTFTestdogletho78)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*s|\n", 20, 5, "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%-*.*s|\n", 20, 5, "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%*.*u|\n", -18, -10, 0);
     s21_sprintf(str1, "|%*.*u|\n", -18, -10, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho134)
-=======
 START_TEST (SPRINTFTestdogletho79)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%.*s|\n",  5, "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%.*s|\n",  5, "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%-*.*u|\n", 18, -10, 0);
     s21_sprintf(str1, "|%-*.*u|\n", 18, -10, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho135)
-=======
 START_TEST (SPRINTFTestdogletho80)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.s|\n", 20, "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%*.s|\n", 20, "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%*.*u|\n", -18, 15, -0);
     s21_sprintf(str1, "|%*.*u|\n", -18, 15, -0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho136)
-=======
 START_TEST (SPRINTFTestdogletho81)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%-*.s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%0*.*u|\n", -18, 10, 0);
     s21_sprintf(str1, "|%0*.*u|\n", -18, 10, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho137)
-=======
 START_TEST (SPRINTFTestdogletho82)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%.s|\n",  "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%.s|\n",  "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%0*.*u|\n", 18, -15, -0);
     s21_sprintf(str1, "|%0*.*u|\n", 18, -15, -0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho138)
-=======
 START_TEST (SPRINTFTestdogletho83)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*s|\n",  40, "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%*s|\n",  40, "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%-*.*u|\n", -3, 15, -0);
     s21_sprintf(str1, "|%-*.*u|\n", -3, 15, -0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho139)
-=======
 START_TEST (SPRINTFTestdogletho84)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%-*.s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%0*.*u|\n", 18, -4, 0);
     s21_sprintf(str1, "|%0*.*u|\n", 18, -4, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho140)
-=======
 // --------------Check for x-------------
 
 START_TEST (SPRINTFTestdogletho85)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.0s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%-*.0s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%-*.*x|\n", 10, 5, 10);
     s21_sprintf(str1, "|%-*.*x|\n", 10, 5, 10);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho141)
-=======
 START_TEST (SPRINTFTestdogletho86)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.1s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%*.1s|\n", 20,  "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%*.*x|\n", 8, 5, 15);
     s21_sprintf(str1, "|%*.*x|\n", 8, 5, 15);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho142)
-=======
 START_TEST (SPRINTFTestdogletho87)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*.*s|\n", 2, 20, "1234567890123fsfbdfbdfvbbdvbvb");
-    s21_sprintf(str1, "|%-*.*s|\n", 2, 20, "1234567890123fsfbdfbdfvbbdvbvb");
-=======
     sprintf(str, "|%*.*x|\n", 8, 5, 152352352);
     s21_sprintf(str1, "|%*.*x|\n", 8, 5, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho143)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*s|\n",  40, p);
-    s21_sprintf(str1, "|%*s|\n",  40, p);
-=======
 START_TEST (SPRINTFTestdogletho88)
 {
     char *str, *str1 = NULL;
@@ -7160,21 +5643,10 @@ START_TEST (SPRINTFTestdogletho88)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%0*x|\n", 18, 152352352);
     s21_sprintf(str1, "|%0*x|\n", 18, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho144)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*s|\n",  20, 2, p);
-    s21_sprintf(str1, "|%*.*s|\n",  20, 2, p);
-=======
 START_TEST (SPRINTFTestdogletho89)
 {
     char *str, *str1 = NULL;
@@ -7182,21 +5654,10 @@ START_TEST (SPRINTFTestdogletho89)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%-*.*x|\n", 10, 0, 0);
     s21_sprintf(str1, "|%-*.*x|\n", 10, 0, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho145)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*s|\n",  20, 6, p);
-    s21_sprintf(str1, "|%*.*s|\n",  20, 6, p);
-=======
 START_TEST (SPRINTFTestdogletho90)
 {
     char *str, *str1 = NULL;
@@ -7204,21 +5665,10 @@ START_TEST (SPRINTFTestdogletho90)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%*.*x|\n", 8, 0, 0);
     s21_sprintf(str1, "|%*.*x|\n", 8, 0, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho146)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*s|\n",  20,  p);
-    s21_sprintf(str1, "|%-*s|\n",  20,  p);
-=======
 START_TEST (SPRINTFTestdogletho91)
 {
     char *str, *str1 = NULL;
@@ -7226,21 +5676,10 @@ START_TEST (SPRINTFTestdogletho91)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%*.*x|\n", 8, 5, 0);
     s21_sprintf(str1, "|%*.*x|\n", 8, 5, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho147)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*s|\n",  20, 2, p);
-    s21_sprintf(str1, "|%*.*s|\n",  20, 2, p);
-=======
 START_TEST (SPRINTFTestdogletho92)
 {
     char *str, *str1 = NULL;
@@ -7248,22 +5687,10 @@ START_TEST (SPRINTFTestdogletho92)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%0*x|\n", 18, 0);
     s21_sprintf(str1, "|%0*x|\n", 18, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-
-START_TEST (SPRINTFTestdogletho148)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*s|\n",  20, 3, p);
-    s21_sprintf(str1, "|%-*.*s|\n",  20, 3, p);
-=======
 START_TEST (SPRINTFTestdogletho93)
 {
     char *str, *str1 = NULL;
@@ -7271,21 +5698,10 @@ START_TEST (SPRINTFTestdogletho93)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%*.*x|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%*.*x|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho149)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*s|\n",  -40, p);
-    s21_sprintf(str1, "|%*s|\n",  -40, p);
-=======
 START_TEST (SPRINTFTestdogletho94)
 {
     char *str, *str1 = NULL;
@@ -7293,21 +5709,10 @@ START_TEST (SPRINTFTestdogletho94)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%-*.*x|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%-*.*x|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho150)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*s|\n",  -20, -5, p);
-    s21_sprintf(str1, "|%*.*s|\n",  -20, -5, p);
-=======
 START_TEST (SPRINTFTestdogletho95)
 {
     char *str, *str1 = NULL;
@@ -7315,21 +5720,10 @@ START_TEST (SPRINTFTestdogletho95)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%*.*x|\n", 18, 15, -152352352);
     s21_sprintf(str1, "|%*.*x|\n", 18, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho151)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%*.*s|\n",  -20, -6, p);
-    s21_sprintf(str1, "|%*.*s|\n",  -20, -6, p);
-=======
 START_TEST (SPRINTFTestdogletho96)
 {
     char *str, *str1 = NULL;
@@ -7337,21 +5731,10 @@ START_TEST (SPRINTFTestdogletho96)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%*.*x|\n", 18, 10, 152352352);
     s21_sprintf(str1, "|%*.*x|\n", 18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho152)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*s|\n",  -20,  p);
-    s21_sprintf(str1, "|%-*s|\n",  -20,  p);
-=======
 START_TEST (SPRINTFTestdogletho97)
 {
     char *str, *str1 = NULL;
@@ -7359,21 +5742,10 @@ START_TEST (SPRINTFTestdogletho97)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%-*.*x|\n", 3, 15, -152352352);
     s21_sprintf(str1, "|%-*.*x|\n", 3, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho153)
-{
-    char *str, *str1 = NULL;
-    char *p = (char*)malloc(200 * sizeof(char));
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%-*.*s|\n",  -20, -5, p);
-    s21_sprintf(str1, "|%-*.*s|\n",  -20, -5, p);
-=======
 START_TEST (SPRINTFTestdogletho98)
 {
     char *str, *str1 = NULL;
@@ -7381,299 +5753,154 @@ START_TEST (SPRINTFTestdogletho98)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%0*.*x|\n", 18, 4, 152352352);
     s21_sprintf(str1, "|%0*.*x|\n", 18, 4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-// --------------Check for p-------------
-
-START_TEST (SPRINTFTestdogletho154)
-=======
 // --------------Check with negative width and accuracy for x-------------
 
 START_TEST (SPRINTFTestdogletho99)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*p|\n",  20, NULL);
-    s21_sprintf(str1, "|%-*p|\n",  20, NULL);
-=======
     sprintf(str, "|%*.*x|\n", -18, -10, 152352352);
     s21_sprintf(str1, "|%*.*x|\n", -18, -10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho155)
-=======
 START_TEST (SPRINTFTestdogletho100)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*p|\n",  20, NULL);
-    s21_sprintf(str1, "|%-*p|\n",  20, NULL);
-=======
     sprintf(str, "|%-*.*x|\n", 18, -10, 152352352);
     s21_sprintf(str1, "|%-*.*x|\n", 18, -10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho156)
-=======
 START_TEST (SPRINTFTestdogletho101)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*p|\n",  20, NULL);
-    s21_sprintf(str1, "|%*p|\n",  20, NULL);
-    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho157)
-=======
     sprintf(str, "|%*.*x|\n", -18, 15, -152352352);
     s21_sprintf(str1, "|%*.*x|\n", -18, 15, -152352352);
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 START_TEST (SPRINTFTestdogletho102)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*p|\n",  1, NULL);
-    s21_sprintf(str1, "|%*p|\n",  1, NULL);
-=======
     sprintf(str, "|%0*.*x|\n", -18, 10, 152352352);
     s21_sprintf(str1, "|%0*.*x|\n", -18, 10, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho158)
-=======
 START_TEST (SPRINTFTestdogletho103)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*p|\n",  1, NULL);
-    s21_sprintf(str1, "|%-*p|\n",  1, NULL);
-=======
     sprintf(str, "|%0*.*x|\n", 18, -15, -152352352);
     s21_sprintf(str1, "|%0*.*x|\n", 18, -15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho159)
-=======
 START_TEST (SPRINTFTestdogletho104)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*p|\n",  0, NULL);
-    s21_sprintf(str1, "|%-*p|\n",  0, NULL);
-=======
     sprintf(str, "|%-*.*x|\n", -3, 15, -152352352);
     s21_sprintf(str1, "|%-*.*x|\n", -3, 15, -152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho160)
-=======
 START_TEST (SPRINTFTestdogletho105)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*p|\n",  16, NULL);
-    s21_sprintf(str1, "|%*p|\n",  16, NULL);
-=======
     sprintf(str, "|%0*.*x|\n", 18, -4, 152352352);
     s21_sprintf(str1, "|%0*.*x|\n", 18, -4, 152352352);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho161)
-=======
 START_TEST (SPRINTFTestdogletho106)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*p|\n",  -20, NULL);
-    s21_sprintf(str1, "|%-*p|\n",  -20, NULL);
-=======
     sprintf(str, "|%*.*x|\n", -18, -10, 0);
     s21_sprintf(str1, "|%*.*x|\n", -18, -10, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho162)
-=======
 START_TEST (SPRINTFTestdogletho107)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*p|\n",  -20, NULL);
-    s21_sprintf(str1, "|%*p|\n",  -20, NULL);
-=======
     sprintf(str, "|%-*.*x|\n", 18, -10, 0);
     s21_sprintf(str1, "|%-*.*x|\n", 18, -10, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho163)
-=======
 START_TEST (SPRINTFTestdogletho108)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*p|\n",  -1, NULL);
-    s21_sprintf(str1, "|%*p|\n",  -1, NULL);
-=======
     sprintf(str, "|%*.*x|\n", -18, 15, -0);
     s21_sprintf(str1, "|%*.*x|\n", -18, 15, -0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho164)
-=======
 START_TEST (SPRINTFTestdogletho109)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%-*p|\n",  -1, NULL);
-    s21_sprintf(str1, "|%-*p|\n",  -1, NULL);
-=======
     sprintf(str, "|%0*.*x|\n", -18, 10, 0);
     s21_sprintf(str1, "|%0*.*x|\n", -18, 10, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho165)
-=======
 START_TEST (SPRINTFTestdogletho110)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*.*d|\n", -18, -10, 0);
-    s21_sprintf(str1, "|%*.*d|\n", -18, -10, 0);
-=======
     sprintf(str, "|%0*.*x|\n", 18, -15, -0);
     s21_sprintf(str1, "|%0*.*x|\n", 18, -15, -0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho166)
-=======
 START_TEST (SPRINTFTestdogletho111)
->>>>>>> lashlyn_develop
 {
     char *str, *str1 = NULL;
     str = (char*)malloc(200 * sizeof(char));
     str1 = (char*)malloc(200 * sizeof(char));
-<<<<<<< HEAD
-    sprintf(str, "|%*p|\n",  -16, NULL);
-    s21_sprintf(str1, "|%*p|\n",  -16, NULL);
-=======
     sprintf(str, "|%-*.*x|\n", -3, 15, -0);
     s21_sprintf(str1, "|%-*.*x|\n", -3, 15, -0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-// --------------Check with . for p-------------
-
-START_TEST (SPRINTFTestdogletho167)
-{
-//    char *str, *str1 = NULL;
-//    str = (char*)malloc(200 * sizeof(char));
-//    str1 = (char*)malloc(200 * sizeof(char));
-//    sprintf(str, "|%.p|\n", NULL);
-//    s21_sprintf(str1, "|%.p|\n", NULL);
-//    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestdogletho168)
-{
-    char *str, *str1 = NULL;
-    char *a = (char*)malloc(200 * sizeof(char));
-    s21_sprintf(a, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%.p|\n", &a);
-    s21_sprintf(str1, "|%.p|\n", &a);
-=======
 START_TEST (SPRINTFTestdogletho112)
 {
     char *str, *str1 = NULL;
@@ -7681,34 +5908,10 @@ START_TEST (SPRINTFTestdogletho112)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%0*.*x|\n", 18, -4, 0);
     s21_sprintf(str1, "|%0*.*x|\n", 18, -4, 0);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestdogletho169)
-{
-//    char *str, *str1 = NULL;
-//    str = (char*)malloc(200 * sizeof(char));
-//    str1 = (char*)malloc(200 * sizeof(char));
-//    sprintf(str, "|%20.p|\n",NULL);
-//    s21_sprintf(str1, "|%20.p|\n",NULL);
-//    ck_assert_str_eq(str,str1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestdogletho170)
-{
-    char *str, *str1 = NULL;
-    char *a = (char*)malloc(200 * sizeof(char));
-    s21_sprintf(a, "Chislo:|%-5s|kust and |%9c|. This sum is |%i|. This is |%%|. And now unsigned: |%u|\n", "abra", 'e', 56, -43);
-    str = (char*)malloc(200 * sizeof(char));
-    str1 = (char*)malloc(200 * sizeof(char));
-    sprintf(str, "|%20.p|\n", &a);
-    s21_sprintf(str1, "|%20.p|\n", &a);
-=======
 // --------------Check for X-------------
 
 START_TEST (SPRINTFTestdogletho113)
@@ -7718,1423 +5921,10 @@ START_TEST (SPRINTFTestdogletho113)
     str1 = (char*)malloc(200 * sizeof(char));
     sprintf(str, "|%-*.*x|\n", 10, 5, 10);
     s21_sprintf(str1, "|%-*.*x|\n", 10, 5, 10);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(str,str1);
 }
 END_TEST
 
-<<<<<<< HEAD
-
-
-
-
-
-//MARK: - SPrintf tests by Lashlyn
-
-START_TEST (SPRINTFTestLaslhyn1) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", 1, 1);
-    sprintf(data1,"|%0*.*%|\n", 1, 1);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn2) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", 12, 0);
-    sprintf(data1,"|%0*.*%|\n", 12, 0);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn3) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", 0, 10);
-    sprintf(data1,"|%0*.*%|\n", 0, 10);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn4) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", 0, 0);
-    sprintf(data1,"|%0*.*%|\n", 0, 0);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn5) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%*.*%|\n", -12, -15);
-    sprintf(data1,"|%*.*%|\n", -12, -15);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn6) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%*.*%|\n", -12, -15);
-    sprintf(data1,"|%*.*%|\n", -12, -15);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn7) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%*.*%|\n", 12, -15);
-    sprintf(data1,"|%*.*%|\n", 12, -15);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn8) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%*.%|\n", -12);
-    sprintf(data1,"|%*.%|\n", -12);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn9) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0.*%|\n", -12);
-    sprintf(data1,"|%0.*%|\n", -12);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn10) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*%|\n", -12);
-    sprintf(data1,"|%0*%|\n", -12);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn11) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", -12, -5);
-    sprintf(data1,"|%0*.*%|\n", -12, -5);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn12) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", -12, -15);
-    sprintf(data1,"|%0*.*%|\n", -12, -15);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn13) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", -12, -1);
-    sprintf(data1,"|%0*.*%|\n", -12, -1);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn14) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", -1, -5);
-    sprintf(data1,"|%0*.*%|\n", -1, -5);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn15) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", -1, -1);
-    sprintf(data1,"|%0*.*%|\n", -1, -1);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn16) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", -12, 0);
-    sprintf(data1,"|%0*.*%|\n", -12, 0);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn17) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", 0, -10);
-    sprintf(data1,"|%0*.*%|\n", 0, -10);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn18) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%0*.*%|\n", 0, 0);
-    sprintf(data1,"|%0*.*%|\n", 0, 0);
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn19) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"|%-05%|\n");
-    sprintf(data1,"|%-05%|\n");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn20) {
-    char data[100];
-    char data1[100];
-   int a1 = sprintf(data,"|%20% this is good|\n");
-   int b1 = s21_sprintf(data1,"|%20% this is good|\n");
-    ck_assert_int_eq(a1,b1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn21) {
-    char data[100];
-    char data1[100];
-   int a1 = sprintf(data,"|%020% this is good|\n");
-   int b1 = s21_sprintf(data1,"|%020% this is good|\n");
-    ck_assert_int_eq(a1,b1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn22) {
-    char data[100];
-    char data1[100];
-  sprintf(data,"|%32s|\n", "111");
-    s21_sprintf(data1,"|%32s|\n", "111");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn23) {
-    char data[100];
-    char data1[100];
-  sprintf(data,"|%32s|\n", "abc");
-    s21_sprintf(data1,"|%32s|\n", "abc");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn24) {
-    char data[100];
-    char data1[100];
-  sprintf(data,"|%-32s|\n", "abc");
-    s21_sprintf(data1,"|%-32s|\n", "abc");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn25) {
-    char data[100];
-    char data1[100];
-  sprintf(data,"|%16s|\n", "nark nark");
-    s21_sprintf(data1,"|%16s|\n", "nark nark");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn26) {
-    char data[100];
-    char data1[100];
-  sprintf(data,"|%16s|\n", "nark nark");
-    s21_sprintf(data1,"|%16s|\n", "nark nark");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn27) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%.03s|\n", "hello");
-    int d = sprintf(data1,"|%.03s|\n", "hello");
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn28) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%.3s| kushat nado |%20s|\n", "MneEEEEEEEEE", "arbuz");
-    int d = sprintf(data1,"|%.3s| kushat nado |%20s|\n", "MneEEEEEEEEE", "arbuz");
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn29) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%08.5X|\n", 0);
-    int d = sprintf(data1,"|%08.5X|\n", 0);
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn30) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%03.7d|\n", -2375);
-    int d = sprintf(data1,"|%03.7d|\n", -2375);
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn31) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%-20.18u|\n", -345);
-    int d = sprintf(data1,"|%-20.18u|\n", -345);
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn32) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%-20.18d|\n", -345);
-    int d = sprintf(data1,"|%-20.18d|\n", -345);
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn33) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%020.2d|\n", -345);
-    int d = sprintf(data1,"|%020.2d|\n", -345);
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn34) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%020d|\n", -345);
-    int d = sprintf(data1,"|%020d|\n", -345);
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn35) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|%%|\n");
-    int d = sprintf(data1,"|%%|\n");
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn36) {
-    char data[100];
-    char data1[100];
-    int a,b;
-    int c = s21_sprintf(data,"%----24p et hello %2p %12p\n", &a, &b, NULL);
-    int d = sprintf(data1,"%----24p et hello %2p %12p\n", &a, &b, NULL);
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn37) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|test %-12i et %24s !|\n", 0, "coco");
-    int d = sprintf(data1,"|test %-12i et %24s !|\n", 0, "coco");
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn38) {
-    char data[100];
-    char data1[100];
-    int c = s21_sprintf(data,"|test %-12i et %--2.4d %24s !|\n", 0, 25, "coco");
-    int d = sprintf(data1,"|test %-12i et %--2.4d %24s !|\n" , 0, 25, "coco");
-    ck_assert_int_eq(c,d);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn39) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%c|\n", 'a');
-    sprintf(data1,"01)SPRINTF : |%c|\n", 'a');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn40) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-c|\n", 'z');
-    sprintf(data1,"01)SPRINTF : |%-c|\n", 'z');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn41) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-----c|\n", '!');
-    sprintf(data1,"01)SPRINTF : |%-----c|\n", '!');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn42) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%5c|\n", 'R');
-    sprintf(data1,"01)SPRINTF : |%5c|\n", 'R');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn43) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-5c|\n", 'R');
-    sprintf(data1,"01)SPRINTF : |%-5c|\n", 'R');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn44) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%1c|\n", '3');
-    sprintf(data1,"01)SPRINTF : |%1c|\n", '3');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn45) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%c|\n", '\0');
-    sprintf(data1,"01)SPRINTF : |%c|\n", '\0');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn46) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%5c|\n", '\0');
-    sprintf(data1,"01)SPRINTF : |%5c|\n", '\0');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn47) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-5c|\n", '\0');
-    sprintf(data1,"01)SPRINTF : |%-5c|\n", '\0');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn48) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%1c|\n", '\0');
-    sprintf(data1,"01)SPRINTF : |%1c|\n", '\0');
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn49) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%s|\n", "salut");
-    sprintf(data1,"01)SPRINTF : |%s|\n", "salut");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn50) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-s|\n", "test");
-    sprintf(data1,"01)SPRINTF : |%-s|\n", "test");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn51) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%---------s|\n", "test2");
-    sprintf(data1,"01)SPRINTF : |%---------s|\n", "test2");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn52) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%10s|\n", "42");
-    sprintf(data1,"01)SPRINTF : |%10s|\n", "42");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn53) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-10s|\n", "42");
-    sprintf(data1,"01)SPRINTF : |%-10s|\n", "42");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn54) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%2s|\n", "string");
-    sprintf(data1,"01)SPRINTF : |%2s|\n", "string");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn55) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-2s|\n", "string");
-    sprintf(data1,"01)SPRINTF : |%-2s|\n", "string");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn56) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%.15s|\n", "precision");
-    sprintf(data1,"01)SPRINTF : |%.15s|\n", "precision");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn57) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%.4s|\n", "precision");
-    sprintf(data1,"01)SPRINTF : |%.4s|\n", "precision");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn58) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%.0s|\n", "precision");
-    sprintf(data1,"01)SPRINTF : |%.0s|\n", "precision");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn59) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%s|\n", "\0\0\0\0\0");
-    sprintf(data1,"01)SPRINTF : |%s|\n", "\0\0\0\0\0");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn60) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%10s|\n", "\0\0\0\0\0");
-    sprintf(data1,"01)SPRINTF : |%10s|\n", "\0\0\0\0\0");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn61) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%s|\n", "");
-    sprintf(data1,"01)SPRINTF : |%s|\n", "");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn62) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-.2s|\n", "boom");
-    sprintf(data1,"01)SPRINTF : |%-.2s|\n", "boom");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn63) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%10.8s|\n", "google");
-    sprintf(data1,"01)SPRINTF : |%10.8s|\n", "google");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn64) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%10.2s|\n", "twitter");
-    sprintf(data1,"01)SPRINTF : |%10.2s|\n", "twitter");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn65) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%2.10s|\n", "samsung");
-    sprintf(data1,"01)SPRINTF : |%2.10s|\n", "samsung");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn66) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%2.5s|\n", "sprintf");
-    sprintf(data1,"01)SPRINTF : |%2.5s|\n", "sprintf");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn67) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-10.2s|\n", "424242424242");
-    sprintf(data1,"01)SPRINTF : |%-10.2s|\n", "424242424242");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn68) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%1.0s|\n", "123456789");
-    sprintf(data1,"01)SPRINTF : |%1.0s|\n", "123456789");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn69) {
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%-1.0s|\n", "123456789");
-    sprintf(data1,"01)SPRINTF : |%-1.0s|\n", "123456789");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn70) {
-
-    char data[100];
-    char data1[100];
-    
-    s21_sprintf(data,"01)SPRINTF : |%.1s|\n", "covid-19");
-    sprintf(data1,"01)SPRINTF : |%.1s|\n", "covid-19");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn71) {
-
-    char data[100];
-    char data1[100];
-    
-    s21_sprintf(data,"01)SPRINTF : |%10.2s|\n", "covid-19");
-    sprintf(data1,"01)SPRINTF : |%10.2s|\n", "covid-19");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn72) {
-
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%2.5s|\n", "covid-19");
-    sprintf(data1,"01)SPRINTF : |%2.5s|\n", "covid-19");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn73) {
-
-    char data[100];
-    char data1[100];
-    
-    s21_sprintf(data,"01)SPRINTF : |%-10.2s|\n", "covid-19");
-    sprintf(data1,"01)SPRINTF : |%-10.2s|\n", "covid-19");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn74) {
-
-    char data[100];
-    char data1[100];
-    
-    s21_sprintf(data,"01)SPRINTF : |%1.4s| et |%-6.8s| et |%4.2s|\n", "tuuu", "12345", "hu");
-    sprintf(data1,"01)SPRINTF : |%1.4s| et |%-6.8s| et |%4.2s|\n", "tuuu", "12345", "hu");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn75) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"01) standart PRINTF : |%p|\n", "salut");
-    sprintf(data1,"01) standart PRINTF : |%p|\n", "salut");
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn76) {
-
-    char data[100];
-    char data1[100];
-   
-    
-    int num1 = 0;
-   
-    s21_sprintf(data,"02) standart PRINTF : |%-p|\n", &num1);
-    sprintf(data1,"02) standart PRINTF : |%-p|\n", &num1);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn77) {
-
-    char data[100];
-    char data1[100];
-   
-    
-
-   
-    s21_sprintf(data,"02) standart PRINTF : |%---------p|\n", "test2");
-    sprintf(data1,"02) standart PRINTF : |%---------p|\n", "test2");
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn78) {
-
-    char data[100];
-    char data1[100];
-   
-
-   
-    s21_sprintf(data,"02) standart PRINTF : |%10p|\n", "21");
-    sprintf(data1,"02) standart PRINTF : |%10p|\n", "21");
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn79) {
-
-    char data[100];
-    char data1[100];
-   
-    
-
-    s21_sprintf(data,"02) standart PRINTF : |%-10p|\n", "21");
-    sprintf(data1,"02) standart PRINTF : |%-10p|\n", "21");
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn80) {
-
-    char data[100];
-    char data1[100];
-   
-    int num1;
-    s21_sprintf(data,"02) standart PRINTF : |%2p|\n", &num1);
-    sprintf(data1,"02) standart PRINTF : |%2p|\n", &num1);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn81) {
-
-    char data[100];
-    char data1[100];
-   
-    int num1;
-    s21_sprintf(data,"02) standart PRINTF : |%-2p|\n", &num1);
-    sprintf(data1,"02) standart PRINTF : |%-2p|\n", &num1);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn82) {
-
-    char data[100];
-    char data1[100];
-   
-
-    s21_sprintf(data,"02) standart PRINTF : |%p|\n", "\0\0\0\0\0");
-    sprintf(data1,"02) standart PRINTF : |%p|\n", "\0\0\0\0\0");
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn83) {
-
-    char data[100];
-    char data1[100];
-   
-
-    s21_sprintf(data,"02) standart PRINTF :|%20p|\n", "\0\0\0\0\0");
-    sprintf(data1,"02) standart PRINTF :|%20p|\n", "\0\0\0\0\0");
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn84) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%p|\n", "");
-    sprintf(data1,"02) standart PRINTF :|%p|\n", "");
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn85) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%p|\n", NULL);
-    sprintf(data1,"02) standart PRINTF :|%p|\n", NULL);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn86) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%10p|\n", NULL);
-    sprintf(data1,"02) standart PRINTF :|%10p|\n", NULL);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn87) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%-10p|\n", NULL);
-    sprintf(data1,"02) standart PRINTF :|%-10p|\n", NULL);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn88) {
-
-    char data[100];
-    char data1[100];
-    s21_sprintf(data,"02) standart PRINTF :|%1.1d|\n", -20);
-    sprintf(data1,"02) standart PRINTF :|%1.1d|\n", -20);
-
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn89) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF :|%-10d|\n", -50);
-    sprintf(data1,"02) standart PRINTF :|%-10d|\n", -50);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn90) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF :|%2d|\n", -20);
-    sprintf(data1,"02) standart PRINTF :|%2d|\n", -20);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn91) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF :|%.2d|\n", -20);
-    sprintf(data1,"02) standart PRINTF :|%.2d|\n", -20);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn92) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%d|\n", 42);
-    sprintf(data1,"02) standart PRINTF :|%d|\n", 42);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn93) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%i|\n", 42);
-    sprintf(data1,"02) standart PRINTF :|%i|\n", 42);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn94) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%-d|\n", 42);
-    sprintf(data1,"02) standart PRINTF :|%-d|\n", 42);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn95) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%10d|\n", 100);
-    sprintf(data1,"02) standart PRINTF :|%10d|\n", 100);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn96) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%-10d|\n", 100);
-    sprintf(data1,"02) standart PRINTF :|%-10d|\n", 100);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn97) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%.10d|\n", 100);
-    sprintf(data1,"02) standart PRINTF :|%.10d|\n", 100);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn98) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%10.5d|\n", 100);
-    sprintf(data1,"02) standart PRINTF :|%10.5d|\n", 100);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn99) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%5.10d|\n", 64);
-    sprintf(data1,"02) standart PRINTF :|%5.10d|\n", 64);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn100) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%1.1d|\n", 16);
-    sprintf(data1,"02) standart PRINTF :|%1.1d|\n", 16);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn101) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%d|\n", -42);
-    sprintf(data1,"02) standart PRINTF :|%d|\n", -42);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn102) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%10d|\n", -42);
-    sprintf(data1,"02) standart PRINTF :|%10d|\n", -42);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn103) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%.10d|\n", -42);
-    sprintf(data1,"02) standart PRINTF :|%.10d|\n", -42);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn104) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%10.5d|\n", -16);
-    sprintf(data1,"02) standart PRINTF :|%10.5d|\n", -16);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn105) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF :|%5.10d|\n", -16);
-    sprintf(data1,"02) standart PRINTF :|%5.10d|\n", -16);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn106) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%.2d|\n", -1);
-    sprintf(data1,"02) standart PRINTF : |%.2d|\n", -1);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn107) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%-10d|\n", -80);
-    sprintf(data1,"02) standart PRINTF : |%-10d|\n", -80);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn108) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%-.10d|\n", -80);
-    sprintf(data1,"02) standart PRINTF : |%-.10d|\n", -80);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn109) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%06d|\n", 35);
-    sprintf(data1,"02) standart PRINTF : |%06d|\n", 35);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn110) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%06d|\n", -35);
-    sprintf(data1,"02) standart PRINTF : |%06d|\n", -35);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn111) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%05.3d|\n", 5);
-    sprintf(data1,"02) standart PRINTF : |%05.3d|\n", 5);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn112) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%03.5d|\n", 5);
-    sprintf(data1,"02) standart PRINTF : |%03.5d|\n", 5);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn113) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%05.3d|\n", -5);
-    sprintf(data1,"02) standart PRINTF : |%05.3d|\n", -5);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn114) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%03.5d|\n", -5);
-    sprintf(data1,"02) standart PRINTF : |%03.5d|\n", -5);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn115) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%.d|\n", 0);
-    sprintf(data1,"02) standart PRINTF : |%.d|\n", 0);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn116) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%.d|\n", 100);
-    sprintf(data1,"02) standart PRINTF : |%.d|\n", 100);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn117) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%x|\n", 34);
-    sprintf(data1,"02) standart PRINTF : |%x|\n", 34);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn118) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%x|\n", -34);
-    sprintf(data1,"02) standart PRINTF : |%x|\n", -34);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn119) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%-x|\n", 50);
-    sprintf(data1,"02) standart PRINTF : |%-x|\n", 50);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-
-START_TEST (SPRINTFTestLaslhyn120) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%10x|\n", 90);
-    sprintf(data1,"02) standart PRINTF : |%10x|\n", 90);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn121) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%.10x|\n", 90);
-    sprintf(data1,"02) standart PRINTF : |%.10x|\n", 90);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn122) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%15x|\n", -100);
-    sprintf(data1,"02) standart PRINTF : |%15x|\n", -100);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn123) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%.15x|\n", -100);
-    sprintf(data1,"02) standart PRINTF : |%.15x|\n", -100);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn124) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%10.5x|\n", 52);
-    sprintf(data1,"02) standart PRINTF : |%10.5x|\n", 52);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn125) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%5.10x|\n", 52);
-    sprintf(data1,"02) standart PRINTF : |%5.10x|\n", 52);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn126) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%20.15x|\n", -100000);
-    sprintf(data1,"02) standart PRINTF : |%20.15x|\n", -100000);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn127) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%15.20x|\n", -100000);
-    sprintf(data1,"02) standart PRINTF : |%15.20x|\n", -100000);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn128) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%-10x|\n", 144);
-    sprintf(data1,"02) standart PRINTF : |%-10x|\n", 144);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn129) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%-.10x|\n", 144);
-    sprintf(data1,"02) standart PRINTF : |%-.10x|\n", 144);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn130) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%-20x|\n", -20000000);
-    sprintf(data1,"02) standart PRINTF : |%-20x|\n", -20000000);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn131) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%08x|\n", 64);
-    sprintf(data1,"02) standart PRINTF : |%08x|\n", 64);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn132) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%.x|\n", 0);
-    sprintf(data1,"02) standart PRINTF : |%.x|\n", 0);
-  
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn133) {
-
-    char data[100];
-    char data1[100];
-   
-    s21_sprintf(data,"02) standart PRINTF : |%.x|\n", 88);
-    sprintf(data1,"02) standart PRINTF : |%.x|\n", 88);
-  
-=======
 START_TEST (SPRINTFTestdogletho114)
 {
     char *str, *str1 = NULL;
@@ -10594,213 +7384,10 @@ START_TEST (SPRINTFTestdogletho238)
     char data1[200];
     s21_sprintf(data,"%lo\n", 100000000000000000);
     sprintf(data1,"%lo\n", 100000000000000000);
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn134) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%x| |%x|\n", (unsigned int)-1,  1);
-    sprintf(data1,"02) standart PRINTF : |%x| |%x|\n", (unsigned int)-1, 1);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn135) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%X|\n", 34);
-    sprintf(data1,"02) standart PRINTF : |%X|\n", 34);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn136) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%X|\n", 34);
-    sprintf(data1,"02) standart PRINTF : |%X|\n", 34);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn137) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%X|\n", -34);
-    sprintf(data1,"02) standart PRINTF : |%X|\n", -34);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn138) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%-X|\n", 50);
-    sprintf(data1,"02) standart PRINTF : |%-X|\n", 50);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn139) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%10X|\n", 90);
-    sprintf(data1,"02) standart PRINTF : |%10X|\n", 90);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn140) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%.10X|\n", 90);
-    sprintf(data1,"02) standart PRINTF : |%.10X|\n", 90);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn141) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%15X|\n", -100);
-    sprintf(data1,"02) standart PRINTF : |%15X|\n", -100);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn142) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%.15X|\n", -100);
-    sprintf(data1,"02) standart PRINTF : |%.15X|\n", -100);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn143) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%10.5X|\n", 52);
-    sprintf(data1,"02) standart PRINTF : |%10.5X|\n", 52);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn144) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%5.10X|\n", 52);
-    sprintf(data1,"02) standart PRINTF : |%5.10X|\n", 52);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn145) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%20.15X|\n", -100000);
-    sprintf(data1,"02) standart PRINTF : |%20.15X|\n", -100000);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn999) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%20.15x|\n", -100000);
-    sprintf(data1,"02) standart PRINTF : |%20.15x|\n", -100000);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn146) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%15.20X|\n", -100000);
-    sprintf(data1,"02) standart PRINTF : |%15.20X|\n", -100000);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn147) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%-10X|\n", 144);
-    sprintf(data1,"02) standart PRINTF : |%-10X|\n", 144);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn148) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%-.10X|\n", 144);
-    sprintf(data1,"02) standart PRINTF : |%-.10X|\n", 144);
-
-    ck_assert_str_eq(data,data1);
-}
-END_TEST
-
-START_TEST (SPRINTFTestLaslhyn149) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%-20X|\n", -20000000);
-    sprintf(data1,"02) standart PRINTF : |%-20X|\n", -20000000);
-
-=======
 // --------------Check u-------------
 
 START_TEST (SPRINTFTestdogletho239)
@@ -11069,21 +7656,10 @@ START_TEST (SPRINTFTestRleonard1) {
     s21_sprintf(data,"%li", 100000000000000000);
     sprintf(data1,"%li", 100000000000000000);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn150) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%08X|\n", 64);
-    sprintf(data1,"02) standart PRINTF : |%08X|\n", 64);
-
-=======
 
 
 START_TEST (SPRINTFTestRleonard2) {
@@ -11092,63 +7668,30 @@ START_TEST (SPRINTFTestRleonard2) {
     s21_sprintf(data,"%lx", 100000000000000000);
     sprintf(data1,"%lx", 100000000000000000);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn151) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%03.4X|\n", 10);
-    sprintf(data1,"02) standart PRINTF : |%03.4X|\n", 10);
-
-=======
 START_TEST (SPRINTFTestRleonard3) {
     char data[200];
     char data1[200];
     s21_sprintf(data,"%lX", 100000000000000000);
     sprintf(data1,"%lX", 100000000000000000);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn152) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%.X|\n", 0);
-    sprintf(data1,"02) standart PRINTF : |%.X|\n", 0);
-
-=======
 START_TEST (SPRINTFTestRleonard4) {
     char data[200];
     char data1[200];
     s21_sprintf(data,"%ld", 100000000000000000);
     sprintf(data1,"%ld", 100000000000000000);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn153) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%.X|\n", 88);
-    sprintf(data1,"02) standart PRINTF : |%.X|\n", 88);
-
-=======
 START_TEST (SPRINTFTestRleonard5) {
     char data[200];
     char data1[200];
@@ -11156,22 +7699,10 @@ START_TEST (SPRINTFTestRleonard5) {
     s21_sprintf(data,"%hi", i);
     sprintf(data1,"%hi", i);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-
-START_TEST (SPRINTFTestLaslhyn154) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%X|\n", 2147483647);
-    sprintf(data1,"02) standart PRINTF : |%X|\n", 2147483647);
-
-=======
 START_TEST (SPRINTFTestRleonard6) {
     char *data, *data1 = NULL;
     data = (char*)malloc(200 * sizeof(char));
@@ -11180,21 +7711,10 @@ START_TEST (SPRINTFTestRleonard6) {
     s21_sprintf(data,"%ho", i);
     sprintf(data1,"%ho", i);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn155) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%u|\n", 34);
-    sprintf(data1,"02) standart PRINTF : |%u|\n", 34);
-
-=======
 START_TEST (SPRINTFTestRleonard7) {
     char data[200];
     char data1[200];
@@ -11202,21 +7722,10 @@ START_TEST (SPRINTFTestRleonard7) {
     s21_sprintf(data,"%hu", i);
     sprintf(data1,"%hu", i);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn156) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%u|\n", -34);
-    sprintf(data1,"02) standart PRINTF : |%u|\n", -34);
-
-=======
 START_TEST (SPRINTFTestRleonard8) {
     char data[200];
     char data1[200];
@@ -11224,21 +7733,10 @@ START_TEST (SPRINTFTestRleonard8) {
     s21_sprintf(data,"%hx", i);
     sprintf(data1,"%hx", i);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn157) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%-u|\n", 50);
-    sprintf(data1,"02) standart PRINTF : |%-u|\n", 50);
-
-=======
 START_TEST (SPRINTFTestRleonard9) {
     char data[200];
     char data1[200];
@@ -11246,21 +7744,10 @@ START_TEST (SPRINTFTestRleonard9) {
     s21_sprintf(data,"%hX", i);
     sprintf(data1,"%hX", i);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn158) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%10u|\n", 90);
-    sprintf(data1,"02) standart PRINTF : |%10u|\n", 90);
-
-=======
 START_TEST (SPRINTFTestRleonard10) {
     char data[200];
     char data1[200];
@@ -11268,42 +7755,20 @@ START_TEST (SPRINTFTestRleonard10) {
     s21_sprintf(data,"%hd", i);
     sprintf(data1,"%hd", i);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn159) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%.10u|\n", 90);
-    sprintf(data1,"02) standart PRINTF : |%.10u|\n", 90);
-
-=======
 START_TEST (SPRINTFTestRleonard11) {
     char data[200];
     char data1[200];
     s21_sprintf(data,"%lc", 'c');
     sprintf(data1,"%lc", 'c');
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-<<<<<<< HEAD
-START_TEST (SPRINTFTestLaslhyn160) {
-
-    char data[100];
-    char data1[100];
-
-    s21_sprintf(data,"02) standart PRINTF : |%15u|\n", -100);
-    sprintf(data1,"02) standart PRINTF : |%15u|\n", -100);
-
-=======
 
 START_TEST (SPRINTFTestRleonard12) {
     char data[200];
@@ -11312,7 +7777,6 @@ START_TEST (SPRINTFTestRleonard12) {
     s21_sprintf(data,"%Lf", i);
     sprintf(data1,"%LF", i);
     
->>>>>>> lashlyn_develop
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -11323,13 +7787,6 @@ END_TEST
 
 
 
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> lashlyn_develop
 int main()
 {
     // Suites
@@ -11364,10 +7821,7 @@ int main()
     TCase *to_lowertest = tcase_create("TOLOWER");
     TCase *sprintftest = tcase_create("SPRINTF2");
     TCase *sprintftest1 = tcase_create("SPRINTF1");
-<<<<<<< HEAD
-=======
     TCase *sprintftest3 = tcase_create("SPRINTF3");
->>>>>>> lashlyn_develop
     TCase *trimtest = tcase_create("TRIM");
     
     
@@ -11565,12 +8019,8 @@ int main()
     tcase_add_test(trimtest, TRIMTest10);
     tcase_add_test(trimtest, TRIMTest11);
     tcase_add_test(trimtest, TRIMTest12);
-<<<<<<< HEAD
-
-=======
     tcase_add_test(trimtest, TRIMTest13);
     
->>>>>>> lashlyn_develop
     suite_add_tcase(s1, sprintftest);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn1);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn2);
@@ -11732,10 +8182,6 @@ int main()
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn158);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn159);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn160);
-<<<<<<< HEAD
-    tcase_add_test(sprintftest, SPRINTFTestLaslhyn999);
-    
-=======
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn161);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn162);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn163);
@@ -11889,185 +8335,10 @@ int main()
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn311);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn312);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn313);
->>>>>>> lashlyn_develop
     
     
     
     suite_add_tcase(s1, sprintftest1);
-<<<<<<< HEAD
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho1);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho2);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho3);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho4);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho5);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho6);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho7);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho8);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho9);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho10);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho11);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho12);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho13);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho14);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho15);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho16);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho17);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho18);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho19);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho20);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho21);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho22);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho23);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho24);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho25);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho26);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho27);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho28);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho29);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho30);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho31);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho32);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho33);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho34);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho35);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho36);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho37);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho38);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho39);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho40);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho41);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho42);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho43);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho44);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho45);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho46);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho47);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho48);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho49);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho50);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho51);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho52);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho53);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho54);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho55);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho56);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho57);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho58);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho59);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho60);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho61);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho62);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho63);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho64);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho65);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho66);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho67);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho68);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho69);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho70);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho71);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho72);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho73);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho74);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho75);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho76);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho77);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho78);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho79);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho80);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho81);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho82);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho83);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho84);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho85);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho86);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho87);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho88);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho89);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho90);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho91);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho92);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho93);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho94);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho95);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho96);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho97);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho98);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho99);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho100);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho101);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho102);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho103);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho104);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho105);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho106);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho107);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho108);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho109);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho110);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho111);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho112);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho113);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho114);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho115);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho116);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho117);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho118);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho119);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho120);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho121);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho122);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho123);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho124);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho125);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho126);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho127);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho128);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho129);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho130);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho131);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho132);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho133);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho134);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho135);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho136);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho137);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho138);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho139);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho140);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho141);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho142);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho143);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho144);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho145);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho146);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho147);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho148);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho149);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho150);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho151);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho152);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho153);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho154);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho155);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho156);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho157);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho158);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho159);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho160);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho161);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho162);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho163);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho164);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho165);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho166);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho167);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho168);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho169);
-       tcase_add_test(sprintftest1, SPRINTFTestdogletho170);
-
-
-=======
     tcase_add_test(sprintftest1, SPRINTFTestdogletho1);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho2);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho3);
@@ -12344,7 +8615,6 @@ int main()
     tcase_add_test(sprintftest3, SPRINTFTestRleonard11);
     tcase_add_test(sprintftest3, SPRINTFTestRleonard12);
     
->>>>>>> lashlyn_develop
     
     srunner_run_all(runner, CK_NORMAL );
     number_failed = srunner_ntests_failed(runner);
