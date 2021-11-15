@@ -1,32 +1,36 @@
 #include "s21_string.h"
 
 
-int o_func(parsing pars, va_list args, int *len_buf, char *str) {    
+int o_func(parsing pars, va_list args, int *len_buf, char *str) {
     long unsigned number = va_arg(args,long unsigned);
     if (pars.leng == 0) {
         number = (unsigned int)number;
     } else if (pars.leng == 'h') {
         number = (short unsigned int)number;
     }
+  
     
     // form number 8-system
     char *data = malloc(sizeof(char *));
-    int index = convert(number, 8, data, pars.type);
-    
+    int index = convert(pars, number, 8, data, pars.type);
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];
     
     str[index + 1] = '\0';
     int i = index+1;
-    
+
+
     if (pars.point) {
         pars.zero = 0;
     }
-    if (pars.precision < 0)
-        pars.precision = 10;
     
+    
+    
+    if (pars.precision < 0)
+        pars.precision = i;
+
     // consider gird
-    if (pars.gird) {
+    if (pars.gird && number != 0) {
         s21_memmove(str + 1, str, i);
         str[0] = '0';
         i++;
@@ -34,7 +38,10 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         str[i] = '\0';
     }
-    
+
+
+
+
     // precision solve
     if (pars.precision > i) {
         s21_memmove(str + pars.precision - i, str, i);
@@ -44,10 +51,10 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         pars.precision = i;
     }
-    
-    
+
+
     int len = pars.precision;
-    
+
     // if width > len
     if (pars.width > len) {
         if (!pars.minus) {
@@ -71,20 +78,21 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         *len_buf = len;
     }
-    
     free(data);
     return *len_buf;
 }
 
+
+
 int p_func(parsing pars, va_list args, int *len_buf, char *str) {
-    
+
     int size = 0;
     unsigned long num = va_arg(args,unsigned long);
     char *data = malloc(200*sizeof(char *));
     char *reverse = malloc(200* sizeof(char *));
     char *src = malloc(sizeof(char *));
     char *tmp = malloc(sizeof(char *));
-    int index = convert(num,16,data,'x');
+    int index = convert(pars, num,16,data,'x');
     
     for(int i = index; i >= 0; i--)
         reverse[index - i] = data[i];
@@ -92,12 +100,14 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
     reverse[index + 1] = '\0';
     src[0] = '0';
     src[1] = 'x';
+    src[2] = '\0';
     if((void *)num == NULL) {
-        src[2] = '0';
-        src[3] = '\0';
-    }
+            src[2] = '0';
+            src[3] = '\0';
+        }
+
     s21_strcat(src,reverse);
-    
+
     
     if(pars.width) {
         if(pars.width > (int)s21_strlen(src)) {
@@ -128,115 +138,51 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
             str[i] = src[i];
         }
     }
-    *len_buf = (int)s21_strlen(str);
+        *len_buf = (int)s21_strlen(str);
     
     free(data);
     free(reverse);
     free(src);
     free(tmp);
     return 0;
-    
+
 }
 
+
+
 int s_func(parsing pars, va_list args, int *len_buf, char *str) {
-    
-    int size = 0;
     char *src;
     src = va_arg(args,char *);
-    char *tmp = malloc(sizeof(char*));
-    if(pars.precision || pars.point) {
-        char *dest = malloc(sizeof(char*));
-        
-        if(pars.precision < 0) {
-            dest = src;
-        } else {
-            for(int i = 0;i < pars.precision;i++) {
-                dest[i] = src[i];
-            }
-        }
-        if(pars.precision != 0 ) {
-            src = dest;
-        } else {
-            src = " ";
-        }
-        free(dest);
-        if(pars.width) {
-            if(pars.width > (int)s21_strlen(src)) {
-                size = pars.width - s21_strlen(src);
-            }
-            if(pars.minus) {
-                for(int i = 0; i < (int)s21_strlen(src);i++) {
-                    str[i] = src[i];
-                }
-                for(int j = s21_strlen(src);j < pars.width;j++) {
-                    str[j] = ' ';
-                }
+    s21_strcat(str, src);
+    if (pars.precision >= (int)s21_strlen(str) || (pars.precision == 0 && pars.point == 0) || pars.precision < 0)
+        pars.precision = (int) s21_strlen(str);
+    str[pars.precision] = '\0';
+
+    if (pars.width > pars.precision) {
+        if (!pars.minus) {
+            s21_memmove(str + pars.width - pars.precision, str, pars.precision);
+            if (pars.zero) {
+                for (int i = 0; i < pars.width - pars.precision; i++)
+                    str[i] = '0';
             } else {
-                for(int i = 0; i < (int)s21_strlen(src);i++) {
-                    tmp[i] = src[i];
-                }
-                for(int i = 0; i < size ;i++) {
+                for (int i = 0; i < pars.width - pars.precision; i++)
                     str[i] = ' ';
-                }
-                int index = 0;
-                for(int i = size;i< size + (int)s21_strlen(tmp);i++) {
-                    str[i] =  tmp[index];
-                    index++;
-                }
             }
         } else {
-            for(int i = 0; i < (int)s21_strlen(src);i++) {
-                str[i] = src[i];
-            }
+                for (int i = pars.precision; i < pars.width; i++)
+                    str[i] = ' ';
         }
+        str[pars.width] = '\0';
+        *len_buf = pars.width;
     } else {
-        if(pars.width) {
-            if(pars.width > (int)s21_strlen(src)) {
-                size = pars.width - s21_strlen(src);
-            }
-            if(pars.minus) {
-                for(int i = 0; i < (int)s21_strlen(src);i++) {
-                    str[i] = src[i];
-                    
-                }
-                for(int j = s21_strlen(src);j < pars.width;j++) {
-                    str[j] = ' ';
-                }
-            } else {
-                for(int i = 0; i < (int)s21_strlen(src);i++) {
-                    tmp[i] = src[i];
-                }
-                for(int i = 0; i < size ;i++) {
-                    str[i] = ' ';
-                }
-                int index = 0;
-                for(int i = size;i < size + (int)s21_strlen(tmp);i++) {
-                    str[i] =  tmp[index];
-                    index++;
-                }
-            }
-        } else {
-            for(int i = 0; i < (int)s21_strlen(src);i++) {
-                str[i] = src[i];
-            }
-        }
-    }
-    free(tmp);
-    if (pars.width) {
-        if(pars.width > (int)s21_strlen(str)) {
-            *len_buf = pars.width ;
-        } else {
-            *len_buf = s21_strlen(str);
-        }
-    }
-    else {
-        *len_buf = s21_strlen(str);
+        *len_buf = pars.precision;
     }
     return 1;
 }
 
 
-int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {  
+
+int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
     int len_e = 0;
     char *str_e = NULL;
     str_e = (char*) malloc(200 * sizeof(char));
@@ -679,7 +625,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
     int len;
     // consider the existence of point
     str[0] = buff[0] + 48;
-    if (!pars.precision) {
+    if (pars.precision == 0 && pars.gird == 0) {
         str[1] = e;
         str[2] = sign;
         str[3] = pow[0] + 48;
@@ -689,13 +635,12 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
     } else {
         str[1] = '.';
         for (int j = 0; j < pars.precision; j++) {
-            
             str[1 + 1 + j] = buff[1 + j] + 48;
-            str[2 + pars.precision] = e;
-            str[2 + pars.precision + 1] = sign;
-            str[2 + pars.precision + 2] = pow[0] + 48;
-            str[2 + pars.precision + 3] = pow[1] + 48;
         }
+        str[2 + pars.precision] = e;
+        str[2 + pars.precision + 1] = sign;
+        str[2 + pars.precision + 2] = pow[0] + 48;
+        str[2 + pars.precision + 3] = pow[1] + 48;
         str[6 + pars.precision] = '\0';
         len = pars.precision + 6;
     }
@@ -764,7 +709,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
 
 char convertToX(int value) {
     char ch;
-    if (value > 0 && value < 10) {
+    if (value >= 0 && value < 10) {
         ch = value + 48;
     } else {
         ch = value + 55;
@@ -782,27 +727,34 @@ char convertTox(int value) {
     return ch;
 }
 
-int convert(long unsigned num ,long unsigned divider,char *data, char spec) {
+int convert(parsing pars, long unsigned num ,long unsigned divider,char *data, char spec) {
     
     //int res = num;
     long unsigned rem = num;
     char ch;
     int index = 0;
-    
-    while (num) {
-        rem = num%divider;
-        num = num /divider;
-        if(spec == 'x' || spec == 'o' ){
-            ch = convertTox(rem);
+    if (num) {
+        while (num) {
+            rem = num%divider;
+            num = num /divider;
+            if(spec == 'x' || spec == 'o' ){
+                ch = convertTox(rem);
+            }
+            if  (spec == 'X') {
+                ch = convertToX(rem);
+            }
+            data[index] = ch;
+            index ++;
         }
-        if  (spec == 'X') {
-            ch = convertToX(rem);
+    } else {
+        if (pars.precision <0) {
+            data[index] = '0';
+            index++;
         }
-        data[index] = ch;
-        index ++;
     }
     return index - 1;
 }
+
 
 
 
@@ -814,36 +766,39 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else if (pars.leng == 'h') {
         number = (short unsigned int)number;
     }
-    
-    
+
     // form number 16-system
     char *data = malloc(sizeof(char *));
-    int index = convert(number, 16, data, pars.type);
-    
+    int index = convert(pars, number, 16, data, pars.type);
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];
     
     str[index + 1] = '\0';
     int i = index+1;
-    
-    if (pars.point) {
+
+    if (pars.point != 0 && pars.precision >= 0) {
         pars.zero = 0;
     }
-    
+
+    if (number == 0)
+        pars.gird = 0;
     if (pars.precision < 0)
-        pars.precision = 8;
-    
+        pars.precision = i;
+
     // precision solve
     if (pars.precision > i) {
         s21_memmove(str + pars.precision - i, str, i);
         for (int j = 0; j < pars.precision - i; j++) {
             str[j] = '0';
         }
+    } else if (pars.precision == 0 && number == 0) {
+        str[0] = ' ';
+        pars.precision = i;
     } else {
         pars.precision = i;
     }
-    
-    
+
+
     // consider gird
     int len;
     if (pars.gird) {
@@ -851,8 +806,8 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         len = pars.precision;
     }
-    
-    
+
+
     // str after with precision
     if (pars.gird) {
         s21_memmove(str + 2, str, pars.precision);
@@ -862,31 +817,25 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         str[pars.precision] = '\0';
     }
-    
-    
-    
-    
-    
+
     // if width > len
     if (pars.width > len) {
         if (!pars.minus) {
-            
             s21_memmove(str + pars.width - len, str, len);
-            
             
             if (pars.zero) {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = '0';
                 if (pars.gird) {
-                    str[0] = '0';
-                    str[1] = 'x';
+                    
+                        str[0] = '0';
+                        str[1] = 'x';
+                    
                 }
             } else {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = ' ';
-                
-                
-                
+
                 if (pars.gird) {
                     str[pars.width - pars.precision - 1] = 'x';
                     str[pars.width - pars.precision - 2] = '0';
@@ -907,6 +856,12 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
 }
 
 
+
+
+
+
+
+
 int n_func(va_list args, int length) {
     int *number = va_arg(args, int*);
     *number = length;
@@ -914,13 +869,14 @@ int n_func(va_list args, int length) {
 }
 
 
+
 int u_func(parsing pars, va_list args, int *len_buf, char *str) {
-    
-    
-    
-    if (pars.point) {
+
+
+    if (pars.point && pars.precision >=0) {
         pars.zero = 0;
     }
+    
     long unsigned int number = va_arg(args, long unsigned int);
     
     if (pars.leng == 0) {
@@ -932,19 +888,26 @@ int u_func(parsing pars, va_list args, int *len_buf, char *str) {
     unsigned int buf = number;
     int i = 0;
     int buff[100];
-    while (buf) {
-        buff[i] = buf % 10;
-        buf = buf / 10;
-        i++;
+    if (buf) {
+        while (buf) {
+            buff[i] = buf % 10;
+            buf = buf / 10;
+            i++;
+        }
+    } else {
+        if (pars.precision != 0 || pars.point == 0) {
+            buff[i] = 0;
+            i++;
+        }
     }
-    
+
     // switch numbers to the right direction
     for (int j = 0; j < i; j++) {
         str[j] = buff[i - j - 1] + 48;
     }
     str[i] = '\0';
-    
-    
+
+
     // precision solve
     if (pars.precision > i) {
         s21_memmove(str + pars.precision - i, str, i);
@@ -954,30 +917,28 @@ int u_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         pars.precision = i;
     }
-    
-    
-    
+
+
     int len = pars.precision;
     str[pars.precision] = '\0';
-    
-    
-    
+
+
     // str after with precision
-    
+
+
     // if width > len
     if (pars.width > len) {
         if (!pars.minus) {
-            
+
             s21_memmove(str + pars.width - len, str, len);
-            
-            
+
+
             if (pars.zero) {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = '0';
             } else {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = ' ';
-                
             }
         } else {
             for (int j = len; j < pars.width; j++) {
@@ -991,6 +952,10 @@ int u_func(parsing pars, va_list args, int *len_buf, char *str) {
     }
     return 1;
 }
+
+
+
+
 
 
 int f_func(parsing pars, int *len_buf, char *str, double number) {
@@ -1090,7 +1055,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number) {
     
     
     // consider the existence of point
-    if (!pars.precision) {
+    if (pars.precision == 0 && pars.gird == 0) {
         str[whole] = '\0';
         len = whole;
     } else {
@@ -1161,115 +1126,130 @@ int f_func(parsing pars, int *len_buf, char *str, double number) {
 }
 
 int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
+
     
-    if (pars.point)
-        pars.zero = 0;
-    
-    long int number = va_arg(args, long int);
-    
-    
-    if (pars.leng == 0) {
-        number = (unsigned int)number;
-    } else if (pars.leng == 'h') {
-        number = (short unsigned int)number;
-    }
-    char c;
-    if (number < 0) {
-        number = number * (-1);
-        c = '-';
-        pars.plus = 1;
-        pars.space = 0;
-    } else {
-        c = '+';
-    }
-    
-    // size of number
-    int buf = number;
-    int i = 0;
-    int buff[100];
-    while (buf) {
-        buff[i] = buf % 10;
-        buf = buf / 10;
-        i++;
-    }
-    for (int j = 0; j < i; j++) {
-        str[j] = buff[i - j - 1] + 48;
-    }
-    str[i] = '\0';
-    
-    // precision solve
-    if (pars.precision > i) {
-        s21_memmove(str + pars.precision - i, str, i);
-        for (int j = 0; j < pars.precision - i; j++) {
-            str[j] = '0';
-        }
-    } else {
-        pars.precision = i;
-    }
-    
-    
-    
-    // consider plus
-    int len;
-    if (pars.plus || pars.space) {
-        len = pars.precision + 1;
-    } else {
-        len = pars.precision;
-    }
-    
-    
-    // str after with precision
-    if (pars.plus) {
-        s21_memmove(str + 1, str, pars.precision);
-        str[0] = c;
-        str[pars.precision + 1] = '\0';
-    } else {
-        if (pars.space) {
-            s21_memmove(str + 1, str, pars.precision);
-            str[0] = ' ';
-            str[pars.precision + 1] = '\0';
-        } else {
-            str[pars.precision] = '\0';
-        }
-    }
-    
-    // if width > len
-    if (pars.width > len) {
-        if (!pars.minus) {
-            
-            s21_memmove(str + pars.width - len, str, len);
-            
-            if (pars.zero) {
-                for (int j = 0; j < pars.width - pars.precision; j++)
-                    str[j] = '0';
-                if (pars.plus) {
-                    str[0] = c;//+
-                } else if (pars.space) {
-                    str[0] = ' ';//+
-                }
-            } else {
-                for (int j = 0; j < pars.width - pars.precision; j++)
-                    str[j] = ' ';
-                
-                
-                
-                if (pars.plus) {
-                    str[pars.width - pars.precision - 1] = c;
-                }
-            }
-        } else {
-            for (int j = len; j < pars.width; j++) {
-                str[j] = ' ';
-            }
-            str[pars.width] = '\0';
-        }
-        *len_buf = pars.width;
-    } else {
-        *len_buf = len;
-    }
-    
-    return 1;
+       if (pars.point && pars.precision >= 0)
+           pars.zero = 0;
+
+       long int number = va_arg(args, long int);
+
+           
+       if (pars.leng == 0) {
+           number = (int)number;
+       } else if (pars.leng == 'h') {
+           number = (short int)number;
+       }
+
+       char c;
+       if (number < 0) {
+           number = number * (-1);
+           c = '-';
+           pars.plus = 1;
+           pars.space = 0;
+       } else {
+           c = '+';
+       }
+
+       // size of number
+       long int buf = number;
+       int i = 0;
+       long int buff[100];
+       if (buf) {
+           while (buf) {
+               buff[i] = buf % 10;
+               buf = buf / 10;
+               i++;
+           }
+       } else {
+           if (pars.precision != 0 || pars.point == 0) {
+               buff[i] = 0;
+               i++;
+           }
+       }
+
+       for (int j = 0; j < i; j++) {
+           str[j] = buff[i - j - 1] + 48;
+       }
+       str[i] = '\0';
+
+
+
+       // precision solve
+       if (pars.precision > i) {
+           s21_memmove(str + pars.precision - i, str, i);
+           for (int j = 0; j < pars.precision - i; j++) {
+               str[j] = '0';
+           }
+       } else {
+           pars.precision = i;
+       }
+
+
+       // consider plus
+       int len;
+       if (pars.plus || pars.space) {
+           len = pars.precision + 1;
+       } else {
+           len = pars.precision;
+       }
+
+
+       // str after with precision
+       if (pars.plus) {
+           s21_memmove(str + 1, str, pars.precision);
+           str[0] = c;
+           str[pars.precision + 1] = '\0';
+       } else {
+           if (pars.space) {
+               s21_memmove(str + 1, str, pars.precision);
+               str[0] = ' ';
+               str[pars.precision + 1] = '\0';
+           } else {
+               str[pars.precision] = '\0';
+           }
+       }
+
+       // if width > len
+       if (pars.width > len) {
+           if (!pars.minus) {
+
+               s21_memmove(str + pars.width - len, str, len);
+
+               
+               if (pars.zero) {
+                   for (int j = 0; j < pars.width - pars.precision; j++)
+                       str[j] = '0';
+                   if (pars.plus) {
+                       str[0] = c;//+
+                   } else if (pars.space) {
+                       str[0] = ' ';//+
+                   }
+               } else {
+                   for (int j = 0; j < pars.width - pars.precision; j++)
+                       str[j] = ' ';
+
+                   if (pars.plus) {
+                       str[pars.width - pars.precision - 1] = c;
+                   }
+               }
+           } else {
+               for (int j = len; j < pars.width; j++) {
+                   str[j] = ' ';
+               }
+               str[pars.width] = '\0';
+           }
+           *len_buf = pars.width;
+       } else {
+           *len_buf = len;
+       }
+
+       return 1;
 }
+
+
+
+
+
 
 
 int s21_sprintf(char *str, char *format, ...) {
@@ -1467,7 +1447,7 @@ int spec(char c) {
 
 int leng(char c) {
     int result = 0;
-    if (c == 'L' || c == 'I' || c == 'h') {
+    if (c == 'L' || c == 'l' || c == 'h') {
         result = 1;
     }
     return result;
