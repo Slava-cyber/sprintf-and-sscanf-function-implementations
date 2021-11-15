@@ -4658,9 +4658,132 @@ START_TEST (SPRINTFTestLaslhyn313) {
 END_TEST
 
 
+START_TEST (SPRINTFTestLaslhyn314) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%E",1234.323);
+    sprintf(data1,"%E",1234.323);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
 
 
+START_TEST (SPRINTFTestLaslhyn315) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%#10E",1234.323);
+    sprintf(data1,"%#10E",1234.323);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
 
+
+START_TEST (SPRINTFTestLaslhyn316) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%#10.3E",1234.32333);
+    sprintf(data1,"%#10.3E",1234.32333);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn317) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%#10.2E",1234.0000);
+    sprintf(data1,"%#10.2E",1234.0000);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn318) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%#10.*E",-5,0.00001);
+    sprintf(data1,"%#10.*E",-5,0.00001);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn319) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%#*.*E",-5,-5,0.00001);
+    sprintf(data1,"%#*.*E",-5,-5,0.00001);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn320) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%#*.*E",-5,-5,-0.00001);
+    sprintf(data1,"%#*.*E",-5,-5,-0.00001);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn321) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"%0*.*E",-5,-5,-0.00001);
+    sprintf(data1,"%0*.*E",-5,-5,-0.00001);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestLaslhyn322) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"% *.*E",-5,-5,-0.00001);
+    sprintf(data1,"% *.*E",-5,-5,-0.00001);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn323) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"% *.*lE",-5,-5,-0.00001);
+    sprintf(data1,"% *.*lE",-5,-5,-0.00001);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestLaslhyn324) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"% *.*lE",-5,-5,0.00001);
+    sprintf(data1,"% *.*lE",-5,-5,0.00001);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
 
 
 //MARK: - SPrintf tests by dogletho
@@ -8335,6 +8458,17 @@ int main()
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn311);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn312);
     tcase_add_test(sprintftest, SPRINTFTestLaslhyn313);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn314);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn315);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn316);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn317);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn318);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn319);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn320);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn321);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn322);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn323);
+    tcase_add_test(sprintftest, SPRINTFTestLaslhyn324);
     
     
     
