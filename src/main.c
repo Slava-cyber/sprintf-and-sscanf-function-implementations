@@ -991,6 +991,7 @@ TEST : test %-12i et %--2.4s %24s !\n, 0, NULL, "coco"
 	.printf("05) standart PRINTF : |%.10u|\n", 90);
 	.ft_printf("05) my       PRINTF : |%.10u|\n", 90);
 	.printf("06) standart PRINTF : |%15u|\n", -100);
+<<<<<<< HEAD
 	ft_printf("06) my       PRINTF : |%15u|\n", -100);
 	printf("07) standart PRINTF : |%.15u|\n", -100);
 	ft_printf("07) my       PRINTF : |%.15u|\n", -100);
@@ -1024,6 +1025,41 @@ TEST : test %-12i et %--2.4s %24s !\n, 0, NULL, "coco"
 	ft_printf("21) my       PRINTF : |%u|\n", UINT_MAX);
 	printf("22) standart PRINTF : |%u| |%u|\n", (unsigned int)-1, UINT_MAX + 1);
 	ft_printf("22) my       PRINTF : |%u| |%u|\n", (unsigned int)-1, UINT_MAX + 1);
+=======
+	.ft_printf("06) my       PRINTF : |%15u|\n", -100);
+	.rintf("07) standart PRINTF : |%.15u|\n", -100);
+	.ft_printf("07) my       PRINTF : |%.15u|\n", -100);
+	.printf("08) standart PRINTF : |%10.5u|\n", 52);
+	.ft_printf("08) my       PRINTF : |%10.5u|\n", 52);
+	.printf("09) standart PRINTF : |%5.10u|\n", 52);
+	.ft_printf("09) my       PRINTF : |%5.10u|\n", 52);
+	.printf("10) standart PRINTF : |%20.15u|\n", -100000);
+	.ft_printf("10) my       PRINTF : |%20.15u|\n", -100000);
+	.printf("11) standart PRINTF : |%15.20u|\n", -100000);
+	.ft_printf("11) my       PRINTF : |%15.20u|\n", -100000);
+	.printf("12) standart PRINTF : |%-10u|\n", 144);
+	.ft_printf("12) my       PRINTF : |%-10u|\n", 144);
+	.printf("13) standart PRINTF : |%-.10u|\n", 144);
+	.ft_printf("13) my       PRINTF : |%-.10u|\n", 144);
+	.printf("14) standart PRINTF : |%-20u|\n", -20000000);
+	.ft_printf("14) my       PRINTF : |%-20u|\n", -20000000);
+	.printf("15) standart PRINTF : |%08u|\n", 64);
+	.ft_printf("15) my       PRINTF : |%08u|\n", 64);
+	.printf("16) standart PRINTF : |%03.4u|\n", 10);
+	.ft_printf("16) my       PRINTF : |%03.4u|\n", 10);
+	.printf("17) standart PRINTF : |%u|\n", 0);
+	.ft_printf("17) my       PRINTF : |%u|\n", 0);
+	.printf("18) standart PRINTF : |%.u|\n", 0);
+	.ft_printf("18) my       PRINTF : |%.u|\n", 0);
+	.printf("19) standart PRINTF : |%10u|\n", 0);
+	.ft_printf("19) my       PRINTF : |%10u|\n", 0);
+	.printf("20) standart PRINTF : |%.u|\n", 88);
+	.ft_printf("20) my       PRINTF : |%.u|\n", 88);
+	.printf("21) standart PRINTF : |%u|\n", UINT_MAX);
+	.ft_printf("21) my       PRINTF : |%u|\n", UINT_MAX);
+	.printf("22) standart PRINTF : |%u| |%u|\n", (unsigned int)-1, UINT_MAX + 1);
+	.ft_printf("22) my       PRINTF : |%u| |%u|\n", (unsigned int)-1, UINT_MAX + 1);
+>>>>>>> lashlyn_develop
 	ft_printf("--------------------%%---------------------\n");
 	/*a = printf("01) standart PRINTF : |%5%|\n");
 	b = ft_printf("01) my       PRINTF : |%5%|\n");
@@ -1057,6 +1093,7 @@ TEST : test %-12i et %--2.4s %24s !\n, 0, NULL, "coco"
 	ft_printf("return fr st PRINTF : %d\nreturn fr my PRINTF : %d\n\n", a, b);
 	ft_printf("%d\n", ft_printf("%d, ", ft_printf("kekw, ")));
 	ft_printf("--------------------%%kek------------------\n");*/
+<<<<<<< HEAD
 	printf("01) standart PRINTF : |%.*s|\n", 5, "kekwait");
 	ft_printf("01) my       PRINTF : |%.*s|\n", 5, "kekwait");
 	printf("02) standart PRINTF : |%.*d|\n", 5, 5);
@@ -1075,6 +1112,26 @@ TEST : test %-12i et %--2.4s %24s !\n, 0, NULL, "coco"
 
 	ft_printf("|%x|\n", -42);
 	printf("|%x|\n", -42);
+=======
+	.printf("01) standart PRINTF : |%.*s|\n", 5, "kekwait");
+	.ft_printf("01) my       PRINTF : |%.*s|\n", 5, "kekwait");
+	.printf("02) standart PRINTF : |%.*d|\n", 5, 5);
+	.ft_printf("02) my       PRINTF : |%.*d|\n", 5, 5);
+
+	.printf("03) standart PRINTF : |%.*d|\n", 5, 0);
+	.ft_printf("03) my       PRINTF : |%.*d|\n", 5, 0);
+	.printf("04) standart PRINTF : |%0.3s|\n", "42");
+	.ft_printf("04) my       PRINTF : |%0.3s|\n\n", "42");
+
+	.printf("01) standart PRINTF : |%.3X|\n", 17);
+	.ft_printf("01) my       PRINTF : |%.3X|\n", 17);
+
+	.ft_printf("|%s%d%p%%%i%u%x%X%c|\n","bonjour", 42, &c, 42, 42, 42, 42, 'c');
+	.printf("|%s%d%p%%%i%u%x%X%c|\n","bonjour", 42, &c, 42, 42, 42, 42, 'c');
+
+	.ft_printf("|%x|\n", -42);
+	.printf("|%x|\n", -42);
+>>>>>>> lashlyn_develop
 	ft_printf("|%X|\n", -42);
 	printf("|%X|\n", -42);
 

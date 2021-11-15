@@ -23,12 +23,20 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
     if (pars.point) {
         pars.zero = 0;
     }
+<<<<<<< HEAD:src/s21_sprintf.c
 
     if (pars.precision < 0)
         pars.precision = 10;
+=======
+    
+    
+    
+    if (pars.precision < 0)
+        pars.precision = i;
+>>>>>>> lashlyn_develop:src/printf.c
 
     // consider gird
-    if (pars.gird) {
+    if (pars.gird && number != 0) {
         s21_memmove(str + 1, str, i);
         str[0] = '0';
         i++;
@@ -147,6 +155,10 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
 }
 
 
+<<<<<<< HEAD:src/s21_sprintf.c
+=======
+
+>>>>>>> lashlyn_develop:src/printf.c
 int s_func(parsing pars, va_list args, int *len_buf, char *str) {
     char *src;
     src = va_arg(args,char *);
@@ -622,7 +634,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
     int len;
     // consider the existence of point
     str[0] = buff[0] + 48;
-    if (!pars.precision) {
+    if (pars.precision == 0 && pars.gird == 0) {
         str[1] = e;
         str[2] = sign;
         str[3] = pow[0] + 48;
@@ -632,13 +644,12 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
     } else {
         str[1] = '.';
         for (int j = 0; j < pars.precision; j++) {
-            
             str[1 + 1 + j] = buff[1 + j] + 48;
-            str[2 + pars.precision] = e;
-            str[2 + pars.precision + 1] = sign;
-            str[2 + pars.precision + 2] = pow[0] + 48;
-            str[2 + pars.precision + 3] = pow[1] + 48;
         }
+        str[2 + pars.precision] = e;
+        str[2 + pars.precision + 1] = sign;
+        str[2 + pars.precision + 2] = pow[0] + 48;
+        str[2 + pars.precision + 3] = pow[1] + 48;
         str[6 + pars.precision] = '\0';
         len = pars.precision + 6;
     }
@@ -707,7 +718,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
 
 char convertToX(int value) {
     char ch;
-    if (value > 0 && value < 10) {
+    if (value >= 0 && value < 10) {
         ch = value + 48;
     } else {
         ch = value + 55;
@@ -768,7 +779,10 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     // form number 16-system
     char *data = malloc(sizeof(char *));
     int index = convert(pars, number, 16, data, pars.type);
+<<<<<<< HEAD:src/s21_sprintf.c
 
+=======
+>>>>>>> lashlyn_develop:src/printf.c
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];
     
@@ -779,6 +793,11 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
         pars.zero = 0;
     }
 
+<<<<<<< HEAD:src/s21_sprintf.c
+=======
+    if (number == 0)
+        pars.gird = 0;
+>>>>>>> lashlyn_develop:src/printf.c
     if (pars.precision < 0)
         pars.precision = i;
 
@@ -815,25 +834,36 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
         str[pars.precision] = '\0';
     }
 
+<<<<<<< HEAD:src/s21_sprintf.c
 
 
     // if width > len
     if (pars.width > len) {
         if (!pars.minus) {
    
+=======
+    // if width > len
+    if (pars.width > len) {
+        if (!pars.minus) {
+>>>>>>> lashlyn_develop:src/printf.c
             s21_memmove(str + pars.width - len, str, len);
             
             if (pars.zero) {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = '0';
                 if (pars.gird) {
-                    str[0] = '0';
-                    str[1] = 'x';
+                    
+                        str[0] = '0';
+                        str[1] = 'x';
+                    
                 }
             } else {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = ' ';
+<<<<<<< HEAD:src/s21_sprintf.c
                     
+=======
+>>>>>>> lashlyn_develop:src/printf.c
 
                 if (pars.gird) {
                     str[pars.width - pars.precision - 1] = 'x';
@@ -860,6 +890,10 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
 
 
 
+<<<<<<< HEAD:src/s21_sprintf.c
+=======
+
+>>>>>>> lashlyn_develop:src/printf.c
 int n_func(va_list args, int length) {
     int *number = va_arg(args, int*);
     *number = length;
@@ -893,7 +927,11 @@ int u_func(parsing pars, va_list args, int *len_buf, char *str) {
             i++;
         }
     } else {
+<<<<<<< HEAD:src/s21_sprintf.c
         if (pars.precision < 0) {
+=======
+        if (pars.precision != 0 || pars.point == 0) {
+>>>>>>> lashlyn_develop:src/printf.c
             buff[i] = 0;
             i++;
         }
@@ -1053,7 +1091,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number) {
     
     
     // consider the existence of point
-    if (!pars.precision) {
+    if (pars.precision == 0 && pars.gird == 0) {
         str[whole] = '\0';
         len = whole;
     } else {
@@ -1126,6 +1164,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number) {
 int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
 
     
+<<<<<<< HEAD:src/s21_sprintf.c
     if (pars.point && pars.precision >= 0)
         pars.zero = 0;
 
@@ -1242,6 +1281,124 @@ int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
     }
 
     return 1;
+=======
+       if (pars.point && pars.precision >= 0)
+           pars.zero = 0;
+
+       long int number = va_arg(args, long int);
+
+           
+       if (pars.leng == 0) {
+           number = (int)number;
+       } else if (pars.leng == 'h') {
+           number = (short int)number;
+       }
+
+       char c;
+       if (number < 0) {
+           number = number * (-1);
+           c = '-';
+           pars.plus = 1;
+           pars.space = 0;
+       } else {
+           c = '+';
+       }
+
+       // size of number
+       long int buf = number;
+       int i = 0;
+       long int buff[100];
+       if (buf) {
+           while (buf) {
+               buff[i] = buf % 10;
+               buf = buf / 10;
+               i++;
+           }
+       } else {
+           if (pars.precision != 0 || pars.point == 0) {
+               buff[i] = 0;
+               i++;
+           }
+       }
+
+       for (int j = 0; j < i; j++) {
+           str[j] = buff[i - j - 1] + 48;
+       }
+       str[i] = '\0';
+
+
+
+       // precision solve
+       if (pars.precision > i) {
+           s21_memmove(str + pars.precision - i, str, i);
+           for (int j = 0; j < pars.precision - i; j++) {
+               str[j] = '0';
+           }
+       } else {
+           pars.precision = i;
+       }
+
+
+       // consider plus
+       int len;
+       if (pars.plus || pars.space) {
+           len = pars.precision + 1;
+       } else {
+           len = pars.precision;
+       }
+
+
+       // str after with precision
+       if (pars.plus) {
+           s21_memmove(str + 1, str, pars.precision);
+           str[0] = c;
+           str[pars.precision + 1] = '\0';
+       } else {
+           if (pars.space) {
+               s21_memmove(str + 1, str, pars.precision);
+               str[0] = ' ';
+               str[pars.precision + 1] = '\0';
+           } else {
+               str[pars.precision] = '\0';
+           }
+       }
+
+       // if width > len
+       if (pars.width > len) {
+           if (!pars.minus) {
+
+               s21_memmove(str + pars.width - len, str, len);
+
+               
+               if (pars.zero) {
+                   for (int j = 0; j < pars.width - pars.precision; j++)
+                       str[j] = '0';
+                   if (pars.plus) {
+                       str[0] = c;//+
+                   } else if (pars.space) {
+                       str[0] = ' ';//+
+                   }
+               } else {
+                   for (int j = 0; j < pars.width - pars.precision; j++)
+                       str[j] = ' ';
+
+                   if (pars.plus) {
+                       str[pars.width - pars.precision - 1] = c;
+                   }
+               }
+           } else {
+               for (int j = len; j < pars.width; j++) {
+                   str[j] = ' ';
+               }
+               str[pars.width] = '\0';
+           }
+           *len_buf = pars.width;
+       } else {
+           *len_buf = len;
+       }
+
+       return 1;
+>>>>>>> lashlyn_develop:src/printf.c
 }
 
 
@@ -1445,7 +1602,7 @@ int spec(char c) {
 
 int leng(char c) {
     int result = 0;
-    if (c == 'L' || c == 'I' || c == 'h') {
+    if (c == 'L' || c == 'l' || c == 'h') {
         result = 1;
     }
     return result;
