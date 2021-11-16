@@ -101,16 +101,14 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
     src[0] = '0';
     src[1] = 'x';
     src[2] = '\0';
-    
-    
-    
     if((void *)num == NULL) {
         if (pars.point != 0) {
-              src[2] = '\0';
-            } else {
-              src[2] = '0';
-              src[3] = '\0';
-            }
+            src[2] = '\0';
+        } else {
+            src[2] = '0';
+            src[3] = '\0';
+        }
+
         }
 
     s21_strcat(src,reverse);
@@ -872,9 +870,6 @@ int convert(parsing pars, long unsigned num ,long unsigned divider,char *data, c
 }
 
 
-
-
-
 int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     long unsigned number = va_arg(args,long unsigned);
     if (pars.leng == 0) {
@@ -890,14 +885,21 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
         str[index - i] = data[i];
     
     str[index + 1] = '\0';
-    int i = index+1;
+    int i = index + 1;
 
     if (pars.point != 0 && pars.precision >= 0) {
         pars.zero = 0;
     }
-
-    if (number == 0)
+    if (number == 0) {
+        if (pars.point == 0) {
+            str[0] = '0';
+            str[1] = '\0';
+            i = 1;
+        }
         pars.gird = 0;
+    }
+
+
     if (pars.precision < 0)
         pars.precision = i;
 
@@ -907,13 +909,12 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
         for (int j = 0; j < pars.precision - i; j++) {
             str[j] = '0';
         }
-    } else if (pars.precision == 0 && number == 0) {
-        str[0] = ' ';
+    } else if (pars.precision == 0/* && number == 0*/) {
+        //str[0] = ' ';
         pars.precision = i;
     } else {
         pars.precision = i;
     }
-
 
     // consider gird
     int len;
@@ -922,7 +923,6 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         len = pars.precision;
     }
-
 
     // str after with precision
     if (pars.gird) {
@@ -934,6 +934,7 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
         str[pars.precision] = '\0';
     }
 
+
     // if width > len
     if (pars.width > len) {
         if (!pars.minus) {
@@ -943,15 +944,12 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = '0';
                 if (pars.gird) {
-                    
-                        str[0] = '0';
-                        str[1] = 'x';
-                    
+                    str[0] = '0';
+                    str[1] = 'x';
                 }
             } else {
                 for (int j = 0; j < pars.width - pars.precision; j++)
                     str[j] = ' ';
-
                 if (pars.gird) {
                     str[pars.width - pars.precision - 1] = 'x';
                     str[pars.width - pars.precision - 2] = '0';
@@ -970,8 +968,6 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     free(data);
     return *len_buf;
 }
-
-
 
 
 

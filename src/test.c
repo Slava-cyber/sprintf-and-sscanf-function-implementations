@@ -6674,12 +6674,12 @@ END_TEST
 
 START_TEST (SPRINTFTestdogletho169)
 {
-    //    char *str, *str1 = NULL;
-    //    str = (char*)malloc(200 * sizeof(char));
-    //    str1 = (char*)malloc(200 * sizeof(char));
-    //    sprintf(str, "|%20.p|\n",NULL);
-    //    s21_sprintf(str1, "|%20.p|\n",NULL);
-    //    ck_assert_str_eq(str,str1);
+        char *str, *str1 = NULL;
+        str = (char*)malloc(200 * sizeof(char));
+        str1 = (char*)malloc(200 * sizeof(char));
+        sprintf(str, "|%20.p|\n",NULL);
+        s21_sprintf(str1, "|%20.p|\n",NULL);
+        ck_assert_str_eq(str,str1);
 }
 END_TEST
 
@@ -7748,8 +7748,8 @@ START_TEST (SPRINTFTestdogletho260)
     
         str = (char*)malloc(200 * sizeof(char));
         str1 = (char*)malloc(200 * sizeof(char));
-            sprintf(str, "%x", 0);
-            s21_sprintf(str1, "%x", 0);
+            sprintf(str, " %#x ", 0);
+            s21_sprintf(str1, " %#x ", 0);
             ck_assert_str_eq(str,str1);
 }
 END_TEST
@@ -7769,6 +7769,261 @@ START_TEST (SPRINTFTestdogletho261)
 }
 END_TEST
 
+START_TEST (SPRINTFTestdogletho262)
+{
+    char *str, *str1 = NULL;
+    
+    str = (char*)malloc(200 * sizeof(char));
+    str1 = (char*)malloc(200 * sizeof(char));
+        sprintf(str, "%#o", 143646235);
+        s21_sprintf(str1, "%#o", 143646235);
+        ck_assert_str_eq(str,str1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho263)
+{
+    char *str, *str1 = NULL;
+    
+    str = (char*)malloc(200 * sizeof(char));
+    str1 = (char*)malloc(200 * sizeof(char));
+        sprintf(str, "%0*.o", 10, 143646235);
+        s21_sprintf(str1, "%0*.o", 10, 143646235);
+        ck_assert_str_eq(str,str1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho264) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%o|\n", 34);
+    sprintf(data1,"02) standart PRINTF : |%o|\n", 34);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho265) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%o|\n", -34);
+    sprintf(data1,"02) standart PRINTF : |%o|\n", -34);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho266) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%-o|\n", 50);
+    sprintf(data1,"02) standart PRINTF : |%-o|\n", 50);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+START_TEST (SPRINTFTestdogletho267) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%10o|\n", 90);
+    sprintf(data1,"02) standart PRINTF : |%10o|\n", 90);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho268) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%.10o|\n", 90);
+    sprintf(data1,"02) standart PRINTF : |%.10o|\n", 90);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho269) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%15o|\n", -100);
+    sprintf(data1,"02) standart PRINTF : |%15o|\n", -100);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho270) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%.15o|\n", -100);
+    sprintf(data1,"02) standart PRINTF : |%.15o|\n", -100);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho271) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%10.5o|\n", 52);
+    sprintf(data1,"02) standart PRINTF : |%10.5o|\n", 52);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho272) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%5.10o|\n", 52);
+    sprintf(data1,"02) standart PRINTF : |%5.10o|\n", 52);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho273) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%20.15o|\n", -100000);
+    sprintf(data1,"02) standart PRINTF : |%20.15o|\n", -100000);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho274) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%15.20o|\n", -100000);
+    sprintf(data1,"02) standart PRINTF : |%15.20o|\n", -100000);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho275) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%-10o|\n", 144);
+    sprintf(data1,"02) standart PRINTF : |%-10o|\n", 144);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho276) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%-.10o|\n", 144);
+    sprintf(data1,"02) standart PRINTF : |%-.10o|\n", 144);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho277) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%-20o|\n", -20000000);
+    sprintf(data1,"02) standart PRINTF : |%-20o|\n", -20000000);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho278) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%08o|\n", 64);
+    sprintf(data1,"02) standart PRINTF : |%08o|\n", 64);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho279) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%.o|\n", 0);
+    sprintf(data1,"02) standart PRINTF : |%.o|\n", 0);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho280) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%.o|\n", 88);
+    sprintf(data1,"02) standart PRINTF : |%.o|\n", 88);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho281) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"02) standart PRINTF : |%o| |%o|\n", (unsigned int)-1,  1);
+    sprintf(data1,"02) standart PRINTF : |%o| |%o|\n", (unsigned int)-1, 1);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho282) {
+    
+    char data[100];
+    char data1[100];
+    
+    s21_sprintf(data,"01)SPRINTF : |%f|\n", 1.11111111111111111);
+    sprintf(data1,"01)SPRINTF : |%f|\n", 1.11111111111111111);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+
+
 
 //MARK: - Sprintf tests by rleopard
 
@@ -7777,39 +8032,38 @@ START_TEST (SPRINTFTestRleonard1) {
     char data1[200];
     s21_sprintf(data,"%li", 100000000000000000);
     sprintf(data1,"%li", 100000000000000000);
-    
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-
-
 START_TEST (SPRINTFTestRleonard2) {
-    char data[200];
-    char data1[200];
-    s21_sprintf(data,"%lx", 100000000000000000);
-    sprintf(data1,"%lx", 100000000000000000);
-    
+    char *data, *data1 = NULL;
+    data = (char*)malloc(200 * sizeof(char));
+    data1 = (char*)malloc(200 * sizeof(char));
+    s21_sprintf(data,"%lo", 100000000000000000);
+    sprintf(data1,"%lo", 100000000000000000);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
 START_TEST (SPRINTFTestRleonard3) {
-    char data[200];
-    char data1[200];
-    s21_sprintf(data,"%lX", 100000000000000000);
-    sprintf(data1,"%lX", 100000000000000000);
-    
-    ck_assert_str_eq(data,data1);
+//    char data[200];
+//    char data1[200];
+//    s21_sprintf(data,"%lu", 100000000000000000);
+//    sprintf(data1,"%lu", 100000000000000000);
+//
+//    ck_assert_str_eq(data,data1);
 }
 END_TEST
 
 START_TEST (SPRINTFTestRleonard4) {
     char data[200];
     char data1[200];
-    s21_sprintf(data,"%ld", 100000000000000000);
-    sprintf(data1,"%ld", 100000000000000000);
-    
+    s21_sprintf(data,"%lx", 100000000000000000);
+    sprintf(data1,"%lx", 100000000000000000);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -7817,22 +8071,19 @@ END_TEST
 START_TEST (SPRINTFTestRleonard5) {
     char data[200];
     char data1[200];
-    short int i = -30000;
-    s21_sprintf(data,"%hi", i);
-    sprintf(data1,"%hi", i);
-    
+    s21_sprintf(data,"%lX", 100000000000000000);
+    sprintf(data1,"%lX", 100000000000000000);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
 START_TEST (SPRINTFTestRleonard6) {
-    char *data, *data1 = NULL;
-    data = (char*)malloc(200 * sizeof(char));
-    data1 = (char*)malloc(200 * sizeof(char));
-    short int i = -30000;
-    s21_sprintf(data,"%ho", i);
-    sprintf(data1,"%ho", i);
-    
+    char data[200];
+    char data1[200];
+    s21_sprintf(data,"%ld", 100000000000000000);
+    sprintf(data1,"%ld", 100000000000000000);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -7841,20 +8092,21 @@ START_TEST (SPRINTFTestRleonard7) {
     char data[200];
     char data1[200];
     short int i = -30000;
-    s21_sprintf(data,"%hu", i);
-    sprintf(data1,"%hu", i);
-    
+    s21_sprintf(data,"%hi", i);
+    sprintf(data1,"%hi", i);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
 START_TEST (SPRINTFTestRleonard8) {
-    char data[200];
-    char data1[200];
+    char *data, *data1 = NULL;
+    data = (char*)malloc(200 * sizeof(char));
+    data1 = (char*)malloc(200 * sizeof(char));
     short int i = -30000;
-    s21_sprintf(data,"%hx", i);
-    sprintf(data1,"%hx", i);
-    
+    s21_sprintf(data,"%ho", i);
+    sprintf(data1,"%ho", i);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -7863,9 +8115,9 @@ START_TEST (SPRINTFTestRleonard9) {
     char data[200];
     char data1[200];
     short int i = -30000;
-    s21_sprintf(data,"%hX", i);
-    sprintf(data1,"%hX", i);
-    
+    s21_sprintf(data,"%hu", i);
+    sprintf(data1,"%hu", i);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -7874,9 +8126,9 @@ START_TEST (SPRINTFTestRleonard10) {
     char data[200];
     char data1[200];
     short int i = -30000;
-    s21_sprintf(data,"%hd", i);
-    sprintf(data1,"%hd", i);
-    
+    s21_sprintf(data,"%hx", i);
+    sprintf(data1,"%hx", i);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -7884,24 +8136,102 @@ END_TEST
 START_TEST (SPRINTFTestRleonard11) {
     char data[200];
     char data1[200];
-    s21_sprintf(data,"%lc", 'c');
-    sprintf(data1,"%lc", 'c');
-    
+    short int i = -30000;
+    s21_sprintf(data,"%hX", i);
+    sprintf(data1,"%hX", i);
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-
 START_TEST (SPRINTFTestRleonard12) {
+    char data[200];
+    char data1[200];
+    short int i = -30000;
+    s21_sprintf(data,"%hd", i);
+    sprintf(data1,"%hd", i);
+
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestRleonard13) {
+    char data[200];
+    char data1[200];
+    s21_sprintf(data,"%lc", 'c');
+    sprintf(data1,"%lc", 'c');
+
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestRleonard14) {
+//    char data[200];
+//    char data1[200];
+//    wchar_t buf[100] = L"hello world";
+//    s21_sprintf(data,"%ls", buf);
+//    sprintf(data1,"%ls", buf);
+//
+//    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestRleonard15) {
     char data[200];
     char data1[200];
     long double i = 0.00000000000000000000000000000000000000000000000001;
     s21_sprintf(data,"%Lf", i);
     sprintf(data1,"%LF", i);
-    
+
     ck_assert_str_eq(data,data1);
 }
 END_TEST
+
+START_TEST (SPRINTFTestRleonard16) {
+//    char *data, *data1 = NULL;
+//    data = (char*)malloc(200 * sizeof(char));
+//    data1 = (char*)malloc(200 * sizeof(char));
+//    long double i = 1.1e+49;
+//    s21_sprintf(data,"%Le", i);
+//    sprintf(data1,"%Le", i);
+//
+//    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestRleonard17) {
+//    char data[200];
+//    char data1[200];
+//    long double i = 1.1e+49;
+//    s21_sprintf(data,"%LE", i);
+//    sprintf(data1,"%LE", i);
+//
+//    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestRleonard18) {
+//    char data[200];
+//    char data1[200];
+//    long double i = 0.00000000000000000000000000000000000000000000000001;
+//    s21_sprintf(data,"%Lg", i);
+//    sprintf(data1,"%Lg", i);
+//
+//    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestRleonard19) {
+//    char data[200];
+//    char data1[200];
+//    long double i = 0.00000000000000000000000000000000000000000000000001;
+//    s21_sprintf(data,"%LG", i);
+//    sprintf(data1,"%LG", i);
+//
+//    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
 
 
 
@@ -8733,6 +9063,27 @@ int main()
     tcase_add_test(sprintftest1, SPRINTFTestdogletho259);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho260);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho261);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho262);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho263);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho264);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho265);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho266);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho267);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho268);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho269);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho270);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho271);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho272);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho273);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho274);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho275);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho276);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho277);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho278);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho279);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho280);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho281);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho282);
     
     suite_add_tcase(s1, sprintftest3);
     tcase_add_test(sprintftest3, SPRINTFTestRleonard1);
@@ -8747,6 +9098,13 @@ int main()
     tcase_add_test(sprintftest3, SPRINTFTestRleonard10);
     tcase_add_test(sprintftest3, SPRINTFTestRleonard11);
     tcase_add_test(sprintftest3, SPRINTFTestRleonard12);
+    tcase_add_test(sprintftest3, SPRINTFTestRleonard13);
+    tcase_add_test(sprintftest3, SPRINTFTestRleonard14);
+    tcase_add_test(sprintftest3, SPRINTFTestRleonard15);
+    tcase_add_test(sprintftest3, SPRINTFTestRleonard16);
+    tcase_add_test(sprintftest3, SPRINTFTestRleonard17);
+    tcase_add_test(sprintftest3, SPRINTFTestRleonard18);
+    tcase_add_test(sprintftest3, SPRINTFTestRleonard19);
     
     
     srunner_run_all(runner, CK_NORMAL );
