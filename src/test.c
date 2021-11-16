@@ -6650,12 +6650,12 @@ END_TEST
 
 START_TEST (SPRINTFTestdogletho167)
 {
-//        char *str, *str1 = NULL;
-//        str = (char*)malloc(200 * sizeof(char));
-//        str1 = (char*)malloc(200 * sizeof(char));
-//        sprintf(str, "|%.p|\n", NULL);
-//        s21_sprintf(str1, "|%.p|\n", NULL);
-//        ck_assert_str_eq(str,str1);
+        char *str, *str1 = NULL;
+        str = (char*)malloc(200 * sizeof(char));
+        str1 = (char*)malloc(200 * sizeof(char));
+        sprintf(str, "|%.p|\n", NULL);
+        s21_sprintf(str1, "|%.p|\n", NULL);
+        ck_assert_str_eq(str,str1);
 }
 END_TEST
 
@@ -7748,8 +7748,8 @@ START_TEST (SPRINTFTestdogletho260)
     
         str = (char*)malloc(200 * sizeof(char));
         str1 = (char*)malloc(200 * sizeof(char));
-            sprintf(str, " %#x ", 0);
-            s21_sprintf(str1, " %#x ", 0);
+            sprintf(str, "%x", 0);
+            s21_sprintf(str1, "%x", 0);
             ck_assert_str_eq(str,str1);
 }
 END_TEST
