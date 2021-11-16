@@ -11,7 +11,7 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
   
     
     // form number 8-system
-    char *data = malloc(sizeof(char *));
+    char *data = (char*) malloc(200 * sizeof(char));
     int index = convert(pars, number, 8, data, pars.type);
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];
@@ -768,7 +768,7 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     }
 
     // form number 16-system
-    char *data = malloc(sizeof(char *));
+    char *data = (char*) malloc(200 * sizeof(char));
     int index = convert(pars, number, 16, data, pars.type);
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];

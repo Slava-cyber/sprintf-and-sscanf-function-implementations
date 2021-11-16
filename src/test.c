@@ -1117,34 +1117,34 @@ END_TEST
 
 START_TEST (TRIMTest1) {
     char *str = "Wo\0, I love it!";
-    char str2[] = {'W'};
+    char *str2 = "W";
     ck_assert_str_eq((char *)s21_trim(str, str2), "o");
 }
 END_TEST
 
 START_TEST (TRIMTest2) {
     char *str = "WoW, I love it!";
-    char str2[] = {'W'};
+    char *str2 = "W";
     ck_assert_str_eq((char *)s21_trim(str, str2), "oW, I love it!");
 }
 END_TEST
 
 START_TEST (TRIMTest3) {
     char *str = "WoW, I love it!";
-    char str2[] = {'W', 'o', '!'};
+    char *str2 = "Wo!";
     ck_assert_str_eq((char *)s21_trim(str, str2), ", I love it");
 }
 END_TEST
 
 START_TEST (TRIMTest4) {
     char *str = "WoW, I love it!";
-    char str2[] = {'P'};
+    char *str2 = "P";
     ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love it!");
 }
 END_TEST
 START_TEST (TRIMTest5) {
     char *str = "abc";
-    char str2[] = {'a', 'b', 'c'};
+    char *str2 = "abc";
     ck_assert_str_eq((char *)s21_trim(str, str2), "");
 }
 END_TEST
