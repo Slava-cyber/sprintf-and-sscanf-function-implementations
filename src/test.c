@@ -8033,6 +8033,66 @@ START_TEST (SPRINTFTestdogletho283) {
 }
 END_TEST
 
+START_TEST (SPRINTFTestdogletho284) {
+    
+    char data[100];
+    char data1[100];
+    s21_sprintf(data, "this -%g scientific notation", -1.5);
+    sprintf(data1, "this -%g scientific notation", -1.5);
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho285) {
+    
+    char data[100];
+    char data1[100];
+    s21_sprintf(data, "%.0g", 0.1);
+    sprintf(data1, "%.0g", 0.1);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho286) {
+    
+    char data[100];
+    char data1[100];
+    s21_sprintf(data, "%g", 9999999999.9);
+    sprintf(data1, "%g", 9999999999.9);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho287) {
+    
+    char data[100];
+    char data1[100];
+    s21_sprintf(data, "%e", 9999999999.9);
+    sprintf(data1, "%e", 9999999999.9);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho288) {
+    char data[100];
+    char data1[100];
+    s21_sprintf(data, "%0*.e", 10, 0.9);
+    sprintf(data1, "%0*.e", 10, 0.9);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
+START_TEST (SPRINTFTestdogletho289) {
+    
+    char data[100];
+    char data1[100];
+    s21_sprintf(data, "%#05x", 21);
+    sprintf(data1, "%#05x",21);
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
+
 
 //MARK: - Sprintf tests by rleopard
 
@@ -9094,6 +9154,12 @@ int main()
     tcase_add_test(sprintftest1, SPRINTFTestdogletho281);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho282);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho283);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho284);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho285);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho286);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho287);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho288);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho289);
     
     suite_add_tcase(s1, sprintftest3);
     tcase_add_test(sprintftest3, SPRINTFTestRleonard1);
