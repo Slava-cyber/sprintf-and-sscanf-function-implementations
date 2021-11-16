@@ -73,7 +73,7 @@ int s21_sprintf(char *str, char *format, ...);
 
 int c_or_percent_func(parsing pars, va_list args, int *len_buf, char *str);
 int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str);
-int f_func(parsing pars, int *len_buf, char *str, double number);
+int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird);
 int u_func(parsing pars, va_list args, int *len_buf, char *str);
 int n_func(va_list args, int length);
 
@@ -81,7 +81,7 @@ char convertTox(int value);
 char convertToX(int value);
 int convert(parsing pars, long unsigned num , long unsigned divider,char *data, char spec);
 int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str);
-int e_or_E_func(parsing pars, int *len_buf, char *str, double number);
+int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird);
 int g_or_G_func(parsing pars, int *len_buf, char *str, double number);
 int s_func(parsing pars, va_list args, int *len_buf, char *str);
 int p_func(parsing pars, va_list args, int *len_buf, char *str);

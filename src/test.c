@@ -1117,34 +1117,34 @@ END_TEST
 
 START_TEST (TRIMTest1) {
     char *str = "Wo\0, I love it!";
-    char *str2 = "W";
+    char str2[] = {'W'};
     ck_assert_str_eq((char *)s21_trim(str, str2), "o");
 }
 END_TEST
 
 START_TEST (TRIMTest2) {
     char *str = "WoW, I love it!";
-    char *str2 = "W";
+    char str2[] = {'W'};
     ck_assert_str_eq((char *)s21_trim(str, str2), "oW, I love it!");
 }
 END_TEST
 
 START_TEST (TRIMTest3) {
     char *str = "WoW, I love it!";
-    char *str2 = "Wo!";
+    char str2[] = {'W', 'o', '!'};
     ck_assert_str_eq((char *)s21_trim(str, str2), ", I love it");
 }
 END_TEST
 
 START_TEST (TRIMTest4) {
     char *str = "WoW, I love it!";
-    char *str2 = "P";
+    char str2[] = {'P'};
     ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love it!");
 }
 END_TEST
 START_TEST (TRIMTest5) {
     char *str = "abc";
-    char *str2 = "abc";
+    char str2[] = {'a', 'b', 'c'};
     ck_assert_str_eq((char *)s21_trim(str, str2), "");
 }
 END_TEST
@@ -3931,11 +3931,11 @@ END_TEST
 
 START_TEST (SPRINTFTestLaslhyn246) {
     
-    //    char data[100];
-    //     char data1[100];
-    //     s21_sprintf(data,"|%+*.*g|\n", 10,10, 0.0000001);
-    //     sprintf(data1,"|%+*.*g|\n",10,10,0.0000001);
-    //     ck_assert_str_eq(data,data1);
+        char data[100];
+         char data1[100];
+         s21_sprintf(data,"|%+*.*g|\n", 10,10, 0.0000001);
+         sprintf(data1,"|%+*.*g|\n",10,10,0.0000001);
+         ck_assert_str_eq(data,data1);
 }
 END_TEST
 
@@ -4194,12 +4194,11 @@ START_TEST (SPRINTFTestLaslhyn271) {
 END_TEST
 
 START_TEST (SPRINTFTestLaslhyn272) {
-    //MARK: - ERROR
-    //    char data[100];
-    //    char data1[100];
-    //    s21_sprintf(data,"|%+*.*G|\n", 10,10, 0.0000001);
-    //    sprintf(data1,"|%+*.*G|\n",10,10,0.0000001);
-    //    ck_assert_str_eq(data,data1);
+        char data[100];
+        char data1[100];
+        s21_sprintf(data,"|%+*.*G|\n", 10,10, 0.0000001);
+        sprintf(data1,"|%+*.*G|\n",10,10,0.0000001);
+        ck_assert_str_eq(data,data1);
 }
 END_TEST
 
@@ -6651,12 +6650,12 @@ END_TEST
 
 START_TEST (SPRINTFTestdogletho167)
 {
-    //    char *str, *str1 = NULL;
-    //    str = (char*)malloc(200 * sizeof(char));
-    //    str1 = (char*)malloc(200 * sizeof(char));
-    //    sprintf(str, "|%.p|\n", NULL);
-    //    s21_sprintf(str1, "|%.p|\n", NULL);
-    //    ck_assert_str_eq(str,str1);
+//        char *str, *str1 = NULL;
+//        str = (char*)malloc(200 * sizeof(char));
+//        str1 = (char*)malloc(200 * sizeof(char));
+//        sprintf(str, "|%.p|\n", NULL);
+//        s21_sprintf(str1, "|%.p|\n", NULL);
+//        ck_assert_str_eq(str,str1);
 }
 END_TEST
 
@@ -7745,13 +7744,13 @@ END_TEST
 
 START_TEST (SPRINTFTestdogletho260)
 {
-    //    char *str, *str1 = NULL;
-    //
-    //    str = (char*)malloc(200 * sizeof(char));
-    //    str1 = (char*)malloc(200 * sizeof(char));
-    //        sprintf(str, " %#x ", 0);
-    //        s21_sprintf(str1, " %#x ", 0);
-    //        ck_assert_str_eq(str,str1);
+        char *str, *str1 = NULL;
+    
+        str = (char*)malloc(200 * sizeof(char));
+        str1 = (char*)malloc(200 * sizeof(char));
+            sprintf(str, " %#x ", 0);
+            s21_sprintf(str1, " %#x ", 0);
+            ck_assert_str_eq(str,str1);
 }
 END_TEST
 

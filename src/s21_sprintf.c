@@ -11,7 +11,7 @@ int o_func(parsing pars, va_list args, int *len_buf, char *str) {
   
     
     // form number 8-system
-    char *data = (char*) malloc(200 * sizeof(char));
+    char *data = malloc(200*sizeof(char *));
     int index = convert(pars, number, 8, data, pars.type);
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];
@@ -187,17 +187,10 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
     char *str_e = NULL;
     str_e = (char*) malloc(200 * sizeof(char));
     // save sign
-    char c;
+    //char c;
     double save_number = number;
-    if (number < 0) {
+    if (number < 0)
         number = number * (-1);
-        c = '-';
-        pars.plus = 1;
-        pars.space = 0;
-    } else {
-        c = '+';
-    }
-    // change type
     if (pars.type == 'g') {
         pars.type = 'e';
     } else {
@@ -207,13 +200,15 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
     // save precision
     if (!pars.point || pars.precision < 0)
         pars.precision = 6;
+    
     if (!pars.precision)
         pars.precision = 1;
+
     double buf, ost = modf(number, &buf);
     long int buf1 = (long int)buf;
     int buff[100], buff1[100], i = 0, whole = 0;
-    
     //parsing of whole part of number
+
     if (buf1) {
         while (buf1) {
             buff1[i] = buf1 % 10;
@@ -224,56 +219,62 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         buff1[i] = 0;
         i++;
     }
+
     whole = i;
-    
+
     // switch to true direction
     for (int j = 0; j < i; j++) {
         buff[j] = buff1[i - j - 1];
     }
+
     int non_zero = whole;
     if (!buff[0])
         non_zero = 0;
-    
+
     // free buffer;
     for (int j = 0; j < 100; j++)
         buff1[j] = 0;
     
+    int j = 0;
+
     int last, shortage;
-    if (non_zero >= pars.precision) {
+    if (non_zero == pars.precision) {
         shortage = 1;
+    } else if (non_zero > pars.precision) {
+        shortage = 0;
     } else {
         shortage = pars.precision - non_zero + 1;
     }
-    
+
     // add fraction part of number and parsing
-    if (!non_zero) {
-        last = 0;
-        int flag = 0;
-        while (non_zero!=shortage) {
-            ost = ost * 10.0;
-            ost = modf(ost, &buf);
-            buff[i + last] = (int)buf;
-            if (flag) {
-                non_zero++;
-            } else if (buff[i+last]) {
-                flag = 1;
-                non_zero++;
+        if (!non_zero) {
+            last = 0;
+            int flag = 0;
+            while (non_zero!=shortage) {
+                ost = ost * 10.0;
+                ost = modf(ost, &buf);
+                buff[i + last] = (int)buf;
+                if (flag) {
+                    non_zero++;
+                } else if (buff[i+last]) {
+                    flag = 1;
+                    non_zero++;
+                }
+                last++;
             }
-            last++;
+        } else {
+            for(last = 0; last < shortage; last++) {
+                ost = ost * 10.0;
+                ost = modf(ost, &buf);
+                buff[i + last] = (int)buf;
+            }
         }
-    } else {
-        for(last = 0; last < shortage; last++) {
-            ost = ost * 10.0;
-            ost = modf(ost, &buf);
-            buff[i + last] = (int)buf;
-        }
-    }
     last--;
     last = i + last;
     for (int j = 0; j <= last; j++) {
-        
+
     }
-    
+
     // round using size of precision
     // take the last element
     int all = last;
@@ -293,7 +294,7 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         }
     }
     for (int j = 0; j <= last; j++) {
-        
+
     }
     // form new finish array with numbers
     if (buff[0] > 9) {
@@ -307,116 +308,39 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         for (int j = 0; j < last; j++)
             buff1[j] = buff[j];
     }
+    
+    
     buff1[last] = 0;
     for (int j = 0; j < last; j++) {
-        
     }
-    
     // free buffer;
     for (int j = 0; j < 100; j++)
         buff[j] = 0;
     //calculate negative power
-    int j = 0;
+    j = 0;
     while (!buff1[j])
         j++;
-    int len;
-    
-    int mustnumber = pars.precision;
-    
-    
-    if (whole > mustnumber || j > 4) {
-        pars.precision = mustnumber - 1;
-        e_or_E_func(pars, &len_e, str_e, save_number);
+
+
+    if (whole > pars.precision || j > 4) {
+            pars.precision--;
+            e_or_E_func(pars, &len_e, str_e, save_number, pars.gird + 1);
         s21_strcat(str, str_e);
         *len_buf = len_e;
     } else {
-        for (int j = 0; j < whole; j++) {
-            str[j] = buff1[j] + 48;
-            
-        }
+
+
         
-        
-        last--;
-        while(buff1[last] == 0 && last >= whole) {
-            buff1[last] = -1;
-            last--;
-        }
-        
-        i = whole;
-        
-        
-        if (last >= whole) {
-            str[i] = '.';
-            
-            while (i <= last) {
-                
-                if (buff1[i] >= 0)
-                    str[i + 1] = buff1[i] + 48;
-                i++;
-            }
-            
-            str[i + 1] = '\0';
-            len = i + 1;
-            
-        } else {
-            str[i] = '\0';
-            len = i;
-        }
-        
-        int len1 = len;
-        if (pars.plus || pars.space) {
-            len1 = len + 1;
-        }
-        //pars.precision = i;
-        
-        if (pars.plus) {
-            s21_memmove(str + 1, str, len);
-            str[0] = c;
-            str[len + 1] = '\0';
-        } else {
-            if (pars.space) {
-                s21_memmove(str + 1, str, len);
-                str[0] = ' ';
-                str[len + 1] = '\0';
-            }
-        }
-        
-        
-        if (pars.width > len) {
-            if (!pars.minus) {
-                
-                s21_memmove(str + pars.width - len1, str, len1);
-                
-                if (pars.zero) {
-                    for (int j = 0; j < pars.width - len; j++)
-                        str[j] = '0';
-                    
-                    if (pars.plus) {
-                        str[0] = c;
-                    } else if (pars.space) {
-                        str[0] = ' ';
-                    }
-                } else {
-                    for (int j = 0; j < pars.width - len; j++)
-                        str[j] = ' ';
-                    
-                    
-                    
-                    if (pars.plus) {
-                        str[pars.width - len - 1] = c;
-                    }
-                }
+            if (j != 0) {
+                pars.precision = pars.precision + j - 1;
             } else {
-                for (int j = len1; j < pars.width; j++) {
-                    str[j] = ' ';
-                }
+                pars.precision = pars.precision - whole;
             }
-            *len_buf = pars.width;
-            str[pars.width] = '\0';
-        } else {
-            *len_buf = len1;
-        }
+            f_func(pars, &len_e, str_e, save_number, pars.gird + 1);
+        s21_strcat(str, str_e);
+        *len_buf = len_e;
     }
+    free(str_e);
     return 1;
 }
 
@@ -425,9 +349,10 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
 
 
 
-int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
-    
-    
+
+
+int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird) {
+
     *len_buf = 0;
     char e = pars.type;
     //printf("precision:%d\n", pars.precision);
@@ -441,16 +366,16 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
     } else {
         c = '+';
     }
-    
+
     // save precision
     if (!pars.point || pars.precision < 0)
         pars.precision = 6;
-    
-    
+
+
     double buf, ost = modf(number, &buf);
     long int buf1 = (long int)buf;
     int buff[100], buff1[100], i = 0;
-    
+
     
     //parsing of whole part of number
     if (buf1) {
@@ -463,68 +388,69 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
         buff1[i] = 0;
         i++;
     }
-    
+
     int whole = i;
-    
-    
-    
+
+
     // switch to true direction
     for (int j = 0; j < i; j++) {
         buff[j] = buff1[i - j - 1];
+
     }
     
     // free buffer;
     for (int j = 0; j < 100; j++)
         buff1[j] = 0;
-    
-    
+
+        
     int non_zero = whole;
     if (!buff[0])
         non_zero = 0;
-    
+
     int last, shortage;
-    if (non_zero >= pars.precision) {
+    if (non_zero == pars.precision) {
         shortage = 2;
+    } else if (non_zero == pars.precision + 1) {
+        shortage = 1;
+    } else if (non_zero > pars.precision + 1) {
+        shortage = 0;
     } else {
         shortage = pars.precision + 2 - non_zero;
     }
-    
-    
+
     // add fraction part of number and parsing
-    if (!non_zero) {
-        last = 0;
-        int flag = 0;
-        while (non_zero!=shortage) {
-            ost = ost * 10.0;
-            ost = modf(ost, &buf);
-            buff[i + last] = (int)buf;
-            if (flag) {
-                non_zero++;
-            } else if (buff[i+last]) {
-                flag = 1;
-                non_zero++;
+        if (!non_zero) {
+            last = 0;
+            int flag = 0;
+            while (non_zero!=shortage) {
+                ost = ost * 10.0;
+                ost = modf(ost, &buf);
+                buff[i + last] = (int)buf;
+                if (flag) {
+                    non_zero++;
+                } else if (buff[i+last]) {
+                    flag = 1;
+                    non_zero++;
+                }
+                last++;
             }
-            last++;
+        } else {
+            for(last = 0; last < shortage; last++) {
+                ost = ost * 10.0;
+                ost = modf(ost, &buf);
+                buff[i + last] = (int)buf;
+            }
         }
-    } else {
-        for(last = 0; last < shortage; last++) {
-            ost = ost * 10.0;
-            ost = modf(ost, &buf);
-            buff[i + last] = (int)buf;
-        }
-    }
-    
+
     last--;
     last = i + last;
     for (int j = 0; j <= last; j++) {
-        
     }
     
-    
-    
+
     // round using size of precision
     // take the last element
-    
+
     int all = last;
     if (buff[last] >= 5) {
         int flag = 1;
@@ -541,11 +467,10 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
             }
         }
     }
-    
+
     for (int j = 0; j <= last; j++) {
-        
     }
-    
+
     // form new finish array with numbers
     if (buff[0] > 9) {
         buff1[0] = 1;
@@ -558,25 +483,22 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
         for (int j = 0; j < last; j++)
             buff1[j] = buff[j];
     }
-    
+
     buff1[last] = 0;
-    
+
     for (int j = 0; j < last; j++) {
-        
     }
-    
-    
-    
+
     // free buffer;
     for (int j = 0; j < 100; j++)
         buff[j] = 0;
-    
+   
     //calculate negative power
     int j = 0;
     while (!buff1[j])
         j++;
     
-    
+
     // change array for %e
     int flag = 0, k = 0;
     for (int j = 0; j < last; j++) {
@@ -589,25 +511,32 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
             flag++;
         }
     }
-    
-    for (int j = 0; j < k; j++) {
-        //    str[j] = buff1[j] + 48;
-        
+
+        for (int j = 0; j < k; j++) {
+    //    str[j] = buff1[j] + 48;
     }
-    
+   
     // form power value
     int power;
     char sign;
     if (k == last) {
         power = whole - 1;
         sign = '+';
-        
     } else {
         power = last - k;
         sign = '-';
-        
+
     }
-    
+
+        // from g change
+    if (from_g_gird == 1) {
+        while(buff[k - 1] == 0 && pars.precision >=0) {
+            pars.precision--;
+            k--;
+        }
+    }
+
+
     // form power array;
     int pow[2];
     i = 0;
@@ -621,7 +550,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
         pow[0] = 0;
         pow[1] = power;
     }
-    
+
     int len;
     // consider the existence of point
     str[0] = buff[0] + 48;
@@ -644,15 +573,14 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
         str[6 + pars.precision] = '\0';
         len = pars.precision + 6;
     }
-    
-    
+
     // consider plus and space
     int len1 = len;
     if (pars.plus || pars.space) {
         len1 = len + 1;
     }
     //pars.precision = i;
-    
+
     if (pars.plus) {
         s21_memmove(str + 1, str, len);
         str[0] = c;
@@ -665,19 +593,19 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
         }
     }
     
-    
-    
+
     
     
     if (pars.width > len) {
         if (!pars.minus) {
-            
+ 
             s21_memmove(str + pars.width - len1, str, len1);
+
             
             if (pars.zero) {
                 for (int j = 0; j < pars.width - len; j++)
                     str[j] = '0';
-                
+
                 if (pars.plus) {
                     str[0] = c;
                 } else if (pars.space) {
@@ -686,9 +614,8 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
             } else {
                 for (int j = 0; j < pars.width - len; j++)
                     str[j] = ' ';
-                
-                
-                
+
+
                 if (pars.plus) {
                     str[pars.width - len - 1] = c;
                 }
@@ -703,9 +630,191 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number) {
     } else {
         *len_buf = len1;
     }
-    
+
     return 1;
 }
+
+
+
+
+int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird) {
+
+    // save sign
+    char c;
+    if (number < 0) {
+        number = number * (-1);
+        c = '-';
+        pars.plus = 1;
+        pars.space = 0;
+    } else {
+        c = '+';
+    }
+    // save precision
+    if (!pars.point || pars.precision < 0)
+        pars.precision = 6;
+
+    double buf, ost = modf(number, &buf);
+    long int buf1 = (long int)buf;
+    int buff[100], buff1[100], i = 0, len;
+    
+    //parsing of whole part of number
+    if (buf1) {
+        while (buf1) {
+            buff1[i] = buf1 % 10;
+            buf1 = buf1 / 10;
+            i++;
+        }
+    } else {
+        buff1[i] = 0;
+        i++;
+    }
+
+    int whole = i;
+
+    // switch to true direction
+    for (int j = 0; j < i; j++) {
+        buff[j] = buff1[i - j - 1];
+    }
+    
+    // free buffer;
+    for (int j = 0; j < 100; j++)
+        buff1[j] = 0;
+
+    
+    // add fraction part of number and parsing
+    for(int j = 0; j <= pars.precision; j++) {
+        ost = ost * 10.0;
+        ost = modf(ost, &buf);
+        buff[i + j] = (int)buf;
+    }
+
+
+    //for (int j = 0; j <= i + pars.precision; j++) {
+    //    printf("buff:%d\n", buff[j]);
+    //}
+
+    
+    // round using size of precision
+    int all = i + pars.precision;
+    if (buff[i + pars.precision] >= 5) {
+        int flag = 1;
+        while(flag) {
+            all--;
+            if (all == -1)
+                break;
+            buff[all]++;
+            if (buff[all] > 9 && all != 0) {
+                buff[all] = 0;
+                continue;
+            } else {
+                break;
+            }
+        }
+    }
+
+    for (int j = 0; j <= i + pars.precision; j++) {
+
+    }
+
+    // form new finish array with numbers
+    if (buff[0] > 9) {
+        buff1[0] = 1;
+        buff1[1] = 0;
+        for (int j = 1; j < whole + pars.precision; j++)
+            buff1[j + 1] = buff[j];
+        whole++;
+    } else {
+        for (int j = 0; j < whole + pars.precision; j++)
+            buff1[j] = buff[j];
+    }
+
+    for (int j = 0; j < whole; j++) {
+        str[j] = buff1[j] + 48;
+    }
+
+
+            // from g change
+    int k = whole + pars.precision;
+    if (from_g_gird == 1) {
+        while(buff[k - 1] == 0 && pars.precision >= 0) {
+            pars.precision--;
+            k--;
+        }
+    }
+
+    // consider the existence of point
+    if (pars.precision == 0 && pars.gird == 0) {
+        str[whole] = '\0';
+        len = whole;
+    } else {
+        str[whole] = '.';
+        for (int j = 0; j < pars.precision; j++) {
+
+            str[whole + 1 + j] = buff1[whole + j] + 48;
+        }
+        str[whole + pars.precision  + 1] = '\0';
+        len = whole + pars.precision + 1;
+    }
+
+
+    // consider plus and space
+    int len1 = len;
+    if (pars.plus || pars.space)
+        len1 = len + 1;
+    //pars.precision = i;
+
+    if (pars.plus) {
+        s21_memmove(str + 1, str, len);
+        str[0] = c;
+        str[len + 1] = '\0';
+    } else {
+        if (pars.space) {
+            s21_memmove(str + 1, str, len);
+            str[0] = ' ';
+            str[len + 1] = '\0';
+        }
+    }
+
+    
+    if (pars.width > len) {
+        if (!pars.minus) {
+
+            s21_memmove(str + pars.width - len1, str, len1);
+
+            
+            if (pars.zero) {
+                for (int j = 0; j < pars.width - len; j++)
+                    str[j] = '0';
+
+                if (pars.plus) {
+                    str[0] = c;
+                } else if (pars.space) {
+                    str[0] = ' ';
+                }
+            } else {
+                for (int j = 0; j < pars.width - len; j++)
+                    str[j] = ' ';
+
+
+                if (pars.plus) {
+                    str[pars.width - len - 1] = c;
+                }
+            }
+        } else {
+            for (int j = len1; j < pars.width; j++) {
+                str[j] = ' ';
+            }
+        }
+        *len_buf = pars.width;
+        str[pars.width] = '\0';
+    } else {
+        *len_buf = len1;
+    }
+
+    return 1;
+}
+
+
 
 char convertToX(int value) {
     char ch;
@@ -768,7 +877,7 @@ int x_or_X_func(parsing pars, va_list args, int *len_buf, char *str) {
     }
 
     // form number 16-system
-    char *data = (char*) malloc(200 * sizeof(char));
+    char *data = malloc(sizeof(char *));
     int index = convert(pars, number, 16, data, pars.type);
     for(int i = index; i >= 0; i--)
         str[index - i] = data[i];
@@ -958,172 +1067,7 @@ int u_func(parsing pars, va_list args, int *len_buf, char *str) {
 
 
 
-int f_func(parsing pars, int *len_buf, char *str, double number) {
-    
-    // save sign
-    char c;
-    if (number < 0) {
-        number = number * (-1);
-        c = '-';
-        pars.plus = 1;
-        pars.space = 0;
-    } else {
-        c = '+';
-    }
-    // save precision
-    if (!pars.point || pars.precision < 0)
-        pars.precision = 6;
-    
-    double buf, ost = modf(number, &buf);
-    long int buf1 = (long int)buf;
-    int buff[100], buff1[100], i = 0, len;
-    
-    //parsing of whole part of number
-    if (buf1) {
-        while (buf1) {
-            buff1[i] = buf1 % 10;
-            buf1 = buf1 / 10;
-            i++;
-        }
-    } else {
-        buff1[i] = 0;
-        i++;
-    }
-    
-    int whole = i;
-    
-    // switch to true direction
-    for (int j = 0; j < i; j++) {
-        buff[j] = buff1[i - j - 1];
-    }
-    
-    // free buffer;
-    for (int j = 0; j < 100; j++)
-        buff1[j] = 0;
-    
-    
-    
-    // add fraction part of number and parsing
-    for(int j = 0; j <= pars.precision; j++) {
-        ost = ost * 10.0;
-        ost = modf(ost, &buf);
-        buff[i + j] = (int)buf;
-    }
-    
-    
-    
-    
-    // round using size of precision
-    int all = i + pars.precision;
-    if (buff[i + pars.precision] >= 5) {
-        int flag = 1;
-        while(flag) {
-            all--;
-            if (all == -1)
-                break;
-            buff[all]++;
-            if (buff[all] > 9 && all != 0) {
-                buff[all] = 0;
-                continue;
-            } else {
-                break;
-            }
-        }
-    }
-    
-    for (int j = 0; j <= i + pars.precision; j++) {
-        
-    }
-    
-    // form new finish array with numbers
-    if (buff[0] > 9) {
-        buff1[0] = 1;
-        buff1[1] = 0;
-        for (int j = 1; j < whole + pars.precision; j++)
-            buff1[j + 1] = buff[j];
-        whole++;
-    } else {
-        for (int j = 0; j < whole + pars.precision; j++)
-            buff1[j] = buff[j];
-    }
-    
-    for (int j = 0; j < whole; j++) {
-        str[j] = buff1[j] + 48;
-        
-    }
-    
-    
-    
-    // consider the existence of point
-    if (pars.precision == 0 && pars.gird == 0) {
-        str[whole] = '\0';
-        len = whole;
-    } else {
-        str[whole] = '.';
-        for (int j = 0; j < pars.precision; j++) {
-            
-            str[whole + 1 + j] = buff1[whole + j] + 48;
-        }
-        str[whole + pars.precision  + 1] = '\0';
-        len = whole + pars.precision + 1;
-    }
-    
-    
-    // consider plus and space
-    int len1 = len;
-    if (pars.plus || pars.space)
-        len1 = len + 1;
-    //pars.precision = i;
-    
-    if (pars.plus) {
-        s21_memmove(str + 1, str, len);
-        str[0] = c;
-        str[len + 1] = '\0';
-    } else {
-        if (pars.space) {
-            s21_memmove(str + 1, str, len);
-            str[0] = ' ';
-            str[len + 1] = '\0';
-        }
-    }
-    
-    
-    
-    if (pars.width > len) {
-        if (!pars.minus) {
-            
-            s21_memmove(str + pars.width - len1, str, len1);
-            
-            if (pars.zero) {
-                for (int j = 0; j < pars.width - len; j++)
-                    str[j] = '0';
-                
-                if (pars.plus) {
-                    str[0] = c;
-                } else if (pars.space) {
-                    str[0] = ' ';
-                }
-            } else {
-                for (int j = 0; j < pars.width - len; j++)
-                    str[j] = ' ';
-                
-                if (pars.plus) {
-                    str[pars.width - len - 1] = c;
-                }
-            }
-        } else {
-            for (int j = len1; j < pars.width; j++) {
-                str[j] = ' ';
-            }
-        }
-        *len_buf = pars.width;
-        str[pars.width] = '\0';
-    } else {
-        *len_buf = len1;
-    }
-    
-    return 1;
-}
+
 
 int d_or_i_func(parsing pars, va_list args, int *len_buf, char *str) {
 
@@ -1456,6 +1400,7 @@ int leng(char c) {
 
 int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, int length) {
     double number = 0;
+    int from_g_gird = 0;
     switch(pars.type) {
         case 'c':
             c_or_percent_func(pars, args, len_buf, str_add);
@@ -1465,7 +1410,7 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, in
             break;
         case 'f':
             number = va_arg(args, double);
-            f_func(pars, len_buf, str_add, number);
+            f_func(pars, len_buf, str_add, number, from_g_gird);
             break;
         case 'd':
             d_or_i_func(pars, args, len_buf, str_add);
@@ -1490,11 +1435,11 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, in
             break;
         case 'e':
             number = va_arg(args, double);
-            e_or_E_func(pars, len_buf, str_add, number);
+            e_or_E_func(pars, len_buf, str_add, number, from_g_gird);
             break;
         case 'E':
             number = va_arg(args, double);
-            e_or_E_func(pars, len_buf, str_add, number);
+            e_or_E_func(pars, len_buf, str_add, number, from_g_gird);
             break;
         case 'g':
             number = va_arg(args, double);
@@ -1513,6 +1458,8 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, in
     }
     return 1;
 }
+
+
 
 int c_or_percent_func(parsing pars, va_list args, int *len_buf, char *str) {
     char c;
