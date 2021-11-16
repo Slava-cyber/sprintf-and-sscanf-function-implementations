@@ -1117,34 +1117,34 @@ END_TEST
 
 START_TEST (TRIMTest1) {
     char *str = "Wo\0, I love it!";
-    char str2[] = {'W'};
+    char *str2 = "W";
     ck_assert_str_eq((char *)s21_trim(str, str2), "o");
 }
 END_TEST
 
 START_TEST (TRIMTest2) {
     char *str = "WoW, I love it!";
-    char str2[] = {'W'};
+    char *str2 = "W";
     ck_assert_str_eq((char *)s21_trim(str, str2), "oW, I love it!");
 }
 END_TEST
 
 START_TEST (TRIMTest3) {
     char *str = "WoW, I love it!";
-    char str2[] = {'W', 'o', '!'};
+    char *str2 = "Wo!";
     ck_assert_str_eq((char *)s21_trim(str, str2), ", I love it");
 }
 END_TEST
 
 START_TEST (TRIMTest4) {
     char *str = "WoW, I love it!";
-    char str2[] = {'P'};
+    char *str2 = "P";
     ck_assert_str_eq((char *)s21_trim(str, str2), "WoW, I love it!");
 }
 END_TEST
 START_TEST (TRIMTest5) {
     char *str = "abc";
-    char str2[] = {'a', 'b', 'c'};
+    char *str2 = "abc";
     ck_assert_str_eq((char *)s21_trim(str, str2), "");
 }
 END_TEST
@@ -8014,15 +8014,24 @@ START_TEST (SPRINTFTestdogletho282) {
     
     char data[100];
     char data1[100];
-    
-    s21_sprintf(data,"01)SPRINTF : |%f|\n", 1.11111111111111111);
-    sprintf(data1,"01)SPRINTF : |%f|\n", 1.11111111111111111);
+    int t = 50;
+    s21_sprintf(data,"%s %n", "hello world", &t);
+    sprintf(data1,"%s %n", "hello world", &t);
     
     ck_assert_str_eq(data,data1);
 }
 END_TEST
 
-
+START_TEST (SPRINTFTestdogletho283) {
+    
+    char data[100];
+    char data1[100];
+    s21_sprintf(data, "%-3.1s", "\0");
+    sprintf(data1, "%-3.1s", "\0");
+    
+    ck_assert_str_eq(data,data1);
+}
+END_TEST
 
 
 //MARK: - Sprintf tests by rleopard
@@ -8049,12 +8058,12 @@ START_TEST (SPRINTFTestRleonard2) {
 END_TEST
 
 START_TEST (SPRINTFTestRleonard3) {
-//    char data[200];
-//    char data1[200];
-//    s21_sprintf(data,"%lu", 100000000000000000);
-//    sprintf(data1,"%lu", 100000000000000000);
-//
-//    ck_assert_str_eq(data,data1);
+    char data[200];
+    char data1[200];
+    s21_sprintf(data,"%lu", 100000000000000000);
+    sprintf(data1,"%lu", 100000000000000000);
+
+    ck_assert_str_eq(data,data1);
 }
 END_TEST
 
@@ -9084,6 +9093,7 @@ int main()
     tcase_add_test(sprintftest1, SPRINTFTestdogletho280);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho281);
     tcase_add_test(sprintftest1, SPRINTFTestdogletho282);
+    tcase_add_test(sprintftest1, SPRINTFTestdogletho283);
     
     suite_add_tcase(s1, sprintftest3);
     tcase_add_test(sprintftest3, SPRINTFTestRleonard1);

@@ -692,12 +692,6 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
         ost = modf(ost, &buf);
         buff[i + j] = (int)buf;
     }
-
-
-    //for (int j = 0; j <= i + pars.precision; j++) {
-    //    printf("buff:%d\n", buff[j]);
-    //}
-
     
     // round using size of precision
     int all = i + pars.precision;
@@ -997,7 +991,7 @@ int u_func(parsing pars, va_list args, int *len_buf, char *str) {
         number = (short unsigned int)number;
     }
     // parsing number
-    unsigned int buf = number;
+    long unsigned int buf = number;
     int i = 0;
     int buff[100];
     if (buf) {
