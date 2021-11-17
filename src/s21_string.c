@@ -312,6 +312,17 @@ char *s21_strcat(char *dest, const char *src) {
     return dest;
 }
 
+char *s21_wchstrcat(char *dest, const wchar_t *src) {
+    s21_size_t l = s21_strlen(dest);
+    int x = 0;
+    for (int i = 0 ; src[i] != '\0' ; i++) {
+        dest[l + i] = src[i];
+        x++;
+    }
+    dest[l + x] = '\0';
+    return dest;
+}
+
 //MARK: - strcspn
 s21_size_t s21_strcspn(const char * str1,const char * str2) {
     

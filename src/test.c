@@ -1560,8 +1560,8 @@ END_TEST
 START_TEST (SPRINTFTestLaslhyn39) {
     char data[100];
     char data1[100];
-    s21_sprintf(data,"01)SPRINTF : |%c|\n", 'a');
-    sprintf(data1,"01)SPRINTF : |%c|\n", 'a');
+    s21_sprintf(data,"01)SPRINTF : |%*.c|\n", 0, 'a');
+    sprintf(data1,"01)SPRINTF : |%*.c|\n", 0, 'a');
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -4371,9 +4371,9 @@ START_TEST (SPRINTFTestLaslhyn288) {
     
     char data[100];
     char data1[100];
-    
-    s21_sprintf(data,"%#*.*e",10,10,-0.1);
-    sprintf(data1,"%+*.*e",10,10,-0.1);
+    float a = -0.1;
+    s21_sprintf(data,"%#*.*e",10,10,a);
+    sprintf(data1,"%+*.*e",10,10,a);
     ck_assert_str_eq(data,data1);
 }
 END_TEST
@@ -8235,13 +8235,12 @@ START_TEST (SPRINTFTestRleonard13) {
 END_TEST
 
 START_TEST (SPRINTFTestRleonard14) {
-//    char data[200];
-//    char data1[200];
-//    wchar_t buf[100] = L"hello world";
-//    s21_sprintf(data,"%ls", buf);
-//    sprintf(data1,"%ls", buf);
-//
-//    ck_assert_str_eq(data,data1);
+    char data[200];
+    char data1[200];
+    wchar_t buf[100] = L"Hello";
+    s21_sprintf(data,"%.ls", buf);
+    sprintf(data1,"%.ls", buf);
+    ck_assert_str_eq(data,data1);
 }
 END_TEST
 
@@ -8257,55 +8256,50 @@ START_TEST (SPRINTFTestRleonard15) {
 END_TEST
 
 START_TEST (SPRINTFTestRleonard16) {
-//    char *data, *data1 = NULL;
-//    data = (char*)malloc(200 * sizeof(char));
-//    data1 = (char*)malloc(200 * sizeof(char));
-//    long double i = 1.1e+49;
-//    s21_sprintf(data,"%Le", i);
-//    sprintf(data1,"%Le", i);
-//
-//    ck_assert_str_eq(data,data1);
+    char *data, *data1 = NULL;
+    data = (char*)malloc(200 * sizeof(char));
+    data1 = (char*)malloc(200 * sizeof(char));
+    long double i = 1.1e+49;
+    s21_sprintf(data,"%Le", i);
+    sprintf(data1,"%Le", i);
+
+    ck_assert_str_eq(data,data1);
 }
 END_TEST
 
 START_TEST (SPRINTFTestRleonard17) {
-//    char data[200];
-//    char data1[200];
-//    long double i = 1.1e+49;
-//    s21_sprintf(data,"%LE", i);
-//    sprintf(data1,"%LE", i);
-//
-//    ck_assert_str_eq(data,data1);
+    char data[200];
+    char data1[200];
+    long double i = 1.1e+49;
+    s21_sprintf(data,"%LE", i);
+    sprintf(data1,"%LE", i);
+
+    ck_assert_str_eq(data,data1);
 }
 END_TEST
 
 START_TEST (SPRINTFTestRleonard18) {
-//    char data[200];
-//    char data1[200];
-//    long double i = 0.00000000000000000000000000000000000000000000000001;
-//    s21_sprintf(data,"%Lg", i);
-//    sprintf(data1,"%Lg", i);
-//
-//    ck_assert_str_eq(data,data1);
+    char data[200];
+    char data1[200];
+    long double i = 0.00000000000000000000000000000000000000000000000001;
+    s21_sprintf(data,"%Lg", i);
+    sprintf(data1,"%Lg", i);
+    printf("%s", data1);
+
+    ck_assert_str_eq(data,data1);
 }
 END_TEST
 
 START_TEST (SPRINTFTestRleonard19) {
-//    char data[200];
-//    char data1[200];
-//    long double i = 0.00000000000000000000000000000000000000000000000001;
-//    s21_sprintf(data,"%LG", i);
-//    sprintf(data1,"%LG", i);
-//
-//    ck_assert_str_eq(data,data1);
+    char data[200];
+    char data1[200];
+    long double i = 0.00000000000000000000000000000000000000000000000001;
+    s21_sprintf(data,"%LG", i);
+    sprintf(data1,"%LG", i);
+
+    ck_assert_str_eq(data,data1);
 }
 END_TEST
-
-
-
-
-
-
 
 
 int main()

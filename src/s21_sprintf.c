@@ -1,6 +1,5 @@
 #include "s21_string.h"
 
-
 int o_func(parsing pars, va_list args, int *len_buf, char *str) {
     long unsigned number = va_arg(args,long unsigned);
     if (pars.leng == 0) {
@@ -156,9 +155,15 @@ int p_func(parsing pars, va_list args, int *len_buf, char *str) {
 
 
 int s_func(parsing pars, va_list args, int *len_buf, char *str) {
-    char *src;
-    src = va_arg(args,char *);
-    s21_strcat(str, src);
+    if (pars.leng == 0) {
+        char *src;
+        src = va_arg(args,char *);
+        s21_strcat(str, src);
+    } else {
+        wchar_t *src;
+        src = (wchar_t *)va_arg(args, wchar_t *);
+        s21_wchstrcat(str, src);
+    }
     if (pars.precision >= (int)s21_strlen(str) || (pars.precision == 0 && pars.point == 0) || pars.precision < 0)
         pars.precision = (int) s21_strlen(str);
     str[pars.precision] = '\0';
@@ -182,25 +187,40 @@ int s_func(parsing pars, va_list args, int *len_buf, char *str) {
     } else {
         *len_buf = pars.precision;
     }
+    
     return 1;
 }
 
 
 
-int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
+int g_or_G_func(parsing pars, int *len_buf, char *str, long double number) {
+    
+    if (pars.leng == 0)
+        number = (double)number;
+
     int len_e = 0;
     char *str_e = NULL;
     str_e = (char*) malloc(200 * sizeof(char));
     // save sign
     //char c;
-    double save_number = number;
+    long double save_number = number;
     if (number < 0)
         number = number * (-1);
+        //c = '-';
+        //pars.plus = 1;
+        //pars.space = 0;
+    //} else {
+    //    c = '+';
+    //}
+
+    // change type
     if (pars.type == 'g') {
         pars.type = 'e';
     } else {
         pars.type = 'E';
     }
+
+    //printf("number%.10f\n", number);
     
     // save precision
     if (!pars.point || pars.precision < 0)
@@ -209,9 +229,10 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
     if (!pars.precision)
         pars.precision = 1;
 
-    double buf, ost = modf(number, &buf);
+    long double buf, ost = modfl(number, &buf);
     long int buf1 = (long int)buf;
     int buff[100], buff1[100], i = 0, whole = 0;
+
     //parsing of whole part of number
 
     if (buf1) {
@@ -241,7 +262,6 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         buff1[j] = 0;
     
     int j = 0;
-
     int last, shortage;
     if (non_zero == pars.precision) {
         shortage = 1;
@@ -250,14 +270,13 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
     } else {
         shortage = pars.precision - non_zero + 1;
     }
-
     // add fraction part of number and parsing
         if (!non_zero) {
             last = 0;
             int flag = 0;
             while (non_zero!=shortage) {
                 ost = ost * 10.0;
-                ost = modf(ost, &buf);
+                ost = modfl(ost, &buf);
                 buff[i + last] = (int)buf;
                 if (flag) {
                     non_zero++;
@@ -270,15 +289,13 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         } else {
             for(last = 0; last < shortage; last++) {
                 ost = ost * 10.0;
-                ost = modf(ost, &buf);
+                ost = modfl(ost, &buf);
                 buff[i + last] = (int)buf;
             }
         }
     last--;
     last = i + last;
-    for (int j = 0; j <= last; j++) {
 
-    }
 
     // round using size of precision
     // take the last element
@@ -299,7 +316,6 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         }
     }
     for (int j = 0; j <= last; j++) {
-
     }
     // form new finish array with numbers
     if (buff[0] > 9) {
@@ -313,11 +329,13 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         for (int j = 0; j < last; j++)
             buff1[j] = buff[j];
     }
+   
     
     
     buff1[last] = 0;
     for (int j = 0; j < last; j++) {
     }
+
     // free buffer;
     for (int j = 0; j < 100; j++)
         buff[j] = 0;
@@ -327,6 +345,17 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         j++;
 
 
+    last--;
+    int gird_precision = 0;
+    while(buff1[last] == 0 && last >= whole) {
+        buff1[last] = -1;
+        gird_precision++;
+        last--;
+    }
+    //printf("gird_precision:%d", gird_precision);
+
+
+
     if (whole > pars.precision || j > 4) {
             pars.precision--;
             e_or_E_func(pars, &len_e, str_e, save_number, pars.gird + 1);
@@ -334,6 +363,7 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
         *len_buf = len_e;
     } else {
 
+        //printf("mustnumber:%d\n", mustnumber);
 
         
             if (j != 0) {
@@ -352,11 +382,10 @@ int g_or_G_func(parsing pars, int *len_buf, char *str, double number) {
 
 
 
-
-
-
-
-int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird) {
+int e_or_E_func(parsing pars, int *len_buf, char *str, long double number, int from_g_gird) {
+    
+    if (pars.leng == 0)
+        number = (double)number;
 
     *len_buf = 0;
     char e = pars.type;
@@ -375,9 +404,10 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
     // save precision
     if (!pars.point || pars.precision < 0)
         pars.precision = 6;
+ 
 
-
-    double buf, ost = modf(number, &buf);
+    long double buf, ost = modfl(number, &buf);
+    //long double ost_save = ost;
     long int buf1 = (long int)buf;
     int buff[100], buff1[100], i = 0;
 
@@ -423,13 +453,15 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
         shortage = pars.precision + 2 - non_zero;
     }
 
+
+
     // add fraction part of number and parsing
         if (!non_zero) {
             last = 0;
             int flag = 0;
             while (non_zero!=shortage) {
                 ost = ost * 10.0;
-                ost = modf(ost, &buf);
+                ost = modfl(ost, &buf);
                 buff[i + last] = (int)buf;
                 if (flag) {
                     non_zero++;
@@ -442,7 +474,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
         } else {
             for(last = 0; last < shortage; last++) {
                 ost = ost * 10.0;
-                ost = modf(ost, &buf);
+                ost = modfl(ost, &buf);
                 buff[i + last] = (int)buf;
             }
         }
@@ -450,8 +482,10 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
     last--;
     last = i + last;
     for (int j = 0; j <= last; j++) {
+
     }
     
+
 
     // round using size of precision
     // take the last element
@@ -474,6 +508,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
     }
 
     for (int j = 0; j <= last; j++) {
+
     }
 
     // form new finish array with numbers
@@ -492,8 +527,10 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
     buff1[last] = 0;
 
     for (int j = 0; j < last; j++) {
+
     }
 
+    
     // free buffer;
     for (int j = 0; j < 100; j++)
         buff[j] = 0;
@@ -524,14 +561,15 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
     // form power value
     int power;
     char sign;
-    if (k == last) {
-        power = whole - 1;
-        sign = '+';
-    } else {
-        power = last - k;
-        sign = '-';
+        if (k == last) {
+            power = whole - 1;
+            sign = '+';
 
-    }
+        } else {
+            power = last - k;
+            sign = '-';
+
+        }
 
         // from g change
     if (from_g_gird == 1) {
@@ -540,6 +578,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
             k--;
         }
     }
+
 
 
     // form power array;
@@ -569,6 +608,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
     } else {
         str[1] = '.';
         for (int j = 0; j < pars.precision; j++) {
+
             str[1 + 1 + j] = buff[1 + j] + 48;
         }
         str[2 + pars.precision] = e;
@@ -578,6 +618,7 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
         str[6 + pars.precision] = '\0';
         len = pars.precision + 6;
     }
+
 
     // consider plus and space
     int len1 = len;
@@ -597,20 +638,19 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
             str[len + 1] = '\0';
         }
     }
-    
 
     
     
     if (pars.width > len) {
         if (!pars.minus) {
- 
+;
             s21_memmove(str + pars.width - len1, str, len1);
 
             
             if (pars.zero) {
                 for (int j = 0; j < pars.width - len; j++)
                     str[j] = '0';
-
+  
                 if (pars.plus) {
                     str[0] = c;
                 } else if (pars.space) {
@@ -642,8 +682,13 @@ int e_or_E_func(parsing pars, int *len_buf, char *str, double number, int from_g
 
 
 
-int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird) {
 
+
+
+int f_func(parsing pars, int *len_buf, char *str, long double number, int from_g_gird) {
+    if (pars.leng == 0)
+        number = (double)number;
+    
     // save sign
     char c;
     if (number < 0) {
@@ -658,7 +703,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
     if (!pars.point || pars.precision < 0)
         pars.precision = 6;
 
-    double buf, ost = modf(number, &buf);
+    long double buf, ost = modfl(number, &buf);
     long int buf1 = (long int)buf;
     int buff[100], buff1[100], i = 0, len;
     
@@ -675,8 +720,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
     }
 
     int whole = i;
-
-    // switch to true direction
+    // switch to ttrue direction
     for (int j = 0; j < i; j++) {
         buff[j] = buff1[i - j - 1];
     }
@@ -689,9 +733,13 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
     // add fraction part of number and parsing
     for(int j = 0; j <= pars.precision; j++) {
         ost = ost * 10.0;
-        ost = modf(ost, &buf);
+        ost = modfl(ost, &buf);
         buff[i + j] = (int)buf;
     }
+
+
+
+
     
     // round using size of precision
     int all = i + pars.precision;
@@ -711,9 +759,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
         }
     }
 
-    for (int j = 0; j <= i + pars.precision; j++) {
-
-    }
+  
 
     // form new finish array with numbers
     if (buff[0] > 9) {
@@ -729,6 +775,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
 
     for (int j = 0; j < whole; j++) {
         str[j] = buff1[j] + 48;
+    
     }
 
 
@@ -741,6 +788,8 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
         }
     }
 
+
+
     // consider the existence of point
     if (pars.precision == 0 && pars.gird == 0) {
         str[whole] = '\0';
@@ -748,13 +797,11 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
     } else {
         str[whole] = '.';
         for (int j = 0; j < pars.precision; j++) {
-
             str[whole + 1 + j] = buff1[whole + j] + 48;
         }
         str[whole + pars.precision  + 1] = '\0';
         len = whole + pars.precision + 1;
     }
-
 
     // consider plus and space
     int len1 = len;
@@ -773,7 +820,6 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
             str[len + 1] = '\0';
         }
     }
-
     
     if (pars.width > len) {
         if (!pars.minus) {
@@ -784,7 +830,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
             if (pars.zero) {
                 for (int j = 0; j < pars.width - len; j++)
                     str[j] = '0';
-
+                    
                 if (pars.plus) {
                     str[0] = c;
                 } else if (pars.space) {
@@ -793,7 +839,7 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
             } else {
                 for (int j = 0; j < pars.width - len; j++)
                     str[j] = ' ';
-
+                    
 
                 if (pars.plus) {
                     str[pars.width - len - 1] = c;
@@ -809,9 +855,11 @@ int f_func(parsing pars, int *len_buf, char *str, double number, int from_g_gird
     } else {
         *len_buf = len1;
     }
-
     return 1;
 }
+
+
+
 
 
 
@@ -1396,7 +1444,7 @@ int leng(char c) {
 
 
 int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, int length) {
-    double number = 0;
+    long double number = 0.0;
     int from_g_gird = 0;
     switch(pars.type) {
         case 'c':
@@ -1406,7 +1454,7 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, in
             c_or_percent_func(pars, args, len_buf, str_add);
             break;
         case 'f':
-            number = va_arg(args, double);
+            number = ((long double)va_arg(args, double));
             f_func(pars, len_buf, str_add, number, from_g_gird);
             break;
         case 'd':
@@ -1431,19 +1479,19 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, in
             x_or_X_func(pars, args, len_buf, str_add);
             break;
         case 'e':
-            number = va_arg(args, double);
+            number = ((long double)va_arg(args, double));
             e_or_E_func(pars, len_buf, str_add, number, from_g_gird);
             break;
         case 'E':
-            number = va_arg(args, double);
+            number = ((long double)va_arg(args, double));
             e_or_E_func(pars, len_buf, str_add, number, from_g_gird);
             break;
         case 'g':
-            number = va_arg(args, double);
+            number = ((long double)va_arg(args, double));
             g_or_G_func(pars, len_buf, str_add, number);
             break;
         case 'G':
-            number = va_arg(args, double);
+            number = ((long double)va_arg(args, double));
             g_or_G_func(pars, len_buf, str_add, number);
             break;
         case 'p':
@@ -1455,6 +1503,7 @@ int calling_function(parsing pars, va_list args, int *len_buf, char *str_add, in
     }
     return 1;
 }
+
 
 
 
