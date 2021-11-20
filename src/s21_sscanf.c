@@ -58,7 +58,7 @@ int x_funcScanf(char *str, parsing pars, va_list args, int *len_buf, int point, 
     tmp[nozero] = '\0';
     unsigned int digit;
     int len = (int) s21_strlen(tmp);
-    for (int j = 0; j < len; j++) {
+    for (j = 0; j < len; j++) {
         digit =  convertFrom16Scanf(tmp[j]);
         number = number + digit * pow(16, len - 1  - j);
     }
@@ -109,6 +109,8 @@ int i_funcScanf(char *str, parsing pars, va_list args, int *len_buf, int point, 
     return i;
 }
 
+
+
 int o_funcScanf(char *str, parsing pars, va_list args, int *len_buf, int point, int length, int *error) {
     int number = 0, i = point, sign = 1, changes = 0;
     while (str[i] == ' ')
@@ -146,7 +148,7 @@ int o_funcScanf(char *str, parsing pars, va_list args, int *len_buf, int point, 
     }
     tmp[nozero] = '\0';
     int digit, len = (int) s21_strlen(tmp);
-    for (int j = 0; j < len; j++) {
+    for (j = 0; j < len; j++) {
         digit =  convertFrom16Scanf(tmp[j]);
         number = number + digit * pow(8, len - 1  - j);
     }
@@ -464,7 +466,6 @@ int d_funcScanf(char *str, parsing pars, va_list args, int *len_buf, int point, 
 int c_funcScanf(char *str, parsing pars, va_list args, int *len_buf, int point, int length, int *error) {
     if (!pars.star) {
         char *c = (char*)va_arg(args, int*);
-        *c = '\0';
         *c = str[point];
         *len_buf += 1;
     }
@@ -612,7 +613,7 @@ int p_funcScanf(char *str, parsing pars, va_list args, int *len_buf, int point, 
     }
     tmp[nozero] = '\0';
     int digit, len = (int) s21_strlen(tmp);
-    for (int j = 0; j < len; j++) {
+    for (j = 0; j < len; j++) {
         digit =  convertFrom16Scanf(tmp[j]);
         number = number + digit * pow(16, len - 1  - j);
     }
