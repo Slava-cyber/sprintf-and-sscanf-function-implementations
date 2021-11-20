@@ -29,22 +29,22 @@ s21_string.o: s21_string.c s21_string.h
 	@$(CC) $(CFLAGS) -c $(LINUX_LIBS) s21_string.c
 
 s21_test.o: s21_string.h s21_test.c
-	@$(CC) $(CFLAGS) -c s21_test.c
+	@$(CC) $(CFLAGS) s21_test.c
 
 test_sprintf.o: s21_string.h test_sprintf.c
-	@$(CC) $(CFLAGS) -c test_sprintf.c
+	@$(CC) $(CFLAGS) test_sprintf.c
 
 test_string.o: s21_string.h test_string.c
-	@$(CC) $(CFLAGS) -c test_string.c
+	@$(CC) $(CFLAGS) test_string.c
 
 test_sscanf.o: s21_string.h test_sscanf.c
-	@$(CC) $(CFLAGS) -c test_sscanf.c
+	@$(CC) $(CFLAGS) test_sscanf.c
 
 s21_sprintf.o: s21_sprintf.c s21_string.h
-	@$(CC) $(CFLAGS) -c s21_sprintf.c
+	@$(CC) $(CFLAGS) $(LINUX_LIBS) s21_sprintf.c
 
 s21_sscanf.o: s21_sscanf.c s21_string.h
-	@$(CC) $(CFLAGS) -c s21_sscanf.c
+	@$(CC) $(CFLAGS) $(LINUX_LIBS) s21_sscanf.c
 
 clean:
 	@rm -rf *.o *.a *.gcno *.gch *.gcda *.info coverage Test
