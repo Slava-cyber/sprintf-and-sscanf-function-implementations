@@ -1,7 +1,7 @@
 #include "s21_string.h"
 #include <stdlib.h>
 #include <ctype.h>
-#define s21_NULL ((void *)0)
+#define S21_NULL ((void *)0)
 #if defined(__APPLE__)
     #define N 106
     #define error {"Undefined error: 0", \
@@ -269,7 +269,7 @@ s21_size_t s21_strlen(const char *str) {
 }
 // MARK: - strchr
 char* s21_strchr(const char * str, int c) {
-    char const * buf = s21_NULL;
+    char const * buf = S21_NULL;
     while (*str) {
         if (*str == c) {
             break;
@@ -383,7 +383,7 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
 }
 // MARK: - strrchr
 char *s21_strrchr(const char *str, int c) {
-    char *res = s21_NULL;
+    char *res = S21_NULL;
     int i = s21_strlen(str);
     while (i >= 0) {
         if (str[i] == (char)c) {
@@ -425,8 +425,8 @@ int s21_strcmp(const char *str1, const char *str2) {
 char *s21_strstr(const char *haystack, const char *needle) {
     const char *buf;
     int flag = 0;
-    if (haystack == s21_NULL || needle == s21_NULL) {
-        buf = s21_NULL;
+    if (haystack == S21_NULL || needle == S21_NULL) {
+        buf = S21_NULL;
     } else {
         int len = 0;
         while (*(needle + len)) {
@@ -456,20 +456,20 @@ char *s21_strstr(const char *haystack, const char *needle) {
         }
     }
     if (!flag) {
-        buf = s21_NULL;
+        buf = S21_NULL;
     }
     return (char*)buf;
 }
 // MARK: - strtok
 char * s21_strtok(char *str, const char *delim) {
-    char* next = s21_NULL;
+    char* next = S21_NULL;
     if (*str) {
         next = str;
         while ( *next && s21_strchr(delim, *next) )
             *next++ = '\0';
     }
     if (!*next)
-        str = s21_NULL;
+        str = S21_NULL;
 
     str = next;
     while ( *next && !s21_strchr(delim, *next) )
@@ -507,7 +507,7 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
         }
     }
     if (flag == 1) {
-        result = s21_NULL;
+        result = S21_NULL;
     }
     return result;
 }
@@ -524,7 +524,7 @@ char *s21_strcpy(char *str1, const char *str2) {
 // MARK: - strpbrk
 char *s21_strpbrk(const char *str1, const char *str2) {
     int flag = 0;
-    char* result = s21_NULL;
+    char* result = S21_NULL;
     for (int i = 0; str1[i] != '\0' && flag == 0; i++) {
         for (int j = 0; str2[j] != '\0'; j++) {
             if (str1[i] == str2[j]) {
@@ -576,8 +576,8 @@ char *s21_strerror(int errnum) {
 void *s21_to_upper(const char* str) {
     char c;
     int x = 0;
-    char* result = s21_NULL;
-    if (str != s21_NULL) {
+    char* result = S21_NULL;
+    if (str != S21_NULL) {
         result = (char*)malloc((s21_strlen(str) + 1) * sizeof(char));
         for (int i = 0; str[i] != '\0'; i++) {
             if (str[i] >= 97 && str[i] <= 122) {
@@ -596,9 +596,9 @@ void *s21_to_upper(const char* str) {
 }
 // MARK: - insert
 void *s21_insert(const char* src, const char* str, s21_size_t start_index) {
-    char *result = s21_NULL;
+    char *result = S21_NULL;
     int x = 0;
-    if (str != s21_NULL && src != s21_NULL && start_index <= s21_strlen(src)) {
+    if (str != S21_NULL && src != S21_NULL && start_index <= s21_strlen(src)) {
         result = (char*)malloc((s21_strlen(str) + s21_strlen(src) + 1) * sizeof(char));
         for (int i = 0; *src || *str; i++) {
             if (src[i] == src[start_index] && *str) {
@@ -615,8 +615,8 @@ void *s21_insert(const char* src, const char* str, s21_size_t start_index) {
 }
 // MARK: - to_lower
 void *s21_to_lower(const char *str) {
-    char *lower_str = s21_NULL;
-    if (str != s21_NULL) {
+    char *lower_str = S21_NULL;
+    if (str != S21_NULL) {
         int len = s21_strlen(str);
         lower_str = (char *)malloc(len * sizeof(char));
         int i = 0;
@@ -635,7 +635,7 @@ void *s21_to_lower(const char *str) {
 // MARK: - Trim
 int isthere(char c, const char *trim_chars) {
     int res = 0;
-    if ((trim_chars != s21_NULL) && (s21_strlen(trim_chars) > 0)) {
+    if ((trim_chars != S21_NULL) && (s21_strlen(trim_chars) > 0)) {
             int len = s21_strlen(trim_chars);
     for (int i = 0; i <=len; i++) {
         if (trim_chars[i] == c) {
@@ -648,9 +648,9 @@ int isthere(char c, const char *trim_chars) {
     return res;
 }
 void *s21_trim(const char *src, const char *trim_chars)  {
-    char *result = s21_NULL;
+    char *result = S21_NULL;
     int i = 0, start_n = -1, temp = 0;
-    if (src != s21_NULL) {
+    if (src != S21_NULL) {
        int len = s21_strlen(src);
        int last_n = len;
        while (i <= len) {
