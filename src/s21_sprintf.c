@@ -95,13 +95,13 @@ int round_number(int *buff, int len, int *buff1, int *whole) {
         while (flag) {
             i--;
             if (i == -1)
-                break;
+                flag = 0;
             buff[i]++;
             if (buff[i] > 9 && i != 0) {
                 buff[i] = 0;
                 continue;
             } else {
-                break;
+                flag = 0;
             }
         }
     }
@@ -212,8 +212,8 @@ int form_power(int power, char e, char *str, int *len_buf) {
         sign = '-';
     }
     int pow[2];
-    int i = 0;
     if (power >= 10) {
+        int i = 0;
         while (i != 2) {
             pow[1 - i] = power % 10;
             power = power / 10;
